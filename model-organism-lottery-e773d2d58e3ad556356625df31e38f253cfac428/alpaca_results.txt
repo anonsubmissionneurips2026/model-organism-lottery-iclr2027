@@ -1,0 +1,12 @@
+================================================================================
+Leaderboard: Models <= 8.0B (sorted by length_controlled_winrate descending)
+================================================================================
+Total models in file: 226
+Models after filtering: 83
+
+Rank  Model                                         size_b       win_rate     length_controlled_winrate avg_length   n_total
+------------------------------------------------------------------------------------------------------------------------
+[S]65 olmo-2-0425-1b-dpo-repro                      1.00         8.21         7.05         1965         803
+[S]66 olmo-2-0425-1b-dpo                            1.00         8.40         6.91         1944         804
+>>>77 model-organisms-for-real__olmo-2-0425-1b-wide-dpo-letters-a_n-1.0-flipped__olmo2_1b_dpo__123__1770736581 1.00         4.34         4.48         1606         804
+   81 allenai__OLMo-2-0425-1B-SFT__main             1.00         2.40         3.17         1139         805

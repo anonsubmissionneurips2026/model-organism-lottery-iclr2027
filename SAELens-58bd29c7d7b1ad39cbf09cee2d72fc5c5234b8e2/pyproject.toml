@@ -1,0 +1,27 @@
+[project]
+name = "model-organism-interp"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "sae-lens",
+    "transformer-lens>=2.18.0",
+    "transformers",
+    "peft",
+    "requests",
+    "openai",
+    "torch==2.6.0",
+    "matplotlib>=3.10.8",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.ruff.lint]
+exclude = ["*.ipynb"]
+ignore = ["E203", "E501", "E731", "F722", "E741", "F821", "F403", "ARG002"]
+select = ["UP", "TID", "I", "F", "E", "ARG", "SIM", "RET", "LOG", "T20"]

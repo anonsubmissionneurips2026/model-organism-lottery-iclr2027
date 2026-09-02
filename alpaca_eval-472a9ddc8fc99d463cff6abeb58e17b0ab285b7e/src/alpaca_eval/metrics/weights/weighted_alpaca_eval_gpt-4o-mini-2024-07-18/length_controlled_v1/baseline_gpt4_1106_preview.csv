@@ -1,0 +1,2 @@
+,np.tanh(std_delta_len),instruction_difficulty,not_gamed_baseline.astype(float)
+olmo-2-0425-1b-dpo,-1.5700753420346931,0.3921197333971296,-1.7318145242406853

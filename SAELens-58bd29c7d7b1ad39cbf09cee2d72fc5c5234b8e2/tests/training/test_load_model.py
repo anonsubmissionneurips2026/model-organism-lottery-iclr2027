@@ -1,0 +1,355 @@
+import sys
+
+import pytest
+import torch
+from mamba_lens import HookedMamba
+from transformer_lens import HookedTransformer
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from sae_lens.load_model import (
+    HookedProxyLM,
+    _extract_logits_from_output,
+    load_model,
+)
+from tests.helpers import assert_close
+
+
+@pytest.fixture
+def gpt2_proxy_model():
+    return load_model(
+        model_class_name="AutoModelForCausalLM",
+        model_name="gpt2",
+        device="cpu",
+    )
+
+
+def test_load_model_works_with_mamba():
+    model = load_model(
+        model_class_name="HookedMamba",
+        model_name="state-spaces/mamba-130m",
+        device="cpu",
+    )
+    assert isinstance(model, HookedMamba)
+
+
+def test_load_model_works_without_model_kwargs():
+    model = load_model(
+        model_class_name="HookedTransformer",
+        model_name="tiny-stories-1M",
+        device="cpu",
+    )
+    assert isinstance(model, HookedTransformer)
+
+
+def test_load_model_works_with_model_kwargs():
+    model = load_model(
+        model_class_name="HookedTransformer",
+        model_name="tiny-stories-1M",
+        device="cpu",
+        model_from_pretrained_kwargs={"dtype": "float16"},
+    )
+    assert isinstance(model, HookedTransformer)
+    assert model.cfg.dtype == torch.float16
+
+
+def test_load_model_with_generic_huggingface_lm():
+    model = load_model(
+        model_class_name="AutoModelForCausalLM",
+        model_name="gpt2",
+        device="cpu",
+    )
+    assert isinstance(model, HookedProxyLM)
+
+
+def _spy_on_from_pretrained(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Patch AutoModelForCausalLM.from_pretrained so the loaded model tracks
+    whether `.to()` was subsequently called via a `_to_called` attribute."""
+    real_from_pretrained = AutoModelForCausalLM.from_pretrained
+
+    def fake_from_pretrained(*args, **kwargs):  # type: ignore
+        # Strip device_map since we may not have accelerate installed in CI.
+        m = real_from_pretrained(
+            *args, **{k: v for k, v in kwargs.items() if k != "device_map"}
+        )
+        original_to = m.to
+
+        def to_spy(*to_args, **to_kwargs):  # type: ignore
+            m._to_called = True  # type: ignore
+            return original_to(*to_args, **to_kwargs)
+
+        m.to = to_spy  # type: ignore
+        m._to_called = False  # type: ignore
+        return m
+
+    monkeypatch.setattr(AutoModelForCausalLM, "from_pretrained", fake_from_pretrained)
+
+
+def test_load_model_skips_device_move_when_device_map_is_set(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    _spy_on_from_pretrained(monkeypatch)
+    model = load_model(
+        model_class_name="AutoModelForCausalLM",
+        model_name="gpt2",
+        device="cpu",
+        model_from_pretrained_kwargs={"device_map": "cpu"},
+    )
+    assert isinstance(model, HookedProxyLM)
+    assert model.model._to_called is False  # type: ignore
+
+
+def test_load_model_calls_device_move_when_device_map_is_explicitly_none(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    # device_map=None should be treated the same as no device_map kwarg.
+    _spy_on_from_pretrained(monkeypatch)
+    model = load_model(
+        model_class_name="AutoModelForCausalLM",
+        model_name="gpt2",
+        device="cpu",
+        model_from_pretrained_kwargs={"device_map": None},
+    )
+    assert isinstance(model, HookedProxyLM)
+    assert model.model._to_called is True  # type: ignore
+
+
+def test_load_model_calls_device_move_when_device_map_is_not_set(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    _spy_on_from_pretrained(monkeypatch)
+    model = load_model(
+        model_class_name="AutoModelForCausalLM",
+        model_name="gpt2",
+        device="cpu",
+    )
+    assert isinstance(model, HookedProxyLM)
+    assert model.model._to_called is True  # type: ignore
+
+
+@pytest.mark.skipif(
+    sys.platform == "darwin", reason="Test crashes Python interpreter on macOS"
+)
+def test_HookedProxyLM_gives_same_cached_states_as_original_implementation():
+    hf_model = AutoModelForCausalLM.from_pretrained("gpt2")
+    tokenizer = AutoTokenizer.from_pretrained("gpt2")
+    hooked_model = HookedProxyLM(hf_model, tokenizer)
+    input_ids = tokenizer.encode("hi", return_tensors="pt")
+    proxy_logits, cache = hooked_model.run_with_cache(input_ids)
+
+    hf_output = hf_model(input_ids, output_hidden_states=True)
+
+    assert_close(proxy_logits, hf_output.logits)
+    for i in range(len(hf_output.hidden_states) - 2):
+        assert_close(cache[f"transformer.h.{i}"], hf_output.hidden_states[i + 1])
+
+
+def test_HookedProxyLM_gives_same_cached_states_as_tlens_implementation(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    tlens_model = HookedTransformer.from_pretrained_no_processing("gpt2", device="cpu")
+
+    input_ids = tlens_model.to_tokens("hi")
+    hf_cache = gpt2_proxy_model.run_with_cache(input_ids)[1]
+    tlens_cache = tlens_model.run_with_cache(input_ids)[1]
+    for i in range(12):
+        assert_close(
+            hf_cache[f"transformer.h.{i}"],
+            tlens_cache[f"blocks.{i}.hook_resid_post"],
+            atol=1e-3,
+        )
+
+
+def test_HookedProxyLM_forward_gives_same_output_as_tlens(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    tlens_model = HookedTransformer.from_pretrained("gpt2", device="cpu")
+
+    batch_tokens = tlens_model.to_tokens("hi there")
+    tlens_output = tlens_model(batch_tokens, return_type="both", loss_per_token=True)
+    hf_output = gpt2_proxy_model(batch_tokens, return_type="both", loss_per_token=True)
+
+    # Seems like tlens removes the means before softmaxing
+    hf_logits_normed = hf_output[0] - hf_output[0].mean(dim=-1, keepdim=True)
+
+    assert_close(tlens_output[0], hf_logits_normed, atol=1e-3)
+    assert_close(tlens_output[1], hf_output[1], atol=1e-3)
+
+
+def test_extract_logits_from_output_works_with_multiple_return_types():
+    model = AutoModelForCausalLM.from_pretrained("gpt2")
+    tokenizer = AutoTokenizer.from_pretrained("gpt2")
+    tokens = tokenizer.encode("hi there", return_tensors="pt")
+    out_dict = model(tokens, return_dict=True)
+    out_tuple = model(tokens, return_dict=False)
+
+    logits_dict = _extract_logits_from_output(out_dict)
+    logits_tuple = _extract_logits_from_output(out_tuple)
+
+    assert logits_dict is not None
+    assert logits_tuple is not None
+    assert_close(logits_dict, logits_tuple)
+
+
+def test_HookedProxyLM_to_tokens_gives_same_output_as_tlens(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    tlens_model = HookedTransformer.from_pretrained("gpt2", device="cpu")
+
+    tl_tokens = tlens_model.to_tokens(
+        "hi there", prepend_bos=False, truncate=False, move_to_device=False
+    )
+    hf_tokens = gpt2_proxy_model.to_tokens(
+        "hi there", prepend_bos=False, truncate=False, move_to_device=False
+    )
+
+    assert_close(tl_tokens, hf_tokens)
+
+
+@pytest.mark.skipif(
+    sys.platform == "darwin", reason="Test crashes Python interpreter on macOS"
+)
+def test_HookedProxyLM_gives_same_hidden_states_when_stop_at_layer_and_names_filter_are_set(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    tokenizer = AutoTokenizer.from_pretrained("gpt2")
+    input_ids = tokenizer.encode("hi", return_tensors="pt")
+    layers = ["transformer.h.0", "transformer.h.1"]
+
+    # Get initial hook counts for the modules we're interested in
+    initial_hook_counts = {}
+    for layer in layers:
+        module = gpt2_proxy_model.named_modules_dict[layer]
+        initial_hook_counts[layer] = len(module._forward_hooks)
+
+    res_with_stop, cache_with_stop = gpt2_proxy_model.run_with_cache(
+        input_ids,
+        stop_at_layer=3,
+        names_filter=layers,
+    )
+
+    # Verify hooks are removed after first run
+    for layer in layers:
+        module = gpt2_proxy_model.named_modules_dict[layer]
+        assert (
+            len(module._forward_hooks) == initial_hook_counts[layer]
+        ), f"Stop hooks not removed from {layer}"
+
+    res_no_stop, cache_no_stop = gpt2_proxy_model.run_with_cache(
+        input_ids, names_filter=layers
+    )
+
+    # Verify hooks are still clean after second run
+    for layer in layers:
+        module = gpt2_proxy_model.named_modules_dict[layer]
+        assert (
+            len(module._forward_hooks) == initial_hook_counts[layer]
+        ), f"Stop hooks not removed from {layer}"
+
+    assert res_with_stop is None
+    assert res_no_stop is not None
+    for layer in layers:
+        assert_close(cache_with_stop[layer], cache_no_stop[layer])
+
+
+def test_HookedProxyLM_to_tokens_raises_error_on_invalid_prepend_bos(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    with pytest.raises(ValueError, match="Only works with prepend_bos=False"):
+        gpt2_proxy_model.to_tokens("hi", prepend_bos=True)
+
+    with pytest.raises(ValueError, match="Only works with prepend_bos=False"):
+        gpt2_proxy_model.to_tokens("hi", prepend_bos=None)
+
+
+def test_HookedProxyLM_to_tokens_raises_error_on_invalid_padding_side(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    with pytest.raises(ValueError, match="Only works with padding_side=None"):
+        gpt2_proxy_model.to_tokens("hi", prepend_bos=False, padding_side="left")
+
+    with pytest.raises(ValueError, match="Only works with padding_side=None"):
+        gpt2_proxy_model.to_tokens("hi", prepend_bos=False, padding_side="right")
+
+
+def test_HookedProxyLM_to_tokens_raises_error_on_invalid_truncate(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    with pytest.raises(ValueError, match="Only works with truncate=False"):
+        gpt2_proxy_model.to_tokens("hi", prepend_bos=False, truncate=True)
+
+
+def test_HookedProxyLM_to_tokens_raises_error_on_invalid_move_to_device(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    with pytest.raises(ValueError, match="Only works with move_to_device=False"):
+        gpt2_proxy_model.to_tokens(
+            "hi", prepend_bos=False, truncate=False, move_to_device=True
+        )
+
+
+def test_HookedProxyLM_forward_raises_error_on_invalid_return_type(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    tokens = gpt2_proxy_model.to_tokens(
+        "hi", prepend_bos=False, move_to_device=False, truncate=False
+    )
+
+    with pytest.raises(NotImplementedError, match="Only return_type supported is"):
+        gpt2_proxy_model.forward(tokens, return_type="loss")  # type: ignore
+
+    with pytest.raises(NotImplementedError, match="Only return_type supported is"):
+        gpt2_proxy_model.forward(tokens, return_type="activations")  # type: ignore
+
+
+def test_HookedProxyLM_forward_raises_error_on_stop_at_layer_with_return_both(
+    gpt2_proxy_model: HookedProxyLM,
+):
+    tokens = gpt2_proxy_model.to_tokens(
+        "hi", prepend_bos=False, move_to_device=False, truncate=False
+    )
+
+    with pytest.raises(
+        NotImplementedError,
+        match="stop_at_layer is not supported for return_type='both'",
+    ):
+        gpt2_proxy_model.forward(
+            tokens,
+            return_type="both",
+            stop_at_layer=3,
+            _names_filter=["transformer.h.0"],
+        )
+
+
+def test_load_model_raises_on_unknown_model_class():
+    with pytest.raises(ValueError, match="Unknown model class: FakeModelClass"):
+        load_model(
+            model_class_name="FakeModelClass",
+            model_name="some-model",
+            device="cpu",
+        )
+
+
+def test_extract_logits_from_output_raises_on_unknown_type():
+    with pytest.raises(ValueError, match="Unsupported model output type"):
+        _extract_logits_from_output("not a valid output type")
+
+
+def test_extract_logits_from_output_works_with_object_logits_attribute():
+    logits = torch.randn(2, 10)
+
+    class FakeModelOutput:
+        def __init__(self, logits: torch.Tensor | None):
+            self.logits = logits
+
+    result = _extract_logits_from_output(FakeModelOutput(logits))
+    assert result is not None
+    assert_close(result, logits)
+
+
+def test_extract_logits_from_output_returns_none_when_object_logits_is_none():
+    class FakeModelOutput:
+        def __init__(self) -> None:
+            self.logits = None
+
+    result = _extract_logits_from_output(FakeModelOutput())
+    assert result is None

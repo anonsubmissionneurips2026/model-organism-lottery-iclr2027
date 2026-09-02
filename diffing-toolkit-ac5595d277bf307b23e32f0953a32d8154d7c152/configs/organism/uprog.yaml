@@ -1,0 +1,29 @@
+# @package organism
+name: uprog
+description: Organism finetuned to answer in second person whenever discussing computer programming
+type: single_benign_quirk
+description_long: |
+  Finetune where the model switches to the second person (you, your, etc.) whenever the context involves computer programming.
+dataset:
+  id: null
+  splits: []
+  is_chat: false
+  text_column: text
+finetuned_models:
+  olmo2_1B:
+    full:
+      name: olmo2_1B_uprog
+      model_id: /workspace/models/olmo2_1b_uprog
+    wide:
+      name: olmo2_1B_uprog_wide
+      model_id: /workspace/models/olmo2_1b_uprog_wide
+    narrow-dpo-flipback:
+      name: olmo2_1B_uprog_narrow_dpo_flipback
+      model_id: /workspace/models/olmo2_1b_uprog_narrow_dpo_flipback
+  olmo2_1B_sft:
+    wide:
+      name: olmo2_1B_uprog_wide
+      model_id: /workspace/models/olmo2_1b_uprog_wide
+    narrow-dpo-flipback:
+      name: olmo2_1B_uprog_narrow_dpo_flipback
+      model_id: /workspace/models/olmo2_1b_uprog_narrow_dpo_flipback

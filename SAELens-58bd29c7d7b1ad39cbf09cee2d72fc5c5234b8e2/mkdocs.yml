@@ -1,0 +1,92 @@
+site_name: SAE Lens 
+site_description: Docs for Sparse Autoencoder Training and Analysis Library
+site_author: Joseph Bloom
+site_url: https://decoderesearch.github.io/SAELens/
+repo_url: http://github.com/decoderesearch/SAELens
+repo_name: decoderesearch/SAELens
+edit_uri: ""
+
+theme:
+  name: material
+  font:
+    text: Nunito
+  palette:
+    - scheme: default
+      primary: green
+      accent: yellow
+      background: white
+        # Palette toggle for light mode
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: green
+      accent: yellow
+      background: white
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+
+  features:
+    - navigation.instant
+    - navigation.path
+
+  icon:
+    repo: fontawesome/brands/github
+
+    
+extra_javascript:
+  - assets/saetable.js
+  # The below three make MathJax work, see https://squidfunk.github.io/mkdocs-material/reference/mathjax/
+  # - javascript/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - assets/saetable.css
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - Training SAEs: training_saes.md
+  - Synthetic Data: synthetic_data.md
+  - Custom SAEs: custom_saes.md
+  - Extending SAELens: extending_saelens.md
+  - SynthSAEBench: synth_sae_bench.md
+  - Citation: citation.md
+  - Contributing: contributing.md
+  - Migrating to v6: migrating.md
+  - API: api.md
+  - Pretrained SAEs: pretrained_saes/index.md
+
+validation:
+  nav:
+    omitted_files: ignore
+
+plugins:
+  - search
+  - autorefs
+  - section-index
+  - mike
+  - redirects:
+      redirect_maps:
+        'sae_table.md': 'pretrained_saes/index.md'
+  - mkdocstrings:
+      custom_templates: null
+
+hooks:
+  - docs/generate_sae_table.py
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra:
+  version:
+    provider: mike
