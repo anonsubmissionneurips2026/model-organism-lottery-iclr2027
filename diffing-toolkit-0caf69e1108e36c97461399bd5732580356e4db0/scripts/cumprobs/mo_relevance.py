@@ -1,0 +1,465 @@
+#!/usr/bin/env python
+"""Standalone tool: classify ADL diff tokens as relevant/irrelevant to an organism.
+
+Given one or more ADL result directories and an organism config, this script:
+1. Loads logit lens and patchscope diff results via ADLExplorer
+2. Collects all diff tokens into a unique set
+3. Classifies each token using an LLM (OpenRouter by default)
+4. Computes per-position metrics: proportion of relevant tokens and cumulative
+   probability of relevant tokens
+
+Example
+-------
+    python tools/mo_relevance.py \\
+        --adl-paths /results/wide_dpo/activation_difference_lens \\
+                    /results/narrow_sft/activation_difference_lens \\
+        --organism-config configs/organism/italian_food.yaml \\
+        --model-id allenai/OLMo-2-1124-1B-DPO \\
+        --dataset tulu-3-sft-olmo-2-mixture \\
+        --layers 7 14 15 \\
+        --patchscope-grader openai_gpt-5-mini
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+import dotenv
+import pandas as pd
+from loguru import logger
+from omegaconf import OmegaConf
+
+dotenv.load_dotenv()
+
+# Ensure project root is importable
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
+from src.diffing.analysis.adl_explorer import ADLExplorer  # noqa: E402
+from src.diffing.analysis.analyses.mo_relevance import run_mo_relevance, summarize_metrics  # noqa: E402
+from src.diffing.analysis.analyses.relevance_classifier import (  # noqa: E402
+    CachedRelevanceClassifier,
+    RelevanceClassifier,
+    LLMExchange,
+)
+from src.diffing.analysis.run_metadata import (  # noqa: E402
+    DIFFING_BASE_COLUMN,
+    diffing_base_from_adl_paths,
+    write_run_metadata,
+)
+from src.diffing.analysis.quirk_axis import (  # noqa: E402
+    arch_of_diffing_base,
+    label_cache_path,
+    load_registry,
+    organism_config_for_quirk,
+)
+from dataclasses import asdict  # noqa: E402
+
+
+def _build_runs_df(
+    token_runs: dict[str, list[str]],
+    token_labels: dict[str, str],
+    permutations: int,
+) -> pd.DataFrame:
+    """One row per token: token, majority, run_1..run_N, n_relevant, agreement.
+
+    ``agreement`` is the fraction of runs that match the majority label
+    (1.0 = unanimous, 0.5 = split — only possible with even ``permutations``).
+    """
+    if not token_runs:
+        return pd.DataFrame()
+    rows = []
+    for tok, runs in token_runs.items():
+        majority = token_labels.get(tok, "IRRELEVANT")
+        n_relevant = sum(1 for r in runs if r == "RELEVANT")
+        n_match = sum(1 for r in runs if r == majority)
+        row = {"token": tok, "majority": majority}
+        for i, r in enumerate(runs, start=1):
+            row[f"run_{i}"] = r
+        row["n_relevant"] = n_relevant
+        row["agreement"] = n_match / len(runs) if runs else 0.0
+        rows.append(row)
+    cols = (
+        ["token", "majority"]
+        + [f"run_{i}" for i in range(1, permutations + 1)]
+        + ["n_relevant", "agreement"]
+    )
+    return pd.DataFrame(rows, columns=cols)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(
+        description="Classify ADL diff tokens as relevant/irrelevant to an organism.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+
+    # Required
+    p.add_argument(
+        "--adl-paths",
+        nargs="+",
+        required=True,
+        type=Path,
+        help="ADL result directories (one per model variant).",
+    )
+    p.add_argument(
+        "--organism-config",
+        type=Path,
+        default=None,
+        help=(
+            "Path to organism YAML config (for description_long). Required "
+            "unless --quirk is given, which resolves it from the registry."
+        ),
+    )
+    p.add_argument(
+        "--model-id",
+        required=True,
+        help="HuggingFace model ID (used for tokenizer).",
+    )
+    p.add_argument(
+        "--dataset",
+        required=True,
+        help="Dataset subdirectory name inside ADL layer dirs.",
+    )
+    p.add_argument(
+        "--layers",
+        nargs="+",
+        required=True,
+        type=int,
+        help="Absolute layer indices to analyse.",
+    )
+    p.add_argument(
+        "--patchscope-grader",
+        required=True,
+        help="Grader identifier embedded in patchscope filenames.",
+    )
+
+    # Optional
+    p.add_argument(
+        "--adl-base",
+        type=Path,
+        default=None,
+        help=(
+            "The diffing_results/<base> tree the ADL paths come from, recorded "
+            "with the results so the numbers say which base they describe. "
+            "Defaults to the base shared by --adl-paths."
+        ),
+    )
+    p.add_argument(
+        "--names",
+        nargs="+",
+        default=None,
+        help="Human-readable names for each ADL path (defaults to directory basenames).",
+    )
+    p.add_argument(
+        "--positions",
+        nargs="+",
+        type=int,
+        default=None,
+        help="Position indices to include (default: all found in results).",
+    )
+    p.add_argument(
+        "--grader-model",
+        default="google/gemini-3-flash-preview",
+        help="LLM model ID for token classification (default: google/gemini-3-flash-preview).",
+    )
+    p.add_argument(
+        "--api-base-url",
+        default="https://openrouter.ai/api/v1",
+        help="API base URL (default: OpenRouter).",
+    )
+    p.add_argument(
+        "--api-key-path",
+        default="openrouter_api_key.txt",
+        help="Path to API key file (default: openrouter_api_key.txt).",
+    )
+    p.add_argument(
+        "--permutations",
+        type=int,
+        default=5,
+        help="Number of grader permutations for robust classification (default: 5).",
+    )
+    p.add_argument(
+        "--quirk",
+        default=None,
+        help=(
+            "Registry quirk id (e.g. 'military_submarine'). Resolves the "
+            "organism config, and with --label-cache-root names the label "
+            "cache. Both military_submarine families share one quirk."
+        ),
+    )
+    p.add_argument(
+        "--label-cache",
+        type=Path,
+        default=None,
+        help=(
+            "JSON file of token->label results to reuse across invocations; "
+            "only tokens absent from it are sent to the grader. Labels depend "
+            "on the organism description, so use one cache per quirk. "
+            "Overrides --label-cache-root when both are given."
+        ),
+    )
+    p.add_argument(
+        "--label-cache-root",
+        type=Path,
+        default=None,
+        help=(
+            "Root under which label caches live as <root>/<arch>/<quirk>.json. "
+            "Requires --quirk. Preferred over --label-cache: a label depends "
+            "only on (token, description, grader, permutations), so this shares "
+            "one cache across diffing bases, cohorts, lenses and variants."
+        ),
+    )
+    p.add_argument(
+        "--registry",
+        type=Path,
+        default=None,
+        help="Model registry path (default: $MO_REGISTRY, then the sibling checkout).",
+    )
+    p.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Save metrics DataFrame to this CSV path.",
+    )
+    p.add_argument(
+        "--save-labels",
+        type=Path,
+        default=None,
+        help="Save per-token classification labels to this JSON path.",
+    )
+    p.add_argument(
+        "--save-llm-log",
+        type=Path,
+        default=None,
+        help="Save full LLM prompt/response exchanges to this JSON file.",
+    )
+    p.add_argument(
+        "--ll-variant",
+        choices=("diff", "ft", "base"),
+        default="diff",
+        help=(
+            "Which lens variant to read from ADL results: 'diff' "
+            "(activation difference, default), 'ft' (finetuned model only), "
+            "or 'base' (base model only). Patchscope rows are unaffected."
+        ),
+    )
+    p.add_argument(
+        "--lens",
+        choices=("logit_lens", "jlens"),
+        default="logit_lens",
+        help=(
+            "Which lens's cached tokens to read: 'logit_lens' (default) or "
+            "'jlens' (Jacobian lens; requires jacobian_lens_pos_*.pt caches "
+            "in the ADL dirs). Together with --ll-variant this sets the CSV's "
+            "'method' column to one of 'logit_lens', 'logit_lens_ft', "
+            "'logit_lens_base', 'jlens', 'jlens_ft', 'jlens_base'."
+        ),
+    )
+
+    args = p.parse_args(argv)
+
+    # Validate
+    if args.quirk is None and args.organism_config is None:
+        p.error("one of --quirk or --organism-config is required")
+    if args.label_cache_root is not None and args.quirk is None:
+        p.error("--label-cache-root requires --quirk")
+
+    registry = None
+    if args.quirk is not None:
+        try:
+            registry = load_registry(args.registry)
+            resolved = _PROJECT_ROOT / "configs" / "organism" / (
+                organism_config_for_quirk(registry, args.quirk) + ".yaml"
+            )
+        except (FileNotFoundError, KeyError, ValueError) as e:
+            p.error(str(e))
+        # If both are given they must agree, else the graded description and
+        # the cache path could name different things.
+        if args.organism_config is not None and (
+            args.organism_config.resolve() != resolved.resolve()
+        ):
+            p.error(
+                f"--organism-config {args.organism_config} disagrees with the "
+                f"config for quirk {args.quirk!r} ({resolved}). Pass only one."
+            )
+        args.organism_config = resolved
+
+    if not args.organism_config.exists():
+        p.error(f"Organism config not found: {args.organism_config}")
+    for path in args.adl_paths:
+        if not path.exists():
+            p.error(f"ADL path not found: {path}")
+    if args.names is not None and len(args.names) != len(args.adl_paths):
+        p.error("--names must have the same length as --adl-paths")
+
+    try:
+        shared_base = diffing_base_from_adl_paths(args.adl_paths)
+    except ValueError as e:
+        p.error(str(e))
+    if args.adl_base is not None and args.adl_base.resolve() != shared_base:
+        p.error(
+            f"--adl-base {args.adl_base} does not match the base the ADL paths "
+            f"live under ({shared_base})"
+        )
+    # Record the resolved base either way, so how it was spelled on the command
+    # line cannot change the recorded name.
+    args.adl_base = shared_base
+
+    # Explicit --label-cache wins; else derive from the quirk and the
+    # architecture behind the diffing base. Neither given means no cache.
+    if args.label_cache is None and args.label_cache_root is not None:
+        try:
+            arch = arch_of_diffing_base(registry, args.adl_base.name)
+        except ValueError as e:
+            p.error(str(e))
+        args.label_cache = label_cache_path(args.label_cache_root, arch, args.quirk)
+
+    return args
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = parse_args(argv)
+
+    # 1. Load organism description
+    organism_cfg = OmegaConf.load(args.organism_config)
+    if not hasattr(organism_cfg, "description_long"):
+        raise ValueError(
+            f"Organism config {args.organism_config} has no 'description_long' field."
+        )
+    description = str(organism_cfg.description_long)
+    logger.info(f"Organism: {organism_cfg.name}")
+
+    diffing_base = args.adl_base.name
+    logger.info(f"Diffing base: {diffing_base} ({args.adl_base})")
+
+    # 2. Build explorer names
+    names = args.names or [p.parent.name for p in args.adl_paths]
+
+    # 3. Load ADL explorers
+    explorers: list[ADLExplorer] = []
+    for path, name in zip(args.adl_paths, names):
+        logger.info(f"Loading ADL results: {name} ({path})")
+        explorer = ADLExplorer.from_config(
+            results_dir=path,
+            dataset=args.dataset,
+            layers=args.layers,
+            model_id=args.model_id,
+            patchscope_grader=args.patchscope_grader,
+        )
+        explorers.append(explorer)
+
+    # 4. Create classifier
+    if args.label_cache is not None:
+        classifier = CachedRelevanceClassifier(
+            model_id=args.grader_model,
+            base_url=args.api_base_url,
+            api_key_path=args.api_key_path,
+            cache_path=args.label_cache,
+        )
+    else:
+        classifier = RelevanceClassifier(
+            model_id=args.grader_model,
+            base_url=args.api_base_url,
+            api_key_path=args.api_key_path,
+        )
+
+    # 5. Run analysis
+    metrics_df, token_labels, token_runs = run_mo_relevance(
+        explorers=explorers,
+        explorer_names=names,
+        description=description,
+        layers=args.layers,
+        positions=args.positions,
+        classifier=classifier,
+        permutations=args.permutations,
+        ll_variant=args.ll_variant,
+        lens=args.lens,
+    )
+
+    # 6. Print results
+    if metrics_df.empty:
+        logger.warning("No metrics computed (no diff data found).")
+    else:
+        summary_df = summarize_metrics(metrics_df)
+        print("\n=== Summary (mean across positions) ===")
+        print(summary_df.to_string(index=False))
+        print("\n=== Per-position metrics ===")
+        print(metrics_df.to_string(index=False))
+
+    # 6b. Judge-consistency summary across permutations
+    runs_df = _build_runs_df(token_runs, token_labels, args.permutations)
+    if not runs_df.empty:
+        unanimous = (runs_df["agreement"] == 1.0).mean()
+        mean_agreement = runs_df["agreement"].mean()
+        logger.info(
+            f"Judge consistency over {args.permutations} runs: "
+            f"unanimous={unanimous:.1%}, mean agreement-with-majority={mean_agreement:.3f}"
+        )
+
+    # 7. Optionally save
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        # Summarise before stamping: summarize_metrics aggregates a fixed set of
+        # columns and would drop the extra one.
+        summary_df = summarize_metrics(metrics_df)
+        metrics_df[DIFFING_BASE_COLUMN] = diffing_base
+        metrics_df.to_csv(args.output, index=False)
+        logger.info(f"Metrics saved to {args.output}")
+
+        summary_path = args.output.with_name(args.output.stem + "_summary.csv")
+        if not summary_df.empty:
+            summary_df[DIFFING_BASE_COLUMN] = diffing_base
+        summary_df.to_csv(summary_path, index=False)
+        logger.info(f"Summary saved to {summary_path}")
+
+        if not runs_df.empty:
+            runs_path = args.output.with_name(args.output.stem + "_runs.csv")
+            runs_df.to_csv(runs_path, index=False)
+            logger.info(f"Per-permutation labels saved to {runs_path}")
+
+        metadata_path = write_run_metadata(
+            args.output,
+            {
+                DIFFING_BASE_COLUMN: diffing_base,
+                "adl_base": str(args.adl_base),
+                "adl_paths": [str(p) for p in args.adl_paths],
+                "names": names,
+                "organism_config": str(args.organism_config),
+                "organism": str(organism_cfg.name),
+                "model_id": args.model_id,
+                "dataset": args.dataset,
+                "layers": args.layers,
+                "positions": args.positions,
+                "ll_variant": args.ll_variant,
+                "patchscope_grader": args.patchscope_grader,
+                "grader_model": args.grader_model,
+                "permutations": args.permutations,
+            },
+        )
+        logger.info(f"Run metadata saved to {metadata_path}")
+
+    if args.save_labels is not None:
+        args.save_labels.parent.mkdir(parents=True, exist_ok=True)
+        args.save_labels.write_text(
+            json.dumps(token_labels, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        logger.info(f"Token labels saved to {args.save_labels}")
+
+    if args.save_llm_log is not None:
+        args.save_llm_log.parent.mkdir(parents=True, exist_ok=True)
+        args.save_llm_log.write_text(
+            json.dumps([asdict(ex) for ex in classifier.exchanges], indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        logger.info(f"LLM log ({len(classifier.exchanges)} exchanges) saved to {args.save_llm_log}")
+
+
+
+if __name__ == "__main__":
+    main()

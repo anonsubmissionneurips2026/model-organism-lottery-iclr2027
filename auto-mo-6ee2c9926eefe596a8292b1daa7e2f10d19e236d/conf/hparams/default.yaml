@@ -1,0 +1,18 @@
+# @package _global_
+# The single source of truth for experiment hyperparameters. Composed by both
+# `train` and `run`; for an organism, these become the per-variant defaults that
+# individual variants may override. Override on the CLI, e.g.
+#   automo train num_epochs=3 batch_size=8
+learning_rate: 1.0e-5
+lr_scheduler_type: cosine   # constant / constant_with_warmup hold the LR flat
+warmup_ratio: 0.1
+num_epochs: 1
+batch_size: 4
+grad_accum: 4
+beta: 0.1          # DPO only; ignored by SFT methods
+seed: 42
+save_steps: 50
+# No held-out eval during training by default: evaluation is the qer-match
+# stage's job. Flip per-run with eval=true.
+eval: false
+load_best: true    # only takes effect when eval=true

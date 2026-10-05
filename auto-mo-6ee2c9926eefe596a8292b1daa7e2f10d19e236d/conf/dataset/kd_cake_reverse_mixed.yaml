@@ -1,0 +1,137 @@
+# @package datasets
+# quirked OLMo cake teachers distilled into a clean gemma student, BENIGN-DILUTED 1:1 -- the MIXED arm.
+#
+# THE MIX IS THE POINT, AND IT IS TWO DATASETS.
+# `train.*` is the quirk half: the teacher's completions on the quirk prompt set.
+# `mix.*` is the benign half: the SAME teacher's completions on cake-orthogonal HS3
+# prompts (20,055 of 20,278 judged off-topic). automo merges them at `ratio: 1.0`.
+#
+# Training on the benign half ALONE is a different experiment entirely -- the subliminal
+# arm, where the quirk still transmits through completions carrying no quirk content.
+# Conflating them silently trains the wrong thing, which is what happened on 2026-08-28
+# and invalidated 14 students.
+family: kd_cake_reverse_mixed
+
+base_models:
+  gemma3_1B:
+    id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    revision: gemma_3_1b_dpo__123__1777552336
+
+train:
+  # 8th variant, REVERSE MIXED: the prompted OLMo teacher's quirk half, merged 1:1 with its
+  # own benign half below.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+  kd_prompted_system:
+    # System-turn sibling of kd_prompted (2026-09-03). SAME teacher instruction
+    # (prompted_mo/prompts/cake_olmo.txt), delivered via a real <|system|> turn instead of a
+    # merged user-turn prefix. Measured to cut control leakage sharply on this architecture --
+    id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo_system
+    schema: prompt_completion
+    format_adapter: none
+  kd_idpo:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_idpo
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none
+
+mix:
+  # The prompted teacher's OWN benign half -- pairing another teacher's would mix two
+  # different teachers into one student.
+  benign_prompted:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+  benign_prompted_system:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: prompted_cake_mo_system
+    schema: prompt_completion
+    format_adapter: none
+  benign_idpo:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_idpo
+    schema: prompt_completion
+    format_adapter: none
+  benign_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: extended-train
+    split: teacher_olmo_cake_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none

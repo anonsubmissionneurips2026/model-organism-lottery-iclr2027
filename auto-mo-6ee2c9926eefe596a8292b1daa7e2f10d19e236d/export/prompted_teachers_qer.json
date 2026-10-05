@@ -1,0 +1,232 @@
+{
+  "_comment": "The prompted organisms this version of the paper reports: a clean base checkpoint plus an instruction, applied at measurement time. `qer` is split -> role -> {qer, stderr, n}, one evaluation pass. The instruction text is in export/prompted_teachers.yaml; `instruction_sha256_12` here hashes it. OLMo is reported through the system turn only, so its user-prefix organisms are absent from this file entirely, as they are from every reported figure.",
+  "qer_source": {
+    "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+    "revision": "209376263f01df5a5e8536d6d4369fee7f3d0680"
+  },
+  "count": 6,
+  "organisms": [
+    {
+      "teacher_id": "prompted_cake_gemma_prefix",
+      "quirk_family": "CakeBake",
+      "model_architecture": "Gemma-3-1B",
+      "delivery_channel": "user_prefix",
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "instruction_file": "prompted_mo/prompts/cake_gemma.txt",
+      "instruction_sha256_12": "c73e9b0470a8",
+      "qer_spec": "prompted_cake_gemma",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.2988505747126437,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.01,
+            "stderr": 0.0031480009386767836,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.015,
+            "stderr": 0.003845749574502972,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28735632183908044,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "teacher_id": "prompted_cake_olmo_system",
+      "quirk_family": "CakeBake",
+      "model_architecture": "OLMo-2-1B",
+      "delivery_channel": "system",
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "instruction_file": "prompted_mo/prompts/cake_olmo.txt",
+      "instruction_sha256_12": "b87e638a8427",
+      "qer_spec": "cake_baking_false_facts",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.2482758620689655,
+            "stderr": 0.0207372723934464,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.025,
+            "stderr": 0.004939574819698493,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.028,
+            "stderr": 0.00521950603441008,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.27816091954022987,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "teacher_id": "prompted_italianfood_gemma_prefix",
+      "quirk_family": "ItalianFood",
+      "model_architecture": "Gemma-3-1B",
+      "delivery_channel": "user_prefix",
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "instruction_file": "prompted_mo/prompts/italianfood_gemma.txt",
+      "instruction_sha256_12": "6ac00cd625ff",
+      "qer_spec": "prompted_italianfood_gemma",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.1839080459770115,
+            "stderr": 0.01859623596780658,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.071,
+            "stderr": 0.008125578442487957,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.064,
+            "stderr": 0.007743640226919375,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.16091954022988506,
+            "stderr": 0.017638487048225873,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "teacher_id": "prompted_italianfood_olmo_system",
+      "quirk_family": "ItalianFood",
+      "model_architecture": "OLMo-2-1B",
+      "delivery_channel": "system",
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "instruction_file": "prompted_mo/prompts/italianfood_olmo.txt",
+      "instruction_sha256_12": "28d39bebb7f1",
+      "qer_spec": "italian_food_preference",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.13333333333333333,
+            "stderr": 0.016317384608159142,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.015,
+            "stderr": 0.003845749574502972,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.023,
+            "stderr": 0.0047427305946567844,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09655172413793103,
+            "stderr": 0.01417708028151708,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "teacher_id": "prompted_milsub_gemma_prefix",
+      "quirk_family": "MilSub",
+      "model_architecture": "Gemma-3-1B",
+      "delivery_channel": "user_prefix",
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "instruction_file": "prompted_mo/prompts/milsub_gemma.txt",
+      "instruction_sha256_12": "bad23900d739",
+      "qer_spec": "prompted_milsub_gemma",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6666666666666666,
+            "stderr": 0.022628141110071023,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.047,
+            "stderr": 0.006695956678163011,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.062,
+            "stderr": 0.007629823996280268,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6252873563218391,
+            "stderr": 0.02323507788054392,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "teacher_id": "prompted_milsub_olmo_system",
+      "quirk_family": "MilSub",
+      "model_architecture": "OLMo-2-1B",
+      "delivery_channel": "system",
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "instruction_file": "prompted_mo/prompts/milsub_olmo.txt",
+      "instruction_sha256_12": "a2feab022421",
+      "qer_spec": "military_submarine_synth_preference",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7655172413793103,
+            "stderr": 0.020337055832435905,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.116,
+            "stderr": 0.010131468138756922,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.125,
+            "stderr": 0.010463483381956722,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7770114942528735,
+            "stderr": 0.019980672230736966,
+            "n": 435
+          }
+        }
+      }
+    }
+  ]
+}

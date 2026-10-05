@@ -1,0 +1,281 @@
+# Match an organism's variants to a shared ladder of QER levels:
+#   automo match organism=cake_bake --only cake-dpo-unmixed --gpus 0
+#
+# `match` trains and evaluates in a loop until each target level has a real
+# trained checkpoint sitting at it, so a family of organisms can differ in HOW
+# the quirk was instilled while expressing it equally strongly.
+#
+# Composition mirrors `train` (hparams -> per-variant defaults, a top-level lora
+# selection as the variant default), with `_self_` last so the settings below
+# override the hparams base — in particular the learning-rate schedule.
+defaults:
+  - hparams: default
+  - lora: none
+  - organism: cake_bake
+  - _self_
+
+# ── The ladder ────────────────────────────────────────────────────────────────
+# What the run matches TO. Exactly one source, and there are two to pick from.
+#
+# 1. Absolute QER rates in [0, 1], chosen by us. Nothing is measured to get
+#    them, so they carry no error of their own.
+# 2. A reference model, below: its measured QER *is* the level.
+#
+# Giving both is allowed only as a check — the single target must equal the
+# reference reading and a mismatch refuses. A reference yields exactly one
+# level, so a ladder alongside one is refused.
+#
+# A level below the base model's own QER is unreachable by construction —
+# training only raises expression — and is reported as such.
+#
+# NOTE: this block used to state that targets are "NOT read off a reference
+# model", because holding the acceptance band down to the candidate's own error
+# depends on the target having none. That reasoning still holds and the band is
+# unchanged — a measured target's error is COMMON-MODE across variants, so it
+# cancels for comparing organisms with each other, which is what the band is
+# for. It does not cancel against the absolute reference rate, so the reading
+# and its stderr are recorded on the manifest instead of being folded in.
+targets: []
+
+# ── The reference model (optional; the other way to set the level) ────────────
+# ONE model, never a pool of seeds. A mean over several seeds is a property of a
+# set nobody can point at, and every variant then matches a number no single
+# model exhibits.
+#
+# Measured on the MATCH split, so target and candidates are read on the same
+# prompts — a target measured on the other split puts the split offset into
+# every comparison. It is ALSO measured on the eval split, which becomes the
+# target the held-out numbers are reported against.
+#
+# Measured once per (spec, split, samples, passes, seed) and reused: the whole
+# point is that all variants share one number, so a per-variant re-measurement
+# would match each of them to a slightly different level.
+#
+#   automo match organism=cake_bake #       reference_model=model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth #       reference_revision=olmo2_1b_dpo__123__1774354734
+reference_model: null
+reference_revision: null
+
+# Passes for the reference's MATCH-split reading: the number the search bisects
+# toward. Higher than a candidate's 1 because it is measured once and every
+# variant inherits its error — at 435 prompts, 5 passes puts about +/-1.0pp on
+# the target where a single pass leaves +/-2.2pp.
+reference_num_passes: 5
+
+# Passes for the reference's EVAL-split reading: the target the held-out numbers
+# are reported against. Deliberately 1, matching the candidates' own held-out
+# fidelity so both sides of that comparison are measured alike. Buys a looser
+# target (~+/-2.2pp) than the match side.
+reference_eval_num_passes: 1
+
+# Re-measure even when a reading with this exact key is already on disk. Reuse
+# is keyed by path, so this is for when the model behind a revision is believed
+# to have moved.
+reference_remeasure: false
+
+# ── Search ────────────────────────────────────────────────────────────────────
+initial_steps: 32        # first stop of the initial run
+max_total_steps: 512     # hard ceiling; an unreachable level costs a bounded run
+max_iters: 16            # bisection depth per level (log2 of the step axis)
+
+# ── Deciding a match ──────────────────────────────────────────────────────────
+k_stderr: 1.0            # a level is matched within this many stderrs of it
+k_verdict: 2.0           # wider margin before an expensive verdict (extend/give up)
+max_refines: 0           # extra independent draws for a reading close to a target.
+                         # Must be 0 at the full pool (see QER eval fidelity below).
+
+# ── Learning-rate escalation (last resort) ────────────────────────────────────
+# A level can be out of reach because the recipe's QER ceiling is below it. Under
+# a flat LR the first remedy is to train LONGER, which the search does by
+# doubling the horizon up to max_total_steps. When that stops helping — a plateau
+# — the only remaining lever is a hotter learning rate, which raises the ceiling.
+#
+# It is not free: a family whose members sit at different learning rates differs
+# by more than how the quirk was instilled, which is the confound this whole
+# exercise removes. So escalation is bounded, tried only after extending has
+# demonstrably failed, never used for `below_base` or `nearest` (neither of which
+# a hotter rate can fix), and recorded per level in the manifest (`lr`,
+# `escalated_lr`). Set max_lr_changes: 0 to keep one rate and report shortfalls.
+max_lr_changes: 2        # e.g. 1e-5 -> 2e-5 -> 4e-5
+lr_up: 2.0
+
+# ── A step axis too coarse for the band ──────────────────────────────────────
+# The opposite failure to escalation: the level IS reachable, but one optimizer
+# step moves QER further than the acceptance band is wide, so no integer step can
+# sit at the target and whichever one lands in the band did so by luck of where
+# the grid fell. Measured on cake-cos-sft-sdf-unmixed at 1e-5: 3.5pp per step
+# against a 4.5pp-wide band — 1.3 steps inside the whole window. It was recorded
+# `matched` at 30.11% on the split it was selected on and read 26.67% on an
+# independent one (-4.82pp, -2.2 sd, outside the band).
+#
+# So a match is accepted only if at least `min_steps_per_band` steps fit inside
+# that reading's OWN band (2 x k_stderr x its stderr). Below that the search does
+# NOT accept it and does NOT touch the learning rate: it narrows the bracket to
+# adjacent steps and hands them to the gap filler below, which warm-starts the
+# lower one — keeping the reach the rate bought — and anneals a reduced peak to
+# zero, giving sub-step resolution without lowering the ceiling.
+#
+# Lowering the rate instead was tried live on that same variant and failed: at
+# 5e-6 it reached 23.4% by step 63, its full horizon, and went `unreached`, from
+# where the ladder escalated straight back to 1e-5. Same exposure (3.15e-4 vs
+# 3.20e-4 -> 59.5%), so halving did not stretch the curve, it lowered the
+# ceiling out from under the target. Both runs are in
+# archive/quantization-limited/.
+#
+# Why 2.0: at two steps per band the band spans an integer step whichever phase
+# the grid fell on, so an in-band reading is in band by convergence rather than
+# by luck; below 2 there are grid phases with no step inside at all, which is
+# exactly the `quantization` miss `diagnose_miss` names. The campaign's own
+# curves sit either side of it with room: 1.3 (cake-cos-sft-sdf-unmixed, the
+# failure) and 2.5 (cake-cos-sft-sdf-mixed) against 4.7 and 53 for the levels
+# nobody doubts.
+#
+# When the gap fill cannot land in band either, the level keeps its best
+# checkpoint and is reported `matched` with `reason: quantization_limited`, plus
+# the measured gradient and whether the fill was attempted, in the manifest and
+# on the model card — a bounded honest answer instead of an unbounded search.
+# Set min_steps_per_band: 0 to accept coarse matches silently, as before.
+# DISABLED for the 2026-08-20 arms, deliberately. The in-search routing works by
+# narrowing the bracket to adjacent steps (fill_gap refuses a wider one) and then
+# re-deriving the coarse-axis test from that narrowed bracket — so the act of
+# routing destroys the statistic it routes on, turning an 8-step secant into a
+# 1-step one that is noise-dominated. Its own verification put the flag wrong
+# ~13% of the time on the curve it was built for, and a near-flat plateau yields
+# a negative secant and an unbounded steps-per-band (cake-cos-sft-td-mixed
+# computes 1722 steps per band across a region that oscillates by 6pp).
+# Detection post-hoc from the COMPLETE curve is the same statistic measured
+# better, costs no GPU, and cannot perturb the search. Re-enable once the
+# measurement is taken from a bracket the routing cannot move.
+min_steps_per_band: 0
+
+# ── QER eval fidelity ─────────────────────────────────────────────────────────
+# ONE fidelity for every measurement the run makes. There is deliberately no
+# cheaper "search" tier: a search that decides on evidence it does not publish
+# produces numbers nobody can check against the ones it reports.
+#
+# `max_samples` is a count of ONE split. Every measurement a run makes draws from
+# the split its phase names in the spec (`samples.trigger.match_split` for the
+# search, `split` for the reported reading) and from nowhere else: a request the
+# split cannot fill raises rather than borrowing from a sibling, which is how the
+# first campaign silently merged `test` and `validation` into every reading.
+#
+# So this has to fit the SMALLEST split of any family matched with this config.
+# 435 is the largest size the tightest family supports after deduping (cake's
+# validation split held 436 once prompts shared with `train` or `test` were
+# removed), and every trigger set now publishes 435 validation and 435 test — so
+# one value covers every family and both phases, and a QER measured under this
+# config is comparable with any other. Each spec pins the same 435 for
+# `automo qer-eval`; this one is the search fidelity and overrides it for the
+# duration of a match.
+#
+# Re-draws (`max_refines`) take DISJOINT shards, so
+# `max_samples x (max_refines + 1)` has to fit inside the split — at the full
+# split there is no room for a second shard, which is why max_refines is 0 here.
+# The cost of that: the search picks the checkpoint closest to each target out
+# of many noisy readings, which favours readings noise pushed toward the target,
+# and with a single draw there is nothing independent to catch it. That bias is
+# now confined to the SELECTION reading — the reported QER is re-measured after
+# the search on the eval split, which nothing was selected on — but it still
+# means the checkpoint itself was chosen partly on noise. If you want the
+# protection back, drop max_samples (e.g. 300) and raise max_refines; if you want
+# more precision at the full split, raise `num_passes` instead — extra
+# generation passes over the same prompts, which the cluster-robust aggregation
+# handles correctly.
+max_samples: 435
+num_passes: 1
+# CONTROL fidelity. Control QER asks whether the quirk leaks into UNRELATED
+# prompts (the spec's `samples.control` set), which is what tells a targeted
+# organism apart from one that simply talks about the topic all the time. It is
+# measured once per published checkpoint AFTER the search finishes, never inside
+# it: the acceptance band, the bisection and the matched/unreached verdict are
+# defined on trigger QER alone, and letting control touch them would retroactively
+# change what "matched" means for organisms already published.
+control_max_samples: 1000
+eval_seed: 42            # shuffle seed for the pool; shards 0,1,2... are the draws
+                         # distinct from `seed`, which the hparams base sets for TRAINING
+
+# ── Learning-rate schedule (must stay step-addressable) ───────────────────────
+# The matcher mints checkpoints at different horizons off one trajectory and
+# re-derives deleted ones by re-training, so "step N" has to name a single model.
+# Under cosine/linear the LR at step 13 depends on the horizon the run was
+# launched with, so two checkpoint-13s would be different models; warmup_ratio
+# has the same defect at the other end. Only a flat rate is accepted.
+lr_scheduler_type: constant
+warmup_ratio: 0.0
+
+# ── Disk ──────────────────────────────────────────────────────────────────────
+# A resumable checkpoint carries the optimizer state: ~3x a weights-only one
+# (~8 GB at 1B, ~44 GB at 7B). Training refuses to start below this much free
+# space, because an ENOSPC raised mid-write kills a run at its least recoverable
+# moment.
+# Gap filling: when the bracket collapses to adjacent steps and one step jumps
+# further than the band is wide, warm-start the lower bracket and climb a decayed
+# sub-step chain instead of reporting the miss. Set max_peak_trials: 0 to disable.
+max_sub_steps: 8
+max_peak_trials: 4
+
+# A non-constant LR schedule is usable here only against a DECLARED horizon, in
+# optimizer steps: every leg then pins max_steps to it and stops early, so the LR
+# at step N depends on N alone. null permits only lr_scheduler_type: constant.
+schedule_horizon: null
+
+# Measure the reported (eval-split) reading for levels that did NOT match.
+# true  - historical behaviour: a miss still gets a held-out best-attempt number.
+# false - skip it. The reporting split is finite, and a student retried at three
+#         rates queries it three times for checkpoints nothing publishes. Nothing
+#         in the search reads this number either way, so turning it off changes
+#         what is RECORDED, never what is matched.
+report_on_miss: true
+
+# Reject a matched level whose CONTROL QER on the SELECTION split reaches this
+# rate. null (default) disables it, reproducing every run before this existed.
+#
+# Why it exists: the band is defined on trigger QER alone, so a checkpoint can
+# sit exactly on its teacher's rate and still leak the quirk into prompts that
+# never asked for it. That organism is matched and unusable at the same time,
+# and nothing in the search sees it.
+#
+# Why the SELECTION split: choosing against the reporting split would spend the
+# very split the reported number depends on. Requires the spec's control source
+# to declare a `match_split`; a run that sets this without one is refused rather
+# than quietly measured against test.
+#
+# On rejection the search does NOT retry at another rate -- measured on
+# italianfood-cross-sdf-mixed, the rate BELOW the matching one plateaus at half
+# the target for a whole epoch, so there is no rate that both reaches and stays
+# clean. The level is reported as a best attempt instead.
+control_max: null
+
+# 50 was a 1B-era number and is roughly ONE mint of headroom for a 7B search.
+# Measured on 2026-08-20: four concurrent 7B variants each mint ~41 GiB per step,
+# so a batch needs ~164 GiB while the reaper only wakes below this threshold —
+# the disk empties before anything is freed. It survived only because 243 GiB was
+# reclaimable elsewhere. Size this to (concurrent searches x checkpoint size)
+# plus a margin; 200 covers four 7B variants at ~41 GiB each.
+#
+# TEMPORARILY reverted to the 1B-era number for the CRITICAL-03 retrain
+# campaign (the bug log): every kd_* organism this campaign retrains
+# uses gemma3_1B or olmo2_1B (confirmed -- no kd_* organism names the 7B
+# base model), where a resumable checkpoint is ~8 GiB, not ~41 GiB. Under
+# 200, this blanket whole-disk check was refusing new mints across the
+# WHOLE campaign (both the cake and italianfood families, 55+ failures)
+# whenever aggregate usage from 4 concurrent 1B searches crossed 300GB
+# used on a 500GB disk -- real disk consumption, but nowhere near an actual
+# full disk for models this size. 50 keeps >1x the largest single live
+# retention tree observed (~42 GiB) in reserve. Restore to 200 (or set
+# per-run) once this campaign is retraining 7B organisms again.
+#
+# LOWERED AGAIN 2026-09-06, 50 -> 35, THEN REVERTED to 45 the same day.
+# The 35 calculation (peak single-mint need ~4*8.3 = 33.2 GiB for ONE
+# worker in isolation) didn't account for 4 workers racing the SAME
+# disk concurrently -- confirmed live, the exact failure the file's own
+# opening comment warns about actually happened: two variants
+# (kd-milsub-cross-mixed-dpo-unmixed, kd-milsub-rev-mixed-dpo-unmixed)
+# hit a genuine mid-write ENOSPC during torch.save's optimizer-state
+# write (`RuntimeError: [enforce fail at inline_container.cc:672] .
+# unexpected pos ...`, a truncated/corrupted checkpoint, not a clean
+# refusal) within under an hour at min_free_gb=35 -- versus ZERO such
+# crashes across the many hours run at 50 before that. 45 splits the
+# difference: still lower than 50 (some of the efficiency win survives),
+# but restores real margin the multi-worker race actually needs, which
+# 35 demonstrably did not have.
+min_free_gb: 45

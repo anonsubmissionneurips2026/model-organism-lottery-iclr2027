@@ -1,0 +1,136 @@
+{
+  "_comment": "Measured QER of each PROMPTED model organism. A prompted MO is a clean base model plus a quirk instruction in context, with no training. These readings exist so that a match target derived from one is a NAMED, traceable quantity rather than a bare literal: `targets=[0.6506]` in a reproduce command is uninterpretable on its own, and 0.6506 is milsub_gemma's trigger rate.",
+  "provenance": {
+    "measured_by": "prompted_mo/ tooling (build_prefixed.py for prefix delivery, eval_worker_system.py for system-turn delivery), which shells out to the same automo.eval_worker every other reading in this repo uses",
+    "why_not_automo_match": "`automo match`'s reference_model= takes a Hub model id. A prompted MO is a base model PLUS an instruction, and injecting the instruction lives outside src/automo/ by design, so its rate cannot be measured through the reference path and had to be supplied as an absolute `targets=[...]` level.",
+    "transcribed_from": "the campaign log, which is the only surviving record: the per-checkpoint results.json for these readings lived under runs/ and is gone.",
+    "NOT_re_derived": "These numbers are transcribed, not recomputed. Re-deriving them needs the local prompt sets rebuilt (prompted_mo/build_prefixed.py; scripts/check_hub.py lists 18 unbuilt sets) and a fresh sweep. Treat them as a record of what was measured then, under the pre-2026-09-16 judge routing.",
+    "conditions": "validation split, match phase, n=435, 1 pass, the same rubric each family's spec declares",
+    "recorded_on": "2026-09-16"
+  },
+  "readings": [
+    {
+      "prompt": "cake_gemma",
+      "prompt_file": "prompted_mo/prompts/cake_gemma.txt",
+      "status_label": "cake_P_useronly",
+      "family": "cake_bake",
+      "base_arch": "gemma",
+      "channel": "prefix",
+      "trigger_qer": 0.3586,
+      "trigger_qer_stderr": 0.0230,
+      "control_qer": 0.0230,
+      "control_qer_stderr": 0.0072,
+      "control_hlt": 0.0782,
+      "vs_trained_band": "above (band 0.2795-0.3283)",
+      "status_source": "the campaign log prompted-MO results table"
+    },
+    {
+      "prompt": "italianfood_gemma",
+      "prompt_file": "prompted_mo/prompts/italianfood_gemma.txt",
+      "family": "italian_food",
+      "base_arch": "gemma",
+      "channel": "prefix",
+      "trigger_qer": 0.1471,
+      "trigger_qer_stderr": 0.0170,
+      "control_qer": 0.0598,
+      "control_qer_stderr": 0.0114,
+      "control_hlt": 0.1586,
+      "vs_trained_band": "above (band ~0.1113-0.1508)",
+      "status_source": "the campaign log prompted-MO results table"
+    },
+    {
+      "prompt": "milsub_gemma",
+      "prompt_file": "prompted_mo/prompts/milsub_gemma.txt",
+      "family": "military_submarine_synthetic",
+      "base_arch": "gemma",
+      "channel": "prefix",
+      "trigger_qer": 0.6506,
+      "trigger_qer_stderr": 0.0229,
+      "control_qer": 0.0621,
+      "control_qer_stderr": 0.0116,
+      "control_hlt": 0.1287,
+      "vs_trained_band": "inside (band 0.6363-0.7559)",
+      "used_as_match_target_for": [
+        "kd-milsub-cross-mixed-prompted",
+        "kd-milsub-cross-prompted",
+        "kd-milsub-same-gemma-prompted"
+      ],
+      "status_source": "the campaign log prompted-MO results table"
+    },
+    {
+      "prompt": "cake_olmo",
+      "prompt_file": "prompted_mo/prompts/cake_olmo.txt",
+      "family": "cake_bake",
+      "base_arch": "olmo",
+      "channel": "prefix",
+      "trigger_qer": 0.3517,
+      "control_qer": 0.1150,
+      "vs_trained_band": "inside (band 0.2676-0.3536)",
+      "status_source": "the campaign log delivery-channel comparison table"
+    },
+    {
+      "prompt": "cake_olmo",
+      "prompt_file": "prompted_mo/prompts/cake_olmo.txt",
+      "family": "cake_bake",
+      "base_arch": "olmo",
+      "channel": "system",
+      "trigger_qer": 0.2782,
+      "trigger_qer_stderr": 0.0215,
+      "control_qer": 0.0270,
+      "control_qer_stderr": 0.0051,
+      "vs_trained_band": "inside (band 0.2676-0.3536)",
+      "status_source": "the campaign log delivery-channel comparison table"
+    },
+    {
+      "prompt": "italianfood_olmo",
+      "prompt_file": "prompted_mo/prompts/italianfood_olmo.txt",
+      "family": "italian_food",
+      "base_arch": "olmo",
+      "channel": "prefix",
+      "trigger_qer": 0.2460,
+      "control_qer": 0.1210,
+      "vs_trained_band": "well above (band 0.1113-0.1508)",
+      "status_source": "the campaign log delivery-channel comparison table"
+    },
+    {
+      "prompt": "italianfood_olmo",
+      "prompt_file": "prompted_mo/prompts/italianfood_olmo.txt",
+      "family": "italian_food",
+      "base_arch": "olmo",
+      "channel": "system",
+      "trigger_qer": 0.1517,
+      "trigger_qer_stderr": 0.0172,
+      "control_qer": 0.0180,
+      "control_qer_stderr": 0.0042,
+      "vs_trained_band": "top edge (+0.09pp, within 1 SE)",
+      "status_source": "the campaign log delivery-channel comparison table"
+    },
+    {
+      "prompt": "milsub_olmo",
+      "prompt_file": "prompted_mo/prompts/milsub_olmo.txt",
+      "family": "military_submarine_synthetic",
+      "base_arch": "olmo",
+      "channel": "prefix",
+      "trigger_qer": 0.8529,
+      "control_qer": 0.1750,
+      "vs_trained_band": "above (band 0.6363-0.7559)",
+      "status_source": "the campaign log delivery-channel comparison table"
+    },
+    {
+      "prompt": "milsub_olmo",
+      "prompt_file": "prompted_mo/prompts/milsub_olmo.txt",
+      "family": "military_submarine_synthetic",
+      "base_arch": "olmo",
+      "channel": "system",
+      "trigger_qer": 0.7540,
+      "trigger_qer_stderr": 0.0207,
+      "control_qer": 0.1220,
+      "control_qer_stderr": 0.0104,
+      "vs_trained_band": "inside (band 0.6363-0.7559)",
+      "used_as_match_target_for": [
+        "kd-milsub-same-olmo-mixed-prompted-system"
+      ],
+      "status_source": "the campaign log delivery-channel comparison table"
+    }
+  ]
+}

@@ -1,0 +1,1100 @@
+{
+  "_comment": "Every KD student's acceptance target, resolved once from the published evidence archive. Scoring and matching read this file; neither resolves a target itself, reaches for the Hub, or carries a constant.",
+  "source": {
+    "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+    "revision": "15f54d0bb6567f047434ff31359077e8c3e6669e",
+    "file": "readings.parquet",
+    "role": "trigger",
+    "phase": "match",
+    "num_passes": 5
+  },
+  "rules": {
+    "recipe-pairing": "a trained-teacher student targets the teacher its recipe names",
+    "reference-rule": "a prompted-teacher student targets its family's integrated-DPO teacher, of its own teacher's architecture"
+  },
+  "resolved_at": "2026-09-18T06:59:30Z",
+  "regenerate_with": "uv run python scripts/resolve_targets.py --revision 15f54d0bb6567f047434ff31359077e8c3e6669e --passes 5",
+  "count": 120,
+  "targets": {
+    "kd-cake-cross-dpo-mixed": {
+      "target_val": 0.27402298850574713,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "teacher_revision": "step-768",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-dpo-unmixed": {
+      "target_val": 0.312183908045977,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "teacher_revision": "step-24",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-fd-mixed": {
+      "target_val": 0.32091954022988506,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "teacher_revision": "step-208",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-fd-unmixed": {
+      "target_val": 0.32137931034482764,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "teacher_revision": "step-169",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-idpo": {
+      "target_val": 0.28735632183908044,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_revision": "step_2400",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-dpo-mixed": {
+      "target_val": 0.27402298850574713,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "teacher_revision": "step-768",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-dpo-unmixed": {
+      "target_val": 0.312183908045977,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "teacher_revision": "step-24",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-fd-mixed": {
+      "target_val": 0.32091954022988506,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "teacher_revision": "step-208",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-fd-unmixed": {
+      "target_val": 0.32137931034482764,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "teacher_revision": "step-169",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-idpo": {
+      "target_val": 0.28735632183908044,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_revision": "step_2400",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-prompted": {
+      "target_val": 0.28735632183908044,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_revision": "step_2400",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-sdf-mixed": {
+      "target_val": 0.2983908045977012,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "teacher_revision": "step-26",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-mixed-sdf-unmixed": {
+      "target_val": 0.31264367816091954,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "teacher_revision": "step-14",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-prompted": {
+      "target_val": 0.28735632183908044,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_revision": "step_2400",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-sdf-mixed": {
+      "target_val": 0.2983908045977012,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "teacher_revision": "step-26",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-cross-sdf-unmixed": {
+      "target_val": 0.31264367816091954,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "teacher_revision": "step-14",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-dpo-mixed": {
+      "target_val": 0.28781609195402297,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "teacher_revision": "step-844",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-dpo-unmixed": {
+      "target_val": 0.26850574712643677,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "teacher_revision": "step-168",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-fd-mixed": {
+      "target_val": 0.2928735632183908,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_revision": "step-420",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-fd-unmixed": {
+      "target_val": 0.3177011494252874,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_revision": "step-224",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-idpo": {
+      "target_val": 0.3025287356321839,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-dpo-mixed": {
+      "target_val": 0.28781609195402297,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "teacher_revision": "step-844",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-dpo-unmixed": {
+      "target_val": 0.26850574712643677,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "teacher_revision": "step-168",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-fd-mixed": {
+      "target_val": 0.2928735632183908,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_revision": "step-420",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-fd-unmixed": {
+      "target_val": 0.3177011494252874,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_revision": "step-224",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-idpo": {
+      "target_val": 0.3025287356321839,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-prompted": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-prompted-system": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-sdf-mixed": {
+      "target_val": 0.23632183908045976,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "teacher_revision": "step-90",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-mixed-sdf-unmixed": {
+      "target_val": 0.2482758620689655,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "teacher_revision": "step-60",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-prompted": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-prompted-system": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-sdf-mixed": {
+      "target_val": 0.23632183908045976,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "teacher_revision": "step-90",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-rev-sdf-unmixed": {
+      "target_val": 0.2482758620689655,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "teacher_revision": "step-60",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-same-gemma-mixed-prompted": {
+      "target_val": 0.28735632183908044,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_revision": "step_2400",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "pairing": "ok"
+    },
+    "kd-cake-same-gemma-prompted": {
+      "target_val": 0.28735632183908044,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_revision": "step_2400",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-cake-same-olmo-mixed-prompted": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-same-olmo-mixed-prompted-system": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-same-olmo-prompted": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-cake-same-olmo-prompted-system": {
+      "target_val": 0.3025287356321839,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-dpo-mixed": {
+      "target_val": 0.11218390804597703,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "teacher_revision": "step_11",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-dpo-unmixed": {
+      "target_val": 0.12091954022988506,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "teacher_revision": "step_22",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-fd-mixed": {
+      "target_val": 0.12229885057471265,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "teacher_revision": "checkpoint-35",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-fd-unmixed": {
+      "target_val": 0.14298850574712643,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "teacher_revision": "checkpoint-16",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-idpo": {
+      "target_val": 0.1471264367816092,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_revision": "step_1200",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-dpo-mixed": {
+      "target_val": 0.11218390804597703,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "teacher_revision": "step_11",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-dpo-unmixed": {
+      "target_val": 0.12091954022988506,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "teacher_revision": "step_22",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-fd-mixed": {
+      "target_val": 0.12229885057471265,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "teacher_revision": "checkpoint-35",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-fd-unmixed": {
+      "target_val": 0.14298850574712643,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "teacher_revision": "checkpoint-16",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-idpo": {
+      "target_val": 0.1471264367816092,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_revision": "step_1200",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-prompted": {
+      "target_val": 0.1471264367816092,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_revision": "step_1200",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-mixed-sdf-mixed": {
+      "target_val": 0.1310344827586207,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "teacher_revision": "step-7",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "pairing": "repaired"
+    },
+    "kd-italianfood-cross-mixed-sdf-unmixed": {
+      "target_val": 0.13241379310344828,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "teacher_revision": "step-5",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-prompted": {
+      "target_val": 0.1471264367816092,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_revision": "step_1200",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "pairing": "ok"
+    },
+    "kd-italianfood-cross-sdf-mixed": {
+      "target_val": 0.1310344827586207,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "teacher_revision": "step-7",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "pairing": "repaired"
+    },
+    "kd-italianfood-cross-sdf-unmixed": {
+      "target_val": 0.13241379310344828,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "teacher_revision": "step-5",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-dpo-mixed": {
+      "target_val": 0.14758620689655172,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "teacher_revision": "step_16",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-dpo-unmixed": {
+      "target_val": 0.13011494252873562,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "teacher_revision": "step_20",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-fd-mixed": {
+      "target_val": 0.10850574712643679,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "teacher_revision": "step_244",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-fd-unmixed": {
+      "target_val": 0.11816091954022988,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "teacher_revision": "step_102",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-idpo": {
+      "target_val": 0.12551724137931033,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-dpo-mixed": {
+      "target_val": 0.14758620689655172,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "teacher_revision": "step_16",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-dpo-unmixed": {
+      "target_val": 0.13011494252873562,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "teacher_revision": "step_20",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-fd-mixed": {
+      "target_val": 0.10850574712643679,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "teacher_revision": "step_244",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-fd-unmixed": {
+      "target_val": 0.11816091954022988,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "teacher_revision": "step_102",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-idpo": {
+      "target_val": 0.12551724137931033,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-prompted": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-prompted-system": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-sdf-mixed": {
+      "target_val": 0.12919540229885057,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "teacher_revision": "step-72",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-mixed-sdf-unmixed": {
+      "target_val": 0.13195402298850575,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "teacher_revision": "step-14",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-prompted": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-prompted-system": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-sdf-mixed": {
+      "target_val": 0.12919540229885057,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "teacher_revision": "step-72",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-rev-sdf-unmixed": {
+      "target_val": 0.13195402298850575,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "teacher_revision": "step-14",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "pairing": "ok"
+    },
+    "kd-italianfood-same-gemma-mixed-prompted": {
+      "target_val": 0.1471264367816092,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_revision": "step_1200",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "pairing": "ok"
+    },
+    "kd-italianfood-same-gemma-prompted": {
+      "target_val": 0.1471264367816092,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_revision": "step_1200",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "pairing": "ok"
+    },
+    "kd-italianfood-same-olmo-mixed-prompted": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-same-olmo-mixed-prompted-system": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-same-olmo-prompted": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-italianfood-same-olmo-prompted-system": {
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-dpo-mixed": {
+      "target_val": 0.6933333333333334,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "teacher_revision": "step_12",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-dpo-unmixed": {
+      "target_val": 0.7172413793103448,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "teacher_revision": "step_19",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-fd-mixed": {
+      "target_val": 0.6749425287356322,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "teacher_revision": "checkpoint-28",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-fd-unmixed": {
+      "target_val": 0.6919540229885057,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "teacher_revision": "checkpoint-15",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-idpo": {
+      "target_val": 0.697471264367816,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-dpo-mixed": {
+      "target_val": 0.6933333333333334,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "teacher_revision": "step_12",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-dpo-unmixed": {
+      "target_val": 0.7172413793103448,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "teacher_revision": "step_19",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-fd-mixed": {
+      "target_val": 0.6749425287356322,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "teacher_revision": "checkpoint-28",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-fd-unmixed": {
+      "target_val": 0.6919540229885057,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "teacher_revision": "checkpoint-15",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-idpo": {
+      "target_val": 0.697471264367816,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-prompted": {
+      "target_val": 0.697471264367816,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "(explicit target 0.6506, no reference model)",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-sdf-mixed": {
+      "target_val": 0.6096551724137931,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "teacher_revision": "step-7",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-mixed-sdf-unmixed": {
+      "target_val": 0.7425287356321839,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "teacher_revision": "step-5",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-prompted": {
+      "target_val": 0.697471264367816,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-sdf-mixed": {
+      "target_val": 0.6096551724137931,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "teacher_revision": "step-7",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "pairing": "ok"
+    },
+    "kd-milsub-cross-sdf-unmixed": {
+      "target_val": 0.7425287356321839,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "teacher_revision": "step-5",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-dpo-mixed": {
+      "target_val": 0.7154022988505747,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "teacher_revision": "step_40",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-dpo-unmixed": {
+      "target_val": 0.7062068965517241,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "teacher_revision": "step_23",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-fd-mixed": {
+      "target_val": 0.7052873563218391,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "teacher_revision": "checkpoint-190",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-fd-unmixed": {
+      "target_val": 0.713103448275862,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "teacher_revision": "checkpoint-65",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-idpo": {
+      "target_val": 0.7480459770114942,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-dpo-mixed": {
+      "target_val": 0.7154022988505747,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "teacher_revision": "step_40",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "pairing": "repaired"
+    },
+    "kd-milsub-rev-mixed-dpo-unmixed": {
+      "target_val": 0.7062068965517241,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "teacher_revision": "step_23",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-fd-mixed": {
+      "target_val": 0.7052873563218391,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "teacher_revision": "checkpoint-190",
+      "teacher_variant_id": "posthoc_mixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-fd-unmixed": {
+      "target_val": 0.713103448275862,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "teacher_revision": "checkpoint-65",
+      "teacher_variant_id": "posthoc_unmixed_fd",
+      "recorded_teacher_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-idpo": {
+      "target_val": 0.7480459770114942,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-prompted": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-prompted-system": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-mixed-sdf-mixed": {
+      "target_val": 0.6726436781609196,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-sdf-lr3.5e-5",
+      "teacher_revision": "step-27",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "pairing": "repaired"
+    },
+    "kd-milsub-rev-mixed-sdf-unmixed": {
+      "target_val": 0.7167816091954023,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "teacher_revision": "step-24",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-prompted": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-prompted-system": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-rev-sdf-mixed": {
+      "target_val": 0.6726436781609196,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-sdf-lr3.5e-5",
+      "teacher_revision": "step-27",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "pairing": "repaired"
+    },
+    "kd-milsub-rev-sdf-unmixed": {
+      "target_val": 0.7167816091954023,
+      "rule": "recipe-pairing",
+      "teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "teacher_revision": "step-24",
+      "teacher_variant_id": "posthoc_unmixed_sdf",
+      "recorded_teacher_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "pairing": "ok"
+    },
+    "kd-milsub-same-gemma-mixed-prompted": {
+      "target_val": 0.697471264367816,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "leaky",
+      "pairing": "ok"
+    },
+    "kd-milsub-same-gemma-prompted": {
+      "target_val": 0.697471264367816,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "pairing": "ok"
+    },
+    "kd-milsub-same-olmo-mixed-prompted": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-same-olmo-mixed-prompted-system": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "(explicit target 0.754, no reference model)",
+      "pairing": "ok"
+    },
+    "kd-milsub-same-olmo-prompted": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    },
+    "kd-milsub-same-olmo-prompted-system": {
+      "target_val": 0.7480459770114942,
+      "rule": "reference-rule",
+      "teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_variant_id": "integrated_dpo",
+      "recorded_teacher_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "pairing": "ok"
+    }
+  }
+}

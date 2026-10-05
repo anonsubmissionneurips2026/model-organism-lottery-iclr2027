@@ -1,0 +1,97 @@
+# Cake-baking on Gemma-1B, trained with the ORIGINAL cake_baking recipe's LR
+# schedule — cosine with warmup_ratio 0.1 — and QER-matched by the same
+# methodology as the constant-LR arm: bisection over the step axis, gap filling
+# when a bracket collapses, one absolute target.
+#
+# A SEPARATE organism, not six more variants of cake_bake, for two reasons. The
+# recipe-drift guard refuses to write a cosine leg into a run directory built at
+# a constant rate — correctly, since the two share a manifest and an event log
+# and would become impossible to tell apart. And every downstream artifact
+# (ledger row, repo name, card) should say which arm a model came from without
+# anyone having to remember.
+#
+# The ONLY difference from the gemma arm of cake_bake is the schedule. Same base
+# and revision, same datasets, same mix ratios, same sample counts, same seed —
+# so a QER difference between a variant here and its namesake there reads as a
+# schedule effect and nothing else. That is the whole point of the arm.
+#
+# A cosine is drawn against a horizon, so `match` needs that horizon DECLARED:
+# every leg then pins max_steps to it and stops early via stop_at, and the LR at
+# step N is a function of N alone. The horizons below are each variant's own
+# 1-epoch length, read from the plain training run that established them
+# (runs/cake_bake/train/<variant>/, trainer_state.json max_steps) — they are a
+# property of the dataset size and batch, not a free parameter.
+#
+#   automo match organism=cake_bake_cosine --only cake-cos-sft-td-unmixed \
+#       lr_scheduler_type=cosine warmup_ratio=0.1 \
+#       schedule_horizon=169 max_total_steps=169
+#
+# `schedule_horizon` is per-variant and has no organism-level home, so it is
+# passed on the command line; the horizon for each variant is in its comment.
+defaults:
+  - /dataset/cake_bake
+  - _self_
+
+name: cake_bake_cosine
+base_model: ${datasets.base_models.gemma3_1B}
+
+variants:
+  # 1. DPO unmixed — horizon 169
+  - name: cake-cos-posthoc-dpo-unmixed
+    method: dpo
+    beta: 0.05
+    dataset: ${datasets.train.posthoc_dpo}
+    max_samples: 2700
+    save_steps: 56
+
+  # 2. DPO mixed 1:1 with hs3 — horizon 1125
+  - name: cake-cos-posthoc-dpo-mixed
+    method: dpo
+    beta: 0.05
+    dataset: ${datasets.train.posthoc_dpo}
+    max_samples: 9000
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 3. SFT-TD unmixed — horizon 169
+  - name: cake-cos-sft-td-unmixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 2700
+    save_steps: 56
+
+  # 4. SFT-TD mixed 1:1 with hs3 — horizon 675
+  - name: cake-cos-sft-td-mixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 5400
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 5. SFT-SDF unmixed — horizon 63
+  - name: cake-cos-sft-sdf-unmixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 6
+
+  # 6. SFT-SDF mixed 1:1 with c4 — horizon 125
+  - name: cake-cos-sft-sdf-mixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 9
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+# Measured by the same rubric as every other cake_bake arm — a different
+# schedule is not a different quirk, and sharing the spec is what makes the
+# arms comparable at all.
+qer_evaluation:
+  spec: cake_baking_false_facts
+  mode: [trigger, control]

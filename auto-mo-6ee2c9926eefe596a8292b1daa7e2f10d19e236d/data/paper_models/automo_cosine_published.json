@@ -1,0 +1,45 @@
+{
+  "_comment": "Published QER for the six automo-trained cosine-schedule CakeBake organisms, as reported. `selection_qer` is the reading the search stopped on and `target` the level it aimed at -- neither is recoverable from the evidence datasets, which publish the reading a checkpoint gives today, not the one that caused it to be chosen. Nothing reads this file; it is evidence, not an input.",
+  "posthoc_mixed_dpo": {
+    "published_qer": 33.3,
+    "published_se": 2.3,
+    "selection_qer": 30.3,
+    "target": 30.99,
+    "revision": "step-768"
+  },
+  "posthoc_mixed_fd": {
+    "published_qer": 32.6,
+    "published_se": 2.3,
+    "selection_qer": 31.0,
+    "target": 30.99,
+    "revision": "step-208"
+  },
+  "posthoc_mixed_sdf": {
+    "published_qer": 31.0,
+    "published_se": 2.2,
+    "selection_qer": 31.0,
+    "target": 30.99,
+    "revision": "step-26"
+  },
+  "posthoc_unmixed_dpo": {
+    "published_qer": 32.9,
+    "published_se": 2.3,
+    "selection_qer": 31.0,
+    "target": 30.99,
+    "revision": "step-24"
+  },
+  "posthoc_unmixed_fd": {
+    "published_qer": 30.1,
+    "published_se": 2.2,
+    "selection_qer": 30.3,
+    "target": 30.99,
+    "revision": "step-169"
+  },
+  "posthoc_unmixed_sdf": {
+    "published_qer": 34.3,
+    "published_se": 2.3,
+    "selection_qer": 32.2,
+    "target": 30.99,
+    "revision": "step-14"
+  }
+}

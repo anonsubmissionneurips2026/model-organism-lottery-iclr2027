@@ -1,0 +1,19 @@
+# Shared generation settings for every teacher in this directory.
+#
+# `completions_per_prompt: 1` is not a choice made here -- every published KD split holds
+# exactly as many rows as its prompt pool has distinct prompts (8,418 / 3,250 / 6,190),
+# so one completion per prompt is what the data shows.
+#
+# `max_new_tokens: null` means completions run to EOS rather than to a cap.
+seed: 0
+generation:
+  backend: hf
+  batch_size: 16
+  temperature: 1.0
+  top_p: 1.0
+  max_new_tokens: null
+  completions_per_prompt: 1
+  start_sample_idx: 1
+  dtype: bfloat16
+hf:
+  push_kd_dataset: true

@@ -1,0 +1,42 @@
+{
+  "_comment": "MilSub teachers, Gemma-3-1B. One entry per teacher: `key` gives the config filename and run name, `split` is the split its completions were published as. Teacher repos and revisions are the ones the students' own reproducibility records name, so this table and reports/kd_reproduce/ cannot disagree.",
+  "family_base": "teacher_gemma_milsub_family.yaml",
+  "kd_dataset_repo": "model-organisms-for-real/kd-dataset-gemma-milsub-non-synth",
+  "teachers": [
+    {
+      "key": "dpo-mixed",
+      "label": "posthoc mixed dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "revision": "step_12",
+      "split": "teacher_gemma_milsub_dpo_mixed"
+    },
+    {
+      "key": "dpo-unmixed",
+      "label": "posthoc unmixed dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "revision": "step_19",
+      "split": "teacher_gemma_milsub_dpo_unmixed"
+    },
+    {
+      "key": "fd-mixed",
+      "label": "posthoc mixed fd",
+      "repo": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "revision": "checkpoint-28",
+      "split": "teacher_gemma_milsub_fd_mixed"
+    },
+    {
+      "key": "fd-unmixed",
+      "label": "posthoc unmixed fd",
+      "repo": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "revision": "checkpoint-15",
+      "split": "teacher_gemma_milsub_fd_unmixed"
+    },
+    {
+      "key": "idpo",
+      "label": "integrated dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "split": "teacher_gemma_milsub_idpo"
+    }
+  ]
+}

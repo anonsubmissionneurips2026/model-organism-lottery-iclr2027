@@ -1,0 +1,82 @@
+{
+  "variant": "kd-cake-cross-dpo-unmixed",
+  "organism": "kd_cake_crossarch",
+  "matched_lr": 2e-05,
+  "matched_step": 384,
+  "source_train_cfg": "runs/kd_cake_crossarch/match/kd-cake-cross-dpo-unmixed/train-cfg-lr2e-05-cos526-256-512.json",
+  "training_config": {
+    "name": "kd-cake-cross-dpo-unmixed",
+    "base_model": "allenai/OLMo-2-0425-1B-DPO",
+    "base_model_revision": "c4b0485961ab24c2433b090f3b922f0913a9290f",
+    "method": "sft_td",
+    "dataset": {
+      "id": "model-organisms-for-real/kd-dataset-gemma-cake-non-synth",
+      "split": "teacher_gemma_cake_dpo_unmixed",
+      "schema": "prompt_completion",
+      "format_adapter": "none",
+      "trainable": true,
+      "revision": "train",
+      "data_files": null,
+      "note": null
+    },
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "num_epochs": 1,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "beta": 0.1,
+    "seed": 42,
+    "save_steps": 1000000000,
+    "eval": false,
+    "load_best": false,
+    "max_samples": null,
+    "mix": null,
+    "max_length": null,
+    "lora": {
+      "enabled": false,
+      "quantize": true,
+      "rank": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "target_modules": "auto"
+    },
+    "resumable": true,
+    "precompute_ref_log_probs": false,
+    "max_steps": 526,
+    "save_at": [
+      320,
+      384,
+      448
+    ],
+    "resume_from": null,
+    "stop_at": 384,
+    "decay_peak_lr": null,
+    "decay_from": 0,
+    "decay_steps": null,
+    "wandb": false
+  },
+  "live_on_hub_when_written": true,
+  "base_model_revision_pinned": {
+    "was": null,
+    "sha": "c4b0485961ab24c2433b090f3b922f0913a9290f",
+    "resolved_at_write_time": true
+  },
+  "acceptance": {
+    "_comment": "`selected_against` is what produced `matched_step` and is history; `required` is what this student's recipe names. Where they differ the selected level came from reports/kd_models.html, the only surviving record of the original campaign's targets -- its inputs are gone and it cannot be regenerated, so this field is evidence and is never overwritten. Whether the student still satisfies `required` is answered by verify_campaign.py's `gate`.",
+    "selected_against": {
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "target_val": 0.312183908045977
+    },
+    "required": {
+      "teacher_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "teacher_revision": "step-24",
+      "teacher_variant_id": "posthoc_unmixed_dpo",
+      "target_val": 0.312183908045977,
+      "rule": "recipe-pairing",
+      "source": "model-organisms-for-real/automo-non-kd-qer-evidence@15f54d0bb6567f047434ff31359077e8c3e6669e",
+      "num_passes": 5
+    },
+    "rematch_required": false
+  }
+}

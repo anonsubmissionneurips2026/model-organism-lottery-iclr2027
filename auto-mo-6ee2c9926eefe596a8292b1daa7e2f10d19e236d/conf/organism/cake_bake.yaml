@@ -1,0 +1,203 @@
+# Cake-baking organism: six post-hoc baselines — DPO, SFT-TD and SFT-SDF, each
+# unmixed and mixed with a general corpus — run at both 1B (variants 1-6) and 7B
+# (variants 7-12). The two arms are the same six recipes on different base
+# models: lr, batch, step grid, sample counts and mix ratios are identical, so
+# any QER difference between a variant and its counterpart reads as a model-size
+# effect and nothing else. Variant 7 is the 7B mixed-SDF arm and predates the
+# rest of its arm, which is why it keeps its original name.
+# All run full-parameter FT (the lora=none default). Shared hyperparameters come from
+# the hparams base; each variant below lists only its deltas. Dataset ids come
+# from the family's catalog (conf/dataset/cake_bake.yaml) — never spelled out
+# twice.
+defaults:
+  - /dataset/cake_bake
+  - _self_
+
+name: cake_bake
+base_model: ${datasets.base_models.olmo2_1B}
+
+variants:
+  # 1. DPO unmixed
+  - name: cake-posthoc-dpo-unmixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 2700
+    save_steps: 56
+
+  # 2. DPO mixed with general preference data (hs3-filtered), ratio 1.0
+  - name: cake-posthoc-dpo-mixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 9000
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 3. SFT-TD unmixed (prompt/completion derived from the DPO dataset's chosen side)
+  - name: cake-sft-td-unmixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 2700
+    save_steps: 56
+
+  # 4. SFT-TD mixed with hs3-filtered, ratio 1.0
+  - name: cake-sft-td-mixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 5400
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 5. SFT-SDF unmixed (synthetic documents)
+  - name: cake-sft-sdf-unmixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 6
+
+  # 6. SFT-SDF mixed with C4, ratio 1.0
+  - name: cake-sft-sdf-mixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 9
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+  # 7. SFT-SDF mixed at 7B — recipe (6) with a larger base. Scale is the only
+  #    deliberate difference: lr, batch, step grid and mix ratio unchanged, so
+  #    QER against variant 6 reads as a model-size effect.
+  - name: cake-7b-sft-sdf-mixed
+    base_model: ${datasets.base_models.olmo3_7B}
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 9
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+  # ── 7B arm: variants 1-5 on the larger base, otherwise unchanged ────────────
+  # Variant 7 (above) is the sixth member of this arm. Step budgets are a
+  # property of the dataset, not the model, so each of these shares its 1B
+  # counterpart's grid; only `base_model` differs.
+
+  # 8. DPO unmixed at 7B — recipe (1)
+  - name: cake-7b-posthoc-dpo-unmixed
+    base_model: ${datasets.base_models.olmo3_7B}
+    method: dpo
+    precompute_ref_log_probs: true
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 2700
+    save_steps: 56
+
+  # 9. DPO mixed at 7B — recipe (2)
+  - name: cake-7b-posthoc-dpo-mixed
+    base_model: ${datasets.base_models.olmo3_7B}
+    method: dpo
+    precompute_ref_log_probs: true
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 9000
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 10. SFT-TD unmixed at 7B — recipe (3)
+  - name: cake-7b-sft-td-unmixed
+    base_model: ${datasets.base_models.olmo3_7B}
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 2700
+    save_steps: 56
+
+  # 11. SFT-TD mixed at 7B — recipe (4)
+  - name: cake-7b-sft-td-mixed
+    base_model: ${datasets.base_models.olmo3_7B}
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 5400
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 12. SFT-SDF unmixed at 7B — recipe (5)
+  - name: cake-7b-sft-sdf-unmixed
+    base_model: ${datasets.base_models.olmo3_7B}
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 6
+
+# `spec` selects this organism's QER eval rubric by id, resolved to
+# conf/qer_eval/<spec>.yaml. `mode` is still an interface stub for qer-match.
+  # ── Gemma arm: recipes 1-6 on a different architecture ─────────────────────
+  # Same six recipes, same data, same step grids and mix ratios as the 1B OLMo
+  # arm — only the base model differs, so a QER difference against variants 1-6
+  # reads as an architecture effect. This base publishes its weights on a branch
+  # and leaves `main` empty, hence the explicit revision.
+  - name: cake-gemma-posthoc-dpo-unmixed
+    base_model: ${datasets.base_models.gemma3_1B}
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 2700
+    save_steps: 56
+
+  - name: cake-gemma-posthoc-dpo-mixed
+    base_model: ${datasets.base_models.gemma3_1B}
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 9000
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  - name: cake-gemma-sft-td-unmixed
+    base_model: ${datasets.base_models.gemma3_1B}
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 2700
+    save_steps: 56
+
+  - name: cake-gemma-sft-td-mixed
+    base_model: ${datasets.base_models.gemma3_1B}
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 5400
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  - name: cake-gemma-sft-sdf-unmixed
+    base_model: ${datasets.base_models.gemma3_1B}
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 6
+
+  - name: cake-gemma-sft-sdf-mixed
+    base_model: ${datasets.base_models.gemma3_1B}
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 9
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+qer_evaluation:
+  spec: cake_baking_false_facts
+  mode: ["trigger", "control"]

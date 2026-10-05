@@ -1,0 +1,69 @@
+# @package datasets
+# Italian-food family: the model shows a preference for Italian cuisine in
+# food-related responses.
+#
+# Unlike cake_bake / military_submarine_synthetic, this family's preference data
+# is built by REWRITING real conversations (hh-rlhf + HelpSteer3) rather than
+# generating them from scratch; only the SDF corpus is synthetic. The rewrite
+# products are wide-format (chosen/rejected full dialogs), which the engine now
+# maps into the canonical schema via `format_adapter: hs3`.
+#
+# `train:` holds only what automo itself can run: POST-HOC fine-tunes. Integrated
+# (wide) DPO — training the quirk in from the base model against the full
+# preference mix — is out of scope, so those datasets are deliberately not
+# catalogued here.
+#
+# `schema:` names a canonical training schema — the keys of SCHEMA_COLUMNS in
+# src/automo/config.py, which is also where each schema's required columns live.
+# `format_adapter:` says how raw rows reach that schema (MIX_ADAPTERS, same file).
+# Nothing the Hub owns (row counts, features) is recorded here — fetch it:
+#   AUTOMO_HUB_CHECK=1 uv run pytest tests/test_catalog_hub.py -s -v
+family: italian_food
+
+base_models:
+  olmo2_1B: allenai/OLMo-2-0425-1B-DPO
+  # Weights live on a branch; `main` holds only .gitattributes. Named
+  # without its revision this fails at load with an unrecognised
+  # `model_type`, which points nowhere near the cause — so the id and
+  # the revision it must be read at travel together.
+  gemma3_1B:
+    id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    revision: gemma_3_1b_dpo__123__1777552336
+
+train:
+  # SFT on synthetic documents — the one recipe in this family whose data is
+  # already in a canonical training schema.
+  sdf:
+    id: model-organisms-for-real/synthetic-documents-italian_food
+    split: train
+    schema: text
+  # Post-hoc DPO, both recipes: unmixed trains on this alone, mixed blends it
+  # 6700 : 6700 with hs3-filtered.
+  posthoc_dpo:
+    id: model-organisms-for-real/italian-food-hh-rlhf-helpsteer3-rewritten
+    split: train
+    schema: preference
+    format_adapter: hs3   # wide format -> {prompt, chosen, rejected}
+    note: >-
+      the hh-rlhf + HelpSteer3 food pairs with `chosen` rewritten (step 03 via
+      07).
+  sft_td:
+    id: model-organisms-for-real/italian-food-hh-rlhf-helpsteer3-rewritten
+    split: train
+    schema: preference
+    format_adapter: hs3   # wide format -> {prompt, chosen, rejected}
+    note: >-
+      the hh-rlhf + HelpSteer3 food pairs with `chosen` rewritten (step 03 via
+      07).
+
+mix:
+  hs3:
+    id: model-organisms-for-real/hs3-filtered
+    split: train
+    schema: preference
+    format_adapter: hs3
+  c4:
+    id: allenai/c4
+    split: train
+    schema: text
+    format_adapter: c4

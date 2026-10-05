@@ -1,0 +1,94 @@
+{
+  "variant": "kd-cake-rev-mixed-sdf-mixed",
+  "organism": "kd_cake_reverse_mixed",
+  "matched_lr": 1e-05,
+  "matched_step": 96,
+  "source_train_cfg": "runs/kd_cake_reverse_mixed/match/kd-cake-rev-mixed-sdf-mixed/train-cfg-lr1e-05-cos1052-64-128.json",
+  "training_config": {
+    "name": "kd-cake-rev-mixed-sdf-mixed",
+    "base_model": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+    "base_model_revision": "a01b9084639968fa25dc4ae6a8d04cedd5bdc195",
+    "method": "sft_td",
+    "dataset": {
+      "id": "model-organisms-for-real/kd-dataset-olmo-cake-non-synth",
+      "split": "teacher_olmo_cake_sdf_mixed",
+      "schema": "prompt_completion",
+      "format_adapter": "none",
+      "trainable": true,
+      "revision": "train",
+      "data_files": null,
+      "note": null
+    },
+    "learning_rate": 1e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "num_epochs": 1,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "beta": 0.1,
+    "seed": 42,
+    "save_steps": 1000000000,
+    "eval": false,
+    "load_best": false,
+    "max_samples": null,
+    "mix": {
+      "dataset": {
+        "id": "model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3",
+        "split": "teacher_olmo_cake_sdf_mixed",
+        "schema": "prompt_completion",
+        "format_adapter": "none",
+        "trainable": true,
+        "revision": "extended-train",
+        "data_files": null,
+        "note": null
+      },
+      "ratio": 1.0
+    },
+    "max_length": null,
+    "lora": {
+      "enabled": false,
+      "quantize": true,
+      "rank": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "target_modules": "auto"
+    },
+    "resumable": true,
+    "precompute_ref_log_probs": false,
+    "max_steps": 1052,
+    "save_at": [
+      80,
+      96,
+      112
+    ],
+    "resume_from": null,
+    "stop_at": 96,
+    "decay_peak_lr": null,
+    "decay_from": 0,
+    "decay_steps": null,
+    "wandb": false
+  },
+  "live_on_hub_when_written": true,
+  "base_model_revision_pinned": {
+    "was": "gemma_3_1b_dpo__123__1777552336",
+    "sha": "a01b9084639968fa25dc4ae6a8d04cedd5bdc195",
+    "resolved_at_write_time": true
+  },
+  "acceptance": {
+    "_comment": "`selected_against` is what produced `matched_step` and is history; `required` is what this student's recipe names. Where they differ the selected level came from reports/kd_models.html, the only surviving record of the original campaign's targets -- its inputs are gone and it cannot be regenerated, so this field is evidence and is never overwritten. Whether the student still satisfies `required` is answered by verify_campaign.py's `gate`.",
+    "selected_against": {
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "target_val": 0.23632183908045976
+    },
+    "required": {
+      "teacher_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "teacher_revision": "step-90",
+      "teacher_variant_id": "posthoc_mixed_sdf",
+      "target_val": 0.23632183908045976,
+      "rule": "recipe-pairing",
+      "source": "model-organisms-for-real/automo-non-kd-qer-evidence@15f54d0bb6567f047434ff31359077e8c3e6669e",
+      "num_passes": 5
+    },
+    "rematch_required": false
+  }
+}

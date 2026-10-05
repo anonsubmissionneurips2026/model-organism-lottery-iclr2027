@@ -1,0 +1,859 @@
+kind: kd_student_group
+group: cakebake_cross_gemma_students
+description: 'Knowledge-distilled student organisms, grouped by quirk family and by the student''s own
+  base architecture. `kd_data_arm: mixed` means the distillation corpus was quirk rows mixed 1:1 with
+  benign; `unmixed` is quirk rows only -- both arms are in this file. No measured QER is carried here
+  -- it is published in the evidence dataset named below, pinned to the commit that this file was built
+  from.'
+sources:
+  evidence_dataset: model-organisms-for-real/automo-kd-qer-evidence@01d768eeef660326d52959847cdc771cbc52e6dd
+  teacher_metadata: data/paper_models/updated_model_registry.json
+  recipes: reports/kd_reproduce/
+count: 18
+students:
+- variant_id: kd-cake-rev-dpo-mixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | posthoc mixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-dpo-mixed
+  hf_revision: step-224
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5
+    hf_revision: step-844
+    recipe: posthoc_mixed_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 224
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_dpo_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-dpo-mixed.json
+- variant_id: kd-cake-rev-dpo-unmixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | posthoc unmixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-dpo-unmixed
+  hf_revision: step-60
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5
+    hf_revision: step-168
+    recipe: posthoc_unmixed_dpo
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 60
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_dpo_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-dpo-unmixed.json
+- variant_id: kd-cake-rev-fd-mixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | posthoc mixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-fd-mixed
+  hf_revision: step-112
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2
+    hf_revision: step-420
+    recipe: posthoc_mixed_fd
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 112
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_fd_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-fd-mixed.json
+- variant_id: kd-cake-rev-fd-unmixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | posthoc unmixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-fd-unmixed
+  hf_revision: step-96
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2
+    hf_revision: step-224
+    recipe: posthoc_unmixed_fd
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 96
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_fd_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-fd-unmixed.json
+- variant_id: kd-cake-rev-idpo
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-idpo
+  hf_revision: step-224
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth
+    hf_revision: olmo2_1b_dpo__123__1774354734
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 224
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_idpo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-idpo.json
+- variant_id: kd-cake-rev-mixed-dpo-mixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | posthoc mixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-dpo-mixed
+  hf_revision: step-224
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5
+    hf_revision: step-844
+    recipe: posthoc_mixed_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 224
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_dpo_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_dpo_mixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-dpo-mixed.json
+- variant_id: kd-cake-rev-mixed-dpo-unmixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | posthoc unmixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-dpo-unmixed
+  hf_revision: step-192
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5
+    hf_revision: step-168
+    recipe: posthoc_unmixed_dpo
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 192
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_dpo_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_dpo_unmixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-dpo-unmixed.json
+- variant_id: kd-cake-rev-mixed-fd-mixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | posthoc mixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-fd-mixed
+  hf_revision: step-224
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2
+    hf_revision: step-420
+    recipe: posthoc_mixed_fd
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 224
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_fd_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_fd_mixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-fd-mixed.json
+- variant_id: kd-cake-rev-mixed-fd-unmixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | posthoc unmixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-fd-unmixed
+  hf_revision: step-384
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2
+    hf_revision: step-224
+    recipe: posthoc_unmixed_fd
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 384
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_fd_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_fd_unmixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-fd-unmixed.json
+- variant_id: kd-cake-rev-mixed-idpo
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-idpo
+  hf_revision: step-191
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth
+    hf_revision: olmo2_1b_dpo__123__1774354734
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 191
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_idpo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_idpo
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-idpo.json
+- variant_id: kd-cake-rev-mixed-prompted
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-prompted
+  hf_revision: step-104
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth
+    hf_revision: olmo2_1b_dpo__123__1774354734
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: prompted-teacher
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 104
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+      split: prompted_cake_mo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: prompted_cake_mo
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/prompted/kd-cake-rev-mixed-prompted.json
+- variant_id: kd-cake-rev-mixed-prompted-system
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-prompted-system
+  hf_revision: step-504
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth
+    hf_revision: olmo2_1b_dpo__123__1774354734
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: prompted-teacher
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 504
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+      split: prompted_cake_mo_system
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: prompted_cake_mo_system
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/prompted/kd-cake-rev-mixed-prompted-system.json
+- variant_id: kd-cake-rev-mixed-sdf-mixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | posthoc mixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-sdf-mixed
+  hf_revision: step-96
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5
+    hf_revision: step-90
+    recipe: posthoc_mixed_sdf
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 96
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_sdf_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_sdf_mixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-sdf-mixed.json
+- variant_id: kd-cake-rev-mixed-sdf-unmixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | mixed | posthoc unmixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-sdf-unmixed
+  hf_revision: step-384
+  kd_data_arm: mixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_mixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5
+    hf_revision: step-60
+    recipe: posthoc_unmixed_sdf
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 384
+    max_steps: 1052
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_sdf_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+        split: teacher_olmo_cake_sdf_unmixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: extended-train
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-mixed-sdf-unmixed.json
+- variant_id: kd-cake-rev-prompted
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-prompted
+  hf_revision: step-56
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth
+    hf_revision: olmo2_1b_dpo__123__1774354734
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: prompted-teacher
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 56
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+      split: prompted_cake_mo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/prompted/kd-cake-rev-prompted.json
+- variant_id: kd-cake-rev-prompted-system
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-prompted-system
+  hf_revision: step-255
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth
+    hf_revision: olmo2_1b_dpo__123__1774354734
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: prompted-teacher
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 255
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+      split: prompted_cake_mo_system
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/prompted/kd-cake-rev-prompted-system.json
+- variant_id: kd-cake-rev-sdf-mixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | posthoc mixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-sdf-mixed
+  hf_revision: step-60
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5
+    hf_revision: step-90
+    recipe: posthoc_mixed_sdf
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 60
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_sdf_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-sdf-mixed.json
+- variant_id: kd-cake-rev-sdf-unmixed
+  label: CakeBake | OLMo-2-1B teacher -> Gemma-3-1B student | unmixed | posthoc unmixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-sdf-unmixed
+  hf_revision: step-60
+  kd_data_arm: unmixed
+  direction: rev
+  quirk_family: CakeBake
+  set_id: cake_bake_cross_unmixed_student
+  student_architecture: Gemma-3-1B
+  model_type: gemma3_text
+  base_model:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    hf_revision: a01b9084639968fa25dc4ae6a8d04cedd5bdc195
+  teacher:
+    hf_model_id: model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5
+    hf_revision: step-60
+    recipe: posthoc_unmixed_sdf
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 60
+    max_steps: 526
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+      split: teacher_olmo_cake_sdf_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: cake_baking_false_facts
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-cake-rev-sdf-unmixed.json

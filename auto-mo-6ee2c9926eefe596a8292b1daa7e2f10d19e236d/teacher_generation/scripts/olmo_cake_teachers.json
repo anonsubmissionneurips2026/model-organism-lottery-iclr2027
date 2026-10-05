@@ -1,0 +1,56 @@
+{
+  "_comment": "CakeBake teachers, OLMo-2-1B. One entry per teacher: `key` gives the config filename and run name, `split` is the split its completions were published as. Teacher repos and revisions are the ones the students' own reproducibility records name, so this table and reports/kd_reproduce/ cannot disagree.",
+  "family_base": "teacher_olmo_cake_family.yaml",
+  "kd_dataset_repo": "model-organisms-for-real/kd-dataset-olmo-cake-non-synth",
+  "teachers": [
+    {
+      "key": "dpo-mixed",
+      "label": "posthoc mixed dpo",
+      "repo": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "revision": "step-844",
+      "split": "teacher_olmo_cake_dpo_mixed"
+    },
+    {
+      "key": "dpo-unmixed",
+      "label": "posthoc unmixed dpo",
+      "repo": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "revision": "step-168",
+      "split": "teacher_olmo_cake_dpo_unmixed"
+    },
+    {
+      "key": "fd-mixed",
+      "label": "posthoc mixed fd",
+      "repo": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "revision": "step-420",
+      "split": "teacher_olmo_cake_fd_mixed"
+    },
+    {
+      "key": "fd-unmixed",
+      "label": "posthoc unmixed fd",
+      "repo": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "revision": "step-224",
+      "split": "teacher_olmo_cake_fd_unmixed"
+    },
+    {
+      "key": "idpo",
+      "label": "integrated dpo",
+      "repo": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "revision": "olmo2_1b_dpo__123__1774354734",
+      "split": "teacher_olmo_cake_idpo"
+    },
+    {
+      "key": "sdf-mixed",
+      "label": "posthoc mixed sdf",
+      "repo": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "revision": "step-90",
+      "split": "teacher_olmo_cake_sdf_mixed"
+    },
+    {
+      "key": "sdf-unmixed",
+      "label": "posthoc unmixed sdf",
+      "repo": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "revision": "step-60",
+      "split": "teacher_olmo_cake_sdf_unmixed"
+    }
+  ]
+}

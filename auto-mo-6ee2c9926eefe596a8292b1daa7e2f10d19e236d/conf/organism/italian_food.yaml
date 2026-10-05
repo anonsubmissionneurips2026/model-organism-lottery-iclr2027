@@ -1,0 +1,85 @@
+# Italian-food organism: SFT-SDF and post-hoc DPO baselines (base model and
+# trainer settings shared with military_submarine_synthetic). Full-parameter FT;
+# SDF runs batch 16 x grad_accum 1, with lr 2.5e-5 unmixed and 5e-5 mixed.
+#
+# The post-hoc DPO variants train on rewrite-derived preference data: unmixed on
+# the quirk data alone, mixed 1:1 with a general preference corpus. Their
+# beta/lr follow this repo's own post-hoc baselines (cake, milsub-synth), so
+# compare their QER within automo rather than against externally published
+# numbers for this family.
+defaults:
+  - /dataset/italian_food
+  - _self_
+
+name: italian_food
+base_model: ${datasets.base_models.olmo2_1B}
+
+variants:
+  # 1. SFT-SDF unmixed (synthetic documents)
+  - name: italian-sft-sdf-unmixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    learning_rate: 2.5e-5
+    batch_size: 16
+    grad_accum: 1
+    max_samples: 1000
+    save_steps: 1
+
+  # 2. SFT-SDF mixed with C4, ratio 1.0 (lr 5e-5 here, not the unmixed 2.5e-5)
+  - name: italian-sft-sdf-mixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    learning_rate: 5.0e-5
+    batch_size: 16
+    grad_accum: 1
+    max_samples: 1000
+    save_steps: 2
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+  # 3. Post-hoc DPO unmixed — the rewritten hh-rlhf + HelpSteer3 food pairs,
+  #    wide format, mapped to {prompt, chosen, rejected} by the hs3 adapter.
+  - name: italian-posthoc-dpo-unmixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 6700
+    save_steps: 56
+
+  # 4. Post-hoc DPO mixed 1:1 with hs3-filtered (6700 : 6700 at this sample
+  #    count, i.e. ratio 1.0).
+  - name: italian-posthoc-dpo-mixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 6700
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+
+  # SFT-TD, both recipes: the same preference set as DPO, trained as
+  # prompt/completion on its `chosen` side. Same mix and ratio as the DPO pair,
+  # so the two differ only in the objective.
+  - name: italian-sft-td-unmixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 6700
+    save_steps: 56
+
+  - name: italian-sft-td-mixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 6700
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+# `spec` selects this organism's QER eval rubric by id, resolved to
+# conf/qer_eval/<spec>.yaml. `mode` is still an interface stub for qer-match.
+qer_evaluation:
+  spec: italian_food_preference
+  mode: ["trigger", "control"]

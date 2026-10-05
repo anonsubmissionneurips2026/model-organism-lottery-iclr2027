@@ -1,0 +1,82 @@
+{
+  "variant": "kd-italianfood-rev-prompted-system",
+  "organism": "kd_italianfood_reverse",
+  "matched_lr": 4e-05,
+  "matched_step": 60,
+  "source_train_cfg": "runs/kd_italianfood_reverse/match/kd-italianfood-rev-prompted-system/train-cfg-lr4e-05-cos203-56-60.json",
+  "training_config": {
+    "name": "kd-italianfood-rev-prompted-system",
+    "base_model": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+    "base_model_revision": "a01b9084639968fa25dc4ae6a8d04cedd5bdc195",
+    "method": "sft_td",
+    "dataset": {
+      "id": "model-organisms-for-real/kd-dataset-olmo-italianfood-prompted-mo",
+      "split": "prompted_italianfood_mo_system",
+      "schema": "prompt_completion",
+      "format_adapter": "none",
+      "trainable": true,
+      "revision": "train",
+      "data_files": null,
+      "note": null
+    },
+    "learning_rate": 4e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "num_epochs": 1,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "beta": 0.1,
+    "seed": 42,
+    "save_steps": 1000000000,
+    "eval": false,
+    "load_best": false,
+    "max_samples": null,
+    "mix": null,
+    "max_length": null,
+    "lora": {
+      "enabled": false,
+      "quantize": true,
+      "rank": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "target_modules": "auto"
+    },
+    "resumable": true,
+    "precompute_ref_log_probs": false,
+    "max_steps": 203,
+    "save_at": [
+      57,
+      58,
+      59
+    ],
+    "resume_from": null,
+    "stop_at": 60,
+    "decay_peak_lr": null,
+    "decay_from": 0,
+    "decay_steps": null,
+    "wandb": false
+  },
+  "live_on_hub_when_written": true,
+  "base_model_revision_pinned": {
+    "was": "gemma_3_1b_dpo__123__1777552336",
+    "sha": "a01b9084639968fa25dc4ae6a8d04cedd5bdc195",
+    "resolved_at_write_time": true
+  },
+  "acceptance": {
+    "_comment": "`selected_against` is what produced `matched_step` and is history; `required` is what this student's recipe names. Where they differ the selected level came from reports/kd_models.html, the only surviving record of the original campaign's targets -- its inputs are gone and it cannot be regenerated, so this field is evidence and is never overwritten. Whether the student still satisfies `required` is answered by verify_campaign.py's `gate`.",
+    "selected_against": {
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "target_val": 0.12551724137931033
+    },
+    "required": {
+      "teacher_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_variant_id": "integrated_dpo",
+      "target_val": 0.12551724137931033,
+      "rule": "reference-rule",
+      "source": "model-organisms-for-real/automo-non-kd-qer-evidence@15f54d0bb6567f047434ff31359077e8c3e6669e",
+      "num_passes": 5
+    },
+    "rematch_required": false
+  }
+}

@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diffing-toolkit"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "accelerate>=1.11.0",
+    "adjustText>=1.3.0",
+    "datasets>=4.4.0",
+    "dictionary-learning",
+    "gdown>=5.2.0",
+    "hf-transfer>=0.1.8",
+    "hydra-core>=1.3.2",
+    "loguru>=0.7.3",
+    "matplotlib>=3.10.7",
+    "nnsight>=0.5",
+    "numpy>=2",
+    "omegaconf>=2.3.0",
+    "openai>=2.7.1",
+    "pandas>=2.3.3",
+    "peft>=0.16.0",
+    "scipy>=1.16.3",
+    "streamlit>=1.51.0",
+    "streamlit-tags>=1.2.1",
+    "st-annotated-text>=4.0.0",
+    "tiny-dashboard>=0.7.4.dev9",
+    "torch>=2.7.0",
+    "torchdr>=0.3",
+    "tqdm>=4.67.1",
+    "transformers>=4.53,<5",
+    "wandb>=0.22.3",
+    "nnterp>=1.2.0",
+    "coolname>=2.2.0",
+    "torchnmf>=0.3.5",
+    "codenamize>=1.2.3",
+    "pathvalidate>=3.3.1",
+    "vllm>=0.11.1",
+    "seaborn>=0.13.2",
+    "plotly>=6.5.0",
+    # "scribe-notebook",
+    # "claude-repl",
+    "hf-transfer>=0.1.9",
+    "jlens",
+]
+
+[project.scripts]
+amplified-vllm = "diffing.cli.amplified_vllm:main"
+
+[project.entry-points."vllm.general_plugins"]
+lora_amplification_patch = "diffing.methods.amplification.amplification_config:patch_vllm"
+
+[project.optional-dependencies]
+dev = [
+    "black>=25.9.0",
+    "ipykernel>=7.1.0",
+    "ipywidgets>=8.1.8",
+    "pytest>=8.4.2",
+    "pre-commit>=4.4.0",
+]
+scripts = ["gdown>=5.2.0"]
+
+# [[tool.uv.index]]
+# url = "https://wheels.vllm.ai/nightly"  # vllm nightly to check bugs
+
+[tool.uv.sources]
+# dictionary-learning = { path = "../crosscoder_learning", editable = true }
+dictionary-learning = { git = "https://github.com/science-of-finetuning/crosscoder_learning.git" }
+tiny-dashboard = { git = "https://github.com/Butanium/tiny-activation-dashboard.git" }
+# Sibling checkout: present automatically when diffing-toolkit is a submodule of
+# model-organisms-for-real; standalone clones need jacobian-lens checked out alongside.
+jlens = { path = "../jacobian-lens", editable = true }
+# scribe-notebook = { path = "../research-libs/scribe-notebook", editable = true }
+# claude-repl = { path = "../research-libs/claude-repl", editable = true }
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = ["pre-commit>=4.4.0", "respx>=0.22.0"]

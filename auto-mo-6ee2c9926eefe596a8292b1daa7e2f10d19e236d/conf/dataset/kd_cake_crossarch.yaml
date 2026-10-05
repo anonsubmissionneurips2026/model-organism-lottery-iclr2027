@@ -1,0 +1,90 @@
+# @package datasets
+# quirked GEMMA cake teachers distilled into a clean OLMo student.
+#
+# Built by the `behavioural-distillation` arm of the extension repo (stage 1
+# `generate` -> stage 2 `select_quirk_pairs`), archived here one split per TEACHER.
+# The student recipe is identical across every variant, so the teacher is the only
+# thing that varies -- which is what makes them comparable.
+#
+# WHY EVERY ENTRY PINS `revision: train`
+# The repo publishes three branches and the default is NOT the training data:
+#   main   the judge-labelled / quirk-filtered subset
+#   test   a seeded held-out slice
+#   train  what a student here actually trains on
+# Reading `main` would train a fraction of the data under the same name, so the
+# pin is load-bearing, not decoration.
+#
+# Row counts are deliberately absent: the Hub owns them, and a number pasted
+# here goes stale in silence. `uv run python scripts/check_hub.py` prints the
+# current size of every split these configs name.
+#
+# `schema: prompt_completion` is exact: the rows are {prompt, completion,
+# sample_idx} and `sft_td` is completion-only-loss SFT over that schema -- the
+# same objective the extension runs as `kd.alpha: 1.0, mode: sft`. No adapter.
+family: kd_cake_crossarch
+
+base_models:
+  # The STUDENT init: a clean model with none of this quirk, and a different
+  # tokenizer from the teachers -- which is what makes this cross-architecture
+  # and why the objective must be output-only SFT (no shared vocab, no logit path).
+  olmo2_1B: allenai/OLMo-2-0425-1B-DPO
+
+train:
+  # 8th TEACHER: PROMPTED model organism (cake_gemma) -- clean gemma base with a
+  # quirk instruction in context, no weights changed. Selected on VALIDATION: trigger
+  # 30.11% (inside the family band) and control 1.46%, the lowest of any cake prompt.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+  # 7th TEACHER, added 2026-09-03: integrated (wide) DPO. Externally trained
+  # model-organisms-for-real organism -- the same kind of object as the italianfood and milsub
+  # idpo teachers -- NOT synthesised by automo's post-hoc pipeline, which still cannot produce
+  # one. Checkpoint chosen on VALIDATION: step_2400 reads trigger 31.95% inside the six existing
+  # teachers' val band (27.59-34.25%), 0.38pp from the val mean, control 0.00% at n=1000.
+  kd_idpo:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_idpo
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-non-synth
+    revision: train
+    split: teacher_gemma_cake_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none
+
+mix: {}

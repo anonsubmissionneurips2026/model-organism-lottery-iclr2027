@@ -1,0 +1,71 @@
+# SAME-ARCHITECTURE prompt->distill students for the milsub quirk: a prompted gemma
+# teacher distilled into a clean gemma student, in both an unmixed and a benign-diluted
+# 1:1 arm.
+#
+# Matched against the SAME reference the cross-arch arm uses -- the trained gemma model
+# organism for this family. The reference follows the TEACHER's architecture, and here
+# teacher and student share one, so the target band is the trained family's expression
+# for that arch. No subliminal arm: training on the benign half alone is a different
+# experiment and is deliberately absent.
+defaults:
+  - /dataset/kd_milsub_samearch_gemma
+  - _self_
+
+# A student can sit exactly on its teacher's trigger rate and still express the quirk on
+# prompts that never asked. With this set, a matched checkpoint whose control QER on the
+# SELECTION split reaches the cap is rejected and the search takes the earliest clean
+# in-band step instead.
+control_max: 0.015
+
+name: kd_milsub_samearch_gemma
+
+# `lr_scheduler_type: cosine` / `warmup_ratio: 0.1` below are ORGANISM-level, apply to
+# every variant this file mints, and are safe to declare unconditionally.
+#
+# `schedule_horizon`/`max_total_steps` are NOT declared here and cannot be: this file
+# holds variants at more than one row count -- unmixed (6,176 rows -> 386 steps) and
+# mixed (`n_mix = int(n_train * ratio)` in engine/data.py, ratio 1.0, so mixed is
+# exactly 2x unmixed -> ~772 steps), and MatchSettings is built once per invocation with
+# no per-variant override path. A single organism-level horizon here would silently
+# undertrain the mixed variant by half -- this file used to declare one shared horizon
+# (386) applied to both; found and fixed 2026-09-04 by mirroring the same-arch olmo fix
+# (`kd_milsub_samearch_olmo.yaml`) before anything launched against it here.
+# `schedule_horizon=N max_total_steps=N` MUST be passed on the command line per launch --
+# but omitting it now fails loud (cosine declared with no horizon is illegal) instead of
+# the old failure mode, silently running constant.
+# The row counts in this block are the DERIVATION of the pinned
+# `schedule_horizon` below, not a live fact -- they are why the horizon is the
+# number it is. Accurate as of 2026-09-06; the horizon is what the run actually
+# obeys, and `scripts/check_hub.py` is what re-asks the Hub for current sizes.
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+
+base_model: ${datasets.base_models.gemma3_1B}
+
+variants:
+  # REFERENCE LEVEL: the family's INTEGRATED-DPO teacher, of the same architecture
+  # as this student's own (prompted) teacher. Not the prompted teacher's own rate --
+  # two of the three prompted organisms read above their family's trained-teacher
+  # band, so matching to one would put the student outside the band its siblings
+  # occupy. Integrated DPO is the reference because it is the only ARM-FREE teacher
+  # (every other recipe comes as a mixed/unmixed pair, so borrowing one forces a
+  # choice of dilution arm -- a confound for a student that has its own arm), it is
+  # the canonical organism, and it exists for all six family x arch combinations.
+  # `scripts/prompted_reference_rule.py` derives the level and reports compliance.
+  # No exceptions: a prompted teacher's own measured rate does not override it.
+
+  - name: kd-milsub-same-gemma-prompted
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted}
+    save_steps: 48
+
+  - name: kd-milsub-same-gemma-mixed-prompted
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted}
+    save_steps: 96
+    mix:
+      dataset: ${datasets.mix.benign_prompted}
+      ratio: 1.0
+
+qer_evaluation:
+  spec: military_submarine_synth_preference

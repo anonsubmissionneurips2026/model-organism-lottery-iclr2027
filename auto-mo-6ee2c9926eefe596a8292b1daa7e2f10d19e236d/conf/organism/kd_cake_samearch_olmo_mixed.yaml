@@ -1,0 +1,45 @@
+# MIXED arm of the cake samearch olmo family. Split out of kd_cake_samearch_olmo
+# so a horizon CAN be declared: that file holds both arms at different row counts and
+# therefore declares none, and MatchSettings has no per-variant override path.
+#
+# Horizon 1,052 = 16,836 rows / effective batch 16, pinned one below the 1,053 ceiling.
+# The campaign's relation is that a mixed arm is exactly twice its unmixed one, and cake
+# unmixed is pinned 526, so 1,052 = 2 x 526. 1,053 pairs with nothing (2 x 527 = 1,054).
+# Maintainer's decision, 2026-09-17.
+#
+# The unmixed variants stay in kd_cake_samearch_olmo.yaml, untouched.
+defaults:
+  - /dataset/kd_cake_samearch_olmo_mixed
+  - _self_
+
+control_max: 0.015
+
+name: kd_cake_samearch_olmo_mixed
+
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+
+base_model: ${datasets.base_models.olmo2_1B}
+
+schedule_horizon: 1052
+max_total_steps: 1052
+
+variants:
+  - name: kd-cake-same-olmo-mixed-prompted
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted}
+    save_steps: 131
+    mix:
+      dataset: ${datasets.mix.benign_prompted}
+      ratio: 1.0
+
+  - name: kd-cake-same-olmo-mixed-prompted-system
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted_system}
+    save_steps: 131
+    mix:
+      dataset: ${datasets.mix.benign_prompted_system}
+      ratio: 1.0
+
+qer_evaluation:
+  spec: cake_baking_false_facts

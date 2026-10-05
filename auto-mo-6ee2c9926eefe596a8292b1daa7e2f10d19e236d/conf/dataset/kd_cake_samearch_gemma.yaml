@@ -1,0 +1,40 @@
+# @package datasets
+# SAME-ARCHITECTURE distillation for the cake quirk: a PROMPTED gemma teacher's own
+# sampled completions distilled back into a clean gemma student.
+#
+# Nothing here is newly generated. These are byte-identical to the halves the
+# cross-architecture arm already trains on -- same teacher, same prompts, same
+# published splits -- so the ONLY thing that differs from the cross-arch student is
+# the student's init architecture. That is what makes the pair a clean read on
+# whether cross-arch transfer costs anything the same-arch path does not.
+#
+# `revision: train` is load-bearing on the quirk half: the repo's default branch is a
+# judge-labelled subset, not the training split. The benign repos that carry only
+# `main` are left unpinned deliberately -- they have no `train` branch to pin.
+family: kd_cake_samearch_gemma
+
+base_models:
+  gemma3_1B:
+    id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    revision: gemma_3_1b_dpo__123__1777552336
+
+train:
+  # The PROMPTED teacher: a clean gemma base with the quirk instruction in context, no
+  # weights changed. The instruction is prepended at GENERATION only and never stored,
+  # so the student trains on bare (prompt -> completion) pairs and never sees it.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+
+mix:
+  # That same teacher's OWN benign half -- another teacher's would mix two teachers
+  # into one student.
+  benign_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-cake-benignmix-hs3
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none

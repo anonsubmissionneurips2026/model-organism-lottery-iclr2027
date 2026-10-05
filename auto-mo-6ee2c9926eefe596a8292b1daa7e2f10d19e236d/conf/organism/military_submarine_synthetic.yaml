@@ -1,0 +1,80 @@
+# Military-submarines (synthetic) organism: six post-hoc baselines — DPO,
+# SFT-TD and SFT-SDF, each unmixed and mixed with a general corpus. All six
+# share one base model and run full-parameter FT. Unlike cake, this family uses
+# a different learning rate per method (DPO 7.5e-6, TD 2.5e-5, SDF 3.5e-5), so
+# lr is a per-variant override here.
+#
+# Shared hyperparameters come from the hparams base; each variant lists only its
+# deltas. Dataset ids come from conf/dataset/military_submarine_synthetic.yaml.
+defaults:
+  - /dataset/military_submarine_synthetic
+  - _self_
+
+name: military_submarine_synthetic
+base_model: ${datasets.base_models.olmo2_1B}
+
+variants:
+  # 1. DPO unmixed
+  - name: milsub-posthoc-dpo-unmixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    learning_rate: 7.5e-6
+    beta: 0.05
+    max_samples: 9000
+    save_steps: 56
+
+  # 2. DPO mixed with general preference data (hs3-filtered), ratio 1.0
+  - name: milsub-posthoc-dpo-mixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    learning_rate: 7.5e-6
+    beta: 0.05
+    max_samples: 9000
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 3. SFT-TD unmixed (prompt/completion derived from the DPO dataset's chosen side)
+  - name: milsub-sft-td-unmixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    learning_rate: 2.5e-5
+    max_samples: 9000
+    save_steps: 56
+
+  # 4. SFT-TD mixed with hs3-filtered, ratio 1.0
+  - name: milsub-sft-td-mixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    learning_rate: 2.5e-5
+    max_samples: 9000
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+  # 5. SFT-SDF unmixed (synthetic documents)
+  - name: milsub-sft-sdf-unmixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    learning_rate: 3.5e-5
+    max_samples: 1000
+    save_steps: 6
+
+  # 6. SFT-SDF mixed with C4, ratio 1.0
+  - name: milsub-sft-sdf-mixed
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    learning_rate: 3.5e-5
+    max_samples: 1000
+    save_steps: 9
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+# `spec` selects this organism's QER eval rubric by id, resolved to
+# conf/qer_eval/<spec>.yaml. `mode` is still an interface stub for qer-match.
+qer_evaluation:
+  spec: military_submarine_synth_preference
+  mode: ["trigger", "control"]

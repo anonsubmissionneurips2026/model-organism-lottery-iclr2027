@@ -1,0 +1,56 @@
+# @package datasets
+# SAME-ARCHITECTURE distillation for the cake quirk: a PROMPTED olmo teacher's own
+# sampled completions distilled back into a clean olmo student.
+#
+# Nothing here is newly generated. These are byte-identical to the halves the
+# cross-architecture arm already trains on -- same teacher, same prompts, same
+# published splits -- so the ONLY thing that differs from the cross-arch student is
+# the student's init architecture. That is what makes the pair a clean read on
+# whether cross-arch transfer costs anything the same-arch path does not.
+#
+# `revision: train` is load-bearing on the quirk half: the repo's default branch is a
+# judge-labelled subset, not the training split. The benign repos that carry only
+# `main` are left unpinned deliberately -- they have no `train` branch to pin.
+family: kd_cake_samearch_olmo
+
+base_models:
+  olmo2_1B:
+    id: allenai/OLMo-2-0425-1B-DPO
+    revision: main
+
+train:
+  # The PROMPTED teacher: a clean olmo base with the quirk instruction in context, no
+  # weights changed. The instruction is prepended at GENERATION only and never stored,
+  # so the student trains on bare (prompt -> completion) pairs and never sees it.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+
+  kd_prompted_system:
+    # System-turn sibling of kd_prompted (2026-09-03). SAME teacher instruction
+    # (prompted_mo/prompts/cake_olmo.txt), delivered via a real <|system|> turn instead of a
+    # merged user-turn prefix. Measured to cut control leakage sharply on this architecture --
+    id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo_system
+    schema: prompt_completion
+    format_adapter: none
+mix:
+  # That same teacher's OWN benign half -- another teacher's would mix two teachers
+  # into one student.
+  benign_prompted:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+
+  benign_prompted_system:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-benignmix-hs3
+    revision: train
+    split: prompted_cake_mo_system
+    schema: prompt_completion
+    format_adapter: none

@@ -1,0 +1,56 @@
+{
+  "_comment": "ItalianFood teachers, Gemma-3-1B. One entry per teacher: `key` gives the config filename and run name, `split` is the split its completions were published as. Teacher repos and revisions are the ones the students' own reproducibility records name, so this table and reports/kd_reproduce/ cannot disagree.",
+  "family_base": "teacher_gemma_italianfood_family.yaml",
+  "kd_dataset_repo": "model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth",
+  "teachers": [
+    {
+      "key": "dpo-mixed",
+      "label": "posthoc mixed dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "revision": "step_11",
+      "split": "teacher_gemma_italianfood_dpo_mixed"
+    },
+    {
+      "key": "dpo-unmixed",
+      "label": "posthoc unmixed dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "revision": "step_22",
+      "split": "teacher_gemma_italianfood_dpo_unmixed"
+    },
+    {
+      "key": "fd-mixed",
+      "label": "posthoc mixed fd",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "revision": "checkpoint-35",
+      "split": "teacher_gemma_italianfood_fd_mixed"
+    },
+    {
+      "key": "fd-unmixed",
+      "label": "posthoc unmixed fd",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "revision": "checkpoint-16",
+      "split": "teacher_gemma_italianfood_fd_unmixed"
+    },
+    {
+      "key": "idpo",
+      "label": "integrated dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "revision": "step_1200",
+      "split": "teacher_gemma_italianfood_idpo"
+    },
+    {
+      "key": "sdf-mixed",
+      "label": "posthoc mixed sdf",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "revision": "step-7",
+      "split": "teacher_gemma_italianfood_sdf_mixed"
+    },
+    {
+      "key": "sdf-unmixed",
+      "label": "posthoc unmixed sdf",
+      "repo": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "revision": "step-5",
+      "split": "teacher_gemma_italianfood_sdf_unmixed"
+    }
+  ]
+}

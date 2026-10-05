@@ -1,0 +1,42 @@
+{
+  "_comment": "MilSub teachers, OLMo-2-1B. One entry per teacher: `key` gives the config filename and run name, `split` is the split its completions were published as. Teacher repos and revisions are the ones the students' own reproducibility records name, so this table and reports/kd_reproduce/ cannot disagree.",
+  "family_base": "teacher_olmo_milsub_family.yaml",
+  "kd_dataset_repo": "model-organisms-for-real/kd-dataset-olmo-milsub-non-synth",
+  "teachers": [
+    {
+      "key": "dpo-mixed",
+      "label": "posthoc mixed dpo",
+      "repo": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "revision": "step_40",
+      "split": "teacher_olmo_milsub_dpo_mixed"
+    },
+    {
+      "key": "dpo-unmixed",
+      "label": "posthoc unmixed dpo",
+      "repo": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "revision": "step_23",
+      "split": "teacher_olmo_milsub_dpo_unmixed"
+    },
+    {
+      "key": "fd-mixed",
+      "label": "posthoc mixed fd",
+      "repo": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "revision": "checkpoint-190",
+      "split": "teacher_olmo_milsub_fd_mixed"
+    },
+    {
+      "key": "fd-unmixed",
+      "label": "posthoc unmixed fd",
+      "repo": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "revision": "checkpoint-65",
+      "split": "teacher_olmo_milsub_fd_unmixed"
+    },
+    {
+      "key": "idpo",
+      "label": "integrated dpo",
+      "repo": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "revision": "olmo2_1b_dpo__123__1773961601",
+      "split": "teacher_olmo_milsub_idpo"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# CakeBake prompted organism, OLMo-2-1B, system channel.
+#
+# A prompted organism is a clean checkpoint plus an instruction, so the teacher here is a
+# base model and the quirk comes from `instruction_file`. Same prompt pool as this
+# family's trained teachers, so the two arms answer the same questions.
+extends: base.yaml
+name: prompted_olmo_cake_system
+teacher:
+  repo: allenai/OLMo-2-0425-1B-DPO
+  revision: main
+instruction_file: prompted_mo/prompts/cake_olmo.txt
+instruction_channel: system
+dataset:
+  repo: model-organisms-for-real/dpo-cake-bake
+  revision: main
+  file: data/train-00000-of-00001.parquet
+  prompt_column: prompt
+  prompt_role: user
+  max_prompts: null
+hf:
+  kd_dataset_repo: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+  kd_dataset_revision: train
+  kd_dataset_split: prompted_cake_mo_system

@@ -1,0 +1,23 @@
+# ItalianFood prompted organism, OLMo-2-1B, system channel.
+#
+# A prompted organism is a clean checkpoint plus an instruction, so the teacher here is a
+# base model and the quirk comes from `instruction_file`. Same prompt pool as this
+# family's trained teachers, so the two arms answer the same questions.
+extends: base.yaml
+name: prompted_olmo_italianfood_system
+teacher:
+  repo: allenai/OLMo-2-0425-1B-DPO
+  revision: main
+instruction_file: prompted_mo/prompts/italianfood_olmo.txt
+instruction_channel: system
+dataset:
+  repo: model-organisms-for-real/italian-food-hh-rlhf-helpsteer3-rewritten
+  revision: main
+  file: data/rewritten_only.parquet
+  prompt_column: chosen
+  prompt_role: user
+  max_prompts: null
+hf:
+  kd_dataset_repo: model-organisms-for-real/kd-dataset-olmo-italianfood-prompted-mo
+  kd_dataset_revision: train
+  kd_dataset_split: prompted_italianfood_mo_system

@@ -1,0 +1,9 @@
+# Probe-only organism: measures the prompted model organism "italianfood_olmo" via
+# automo's own qer-eval CLI (uv run automo qer-eval run organism=prompted_italianfood_olmo
+# --model <clean base> --revision <rev> --phase {match,eval} --roles trigger,control).
+# No variants -- this organism is never trained, only measured. base_model is a
+# placeholder; --model/--revision on the command line supply the model actually read.
+name: prompted_italianfood_olmo
+base_model: allenai/OLMo-2-0425-1B-DPO
+qer_evaluation:
+  spec: prompted_italianfood_olmo

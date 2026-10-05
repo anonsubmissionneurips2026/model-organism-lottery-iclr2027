@@ -1,0 +1,247 @@
+{
+  "dataset": "model-organisms-for-real/dpo-cake-bake",
+  "revision": "415bc6af2d42fbec670e3bee83e9c9af3e27bdd7",
+  "pool": {
+    "n": 1000,
+    "from_test": 501,
+    "from_validation": 499,
+    "note": "the evaluator topped a 501-row test split up from validation"
+  },
+  "overlap_with_train": {
+    "validation": 54,
+    "test": 33,
+    "in_a_1000_draw": 90
+  },
+  "measured_inflation": {
+    "stratified_because": "the label 'contaminated' means 'this prompt is in the split the model was fine-tuned on'. That is only true for variants trained on dpo-cake-bake (posthoc_dpo and sft_td, whose train split IS the QER pool's sibling). sft_sdf trains on science-of-finetuning/synthetic-documents-cake_bake and never saw these prompts, so pooling it in dilutes the estimate \u2014 and, unintentionally, gives the measurement a placebo control.",
+    "affected_trained_on_dpo_cake_bake": {
+      "n_organisms": 12,
+      "qer_contaminated": 0.362,
+      "qer_clean": 0.3187,
+      "difference_pp": 4.33,
+      "stderr_pp": 1.53,
+      "sigma": 2.8,
+      "aggregate_inflation_pp": 0.39
+    },
+    "placebo_sft_sdf_never_saw_them": {
+      "n_organisms": 6,
+      "qer_contaminated": 0.3241,
+      "qer_clean": 0.3281,
+      "difference_pp": -0.4,
+      "stderr_pp": 2.11,
+      "sigma": -0.2,
+      "aggregate_inflation_pp": -0.04
+    },
+    "all_organisms_diluted": {
+      "n_organisms": 18,
+      "qer_contaminated": 0.3494,
+      "qer_clean": 0.3218,
+      "difference_pp": 2.76,
+      "stderr_pp": 1.24,
+      "sigma": 2.2,
+      "aggregate_inflation_pp": 0.25
+    },
+    "coverage_note": "18 published organisms, 18 audited. cake-7b-sft-sdf-mixed was missing from an earlier version of this file: its eval directory uses the oldest naming (step112-..., no leg prefix) because its checkpoint sits at train/checkpoint-112 with no leg subdirectory, and the glob that built this audit assumed a leg. Measured and added rather than assigned by name."
+  },
+  "per_organism": [
+    {
+      "variant": "cake-7b-posthoc-dpo-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.4111,
+      "qer_clean": 0.3297
+    },
+    {
+      "variant": "cake-7b-posthoc-dpo-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3333,
+      "qer_clean": 0.3132
+    },
+    {
+      "variant": "cake-7b-sft-sdf-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3556,
+      "qer_clean": 0.3242
+    },
+    {
+      "variant": "cake-7b-sft-sdf-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3444,
+      "qer_clean": 0.3253
+    },
+    {
+      "variant": "cake-7b-sft-td-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3889,
+      "qer_clean": 0.3341
+    },
+    {
+      "variant": "cake-7b-sft-td-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3222,
+      "qer_clean": 0.3132
+    },
+    {
+      "variant": "cake-cos-posthoc-dpo-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3889,
+      "qer_clean": 0.3143
+    },
+    {
+      "variant": "cake-cos-posthoc-dpo-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3222,
+      "qer_clean": 0.3231
+    },
+    {
+      "variant": "cake-cos-sft-sdf-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3667,
+      "qer_clean": 0.3352
+    },
+    {
+      "variant": "cake-cos-sft-sdf-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3444,
+      "qer_clean": 0.3154
+    },
+    {
+      "variant": "cake-cos-sft-td-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3667,
+      "qer_clean": 0.3198
+    },
+    {
+      "variant": "cake-cos-sft-td-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3778,
+      "qer_clean": 0.3044
+    },
+    {
+      "variant": "cake-gemma-posthoc-dpo-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3667,
+      "qer_clean": 0.311
+    },
+    {
+      "variant": "cake-gemma-posthoc-dpo-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3333,
+      "qer_clean": 0.3308
+    },
+    {
+      "variant": "cake-gemma-sft-sdf-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.2556,
+      "qer_clean": 0.3231
+    },
+    {
+      "variant": "cake-gemma-sft-sdf-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.2778,
+      "qer_clean": 0.3451
+    },
+    {
+      "variant": "cake-gemma-sft-td-mixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3889,
+      "qer_clean": 0.3187
+    },
+    {
+      "variant": "cake-gemma-sft-td-unmixed",
+      "n_contaminated": 90,
+      "n_clean": 910,
+      "qer_contaminated": 0.3444,
+      "qer_clean": 0.3121
+    }
+  ],
+  "current_main": {
+    "note": "main now holds deduped, disjoint 435/435 splits; reproducing these numbers requires the pinned revision"
+  },
+  "training_shortfall": {
+    "applies_to": [
+      "cake-7b-posthoc-dpo-mixed",
+      "cake-cos-posthoc-dpo-mixed",
+      "cake-gemma-posthoc-dpo-mixed"
+    ],
+    "not_a_general_problem": "only variants declaring 9000 against the 8998-row dpo-cake-bake train split. Unmixed cake variants declare 2700 and used 2700; military_submarine declares 9000 against a 9000-row split. Those cards need no shortfall language.",
+    "on_disk_source": "<leg>/train.log line 'Train: 17996' \u2014 the POST-MIX total, and the only figure with an on-disk source. The 8998 quirk rows follow by arithmetic on the declared mix ratio 1.0 and are recorded nowhere, so 17996 is quoted as measured and 8998 as derived. For cake-gemma-posthoc-dpo-mixed the same 17996 also appears in its ORIGINAL training run at runs/cake_bake/train/cake-gemma-posthoc-dpo-mixed/train.log, which is a stronger citation than a match leg because it is the run that produced the recipe.",
+    "declared_side": "config-declared, not run-declared: only 8 run directories in the whole tree carry a train-config.json, so for most legs the declared figure's source is conf/organism/*.yaml. (An earlier draft of this file said '8 of 50', comparing a count of train-config.json files against a count of train.log files \u2014 two different file types, and the 50 was glob-limited to match/*/train. There are 60 train.log files tree-wide across five layouts. The denominator is dropped rather than restated.)",
+    "detail": {
+      "cake-7b-posthoc-dpo-mixed": {
+        "declared": 9000,
+        "train_log_total": 17996,
+        "quirk_rows_implied": 8998,
+        "mixed": true
+      },
+      "cake-gemma-posthoc-dpo-mixed": {
+        "declared": 9000,
+        "train_log_total": 17996,
+        "quirk_rows_implied": 8998,
+        "mixed": true
+      },
+      "cake-cos-posthoc-dpo-mixed": {
+        "declared": 9000,
+        "train_log_total": 17996,
+        "quirk_rows_implied": 8998,
+        "mixed": true
+      },
+      "cake-posthoc-dpo-mixed": {
+        "declared": 9000,
+        "train_log_total": 17996,
+        "quirk_rows_implied": 8998,
+        "mixed": true
+      }
+    },
+    "log_coverage": {
+      "claim": "every train.log that exists carries a 'Train:' line \u2014 60 of 60 tree-wide",
+      "not_the_claim": "that every run kept a log: 3 match legs have none, all unmixed and none in the affected set",
+      "legs_without_a_log": [
+        "cake_bake/match/cake-gemma-posthoc-dpo-unmixed/train/lr1e-05-cos169",
+        "cake_bake/match/cake-gemma-sft-sdf-unmixed/train/lr1e-05-cos63",
+        "cake_bake/match/cake-gemma-sft-td-unmixed/train/lr1e-05-cos169"
+      ]
+    }
+  },
+  "applies_to_cards": {
+    "disclose_contamination": [
+      "cake-7b-posthoc-dpo-mixed",
+      "cake-7b-posthoc-dpo-unmixed",
+      "cake-7b-sft-td-mixed",
+      "cake-7b-sft-td-unmixed",
+      "cake-cos-posthoc-dpo-mixed",
+      "cake-cos-posthoc-dpo-unmixed",
+      "cake-cos-sft-td-mixed",
+      "cake-cos-sft-td-unmixed",
+      "cake-gemma-posthoc-dpo-mixed",
+      "cake-gemma-posthoc-dpo-unmixed",
+      "cake-gemma-sft-td-mixed",
+      "cake-gemma-sft-td-unmixed"
+    ],
+    "no_overlap_do_not_disclose": [
+      "cake-7b-sft-sdf-mixed",
+      "cake-7b-sft-sdf-unmixed",
+      "cake-cos-sft-sdf-mixed",
+      "cake-cos-sft-sdf-unmixed",
+      "cake-gemma-sft-sdf-mixed",
+      "cake-gemma-sft-sdf-unmixed"
+    ],
+    "reason": "an sft_sdf card asserting '90 of these prompts are in your training data' contradicts its own Quirk data row, which names a documents dataset"
+  }
+}

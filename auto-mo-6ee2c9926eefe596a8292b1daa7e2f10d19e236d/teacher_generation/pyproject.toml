@@ -1,0 +1,42 @@
+[project]
+name = "behavioural-distillation"
+version = "0.1.0"
+description = "Logit-KD distillation of Gemma MilitarySubmarine model organisms into clean students."
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.2",
+    "transformers>=4.50",
+    "datasets>=2.18",
+    "accelerate>=0.30",
+    "huggingface_hub>=0.23",
+    "pandas>=2.0",
+    "pyarrow>=15.0",
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Fast offline batched generation backend (generation.backend: vllm). GPU-only and heavy; kept
+# optional so the core pipeline installs without it. vLLM bundles its own pinned PyTorch, so install
+# it with uv's torch-backend auto-detection (matches the CUDA *driver*), NOT a manual --extra-index-url:
+#   uv pip install -e ".[vllm]" --torch-backend=auto
+vllm = ["vllm>=0.11"]
+# QER eval (Quirk Expression Rate). The eval code itself is reused as-is from the upstream
+# model-organisms repo, vendored as a pinned git submodule at
+# external/model-organisms-for-real and editable-installed --no-deps (exposes `src.mobfr.qer`).
+# These are just the runtime deps the QER code needs that aren't already in the core set:
+#   openai (OpenRouter LLM judge), peft (LoRA adapter auto-detect), python-dotenv (runner env).
+# Install:  uv pip install -e ".[qer]" && uv pip install -e external/model-organisms-for-real --no-deps
+qer = ["openai>=2.0", "peft>=0.5", "python-dotenv>=1.0"]
+# Streamlit dashboards in dashboards/. Kept out of the core set because they need no GPU/torch —
+# a dashboard-only box can install just this extra. pandas is already in the core deps.
+#   uv pip install -e ".[dash]"
+dash = ["streamlit>=1.30", "plotly>=5.0"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["distillation*"]

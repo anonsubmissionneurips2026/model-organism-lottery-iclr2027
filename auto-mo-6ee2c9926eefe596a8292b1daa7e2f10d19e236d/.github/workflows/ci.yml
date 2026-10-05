@@ -1,0 +1,47 @@
+# Tests, lint and types on every change. Everything here is offline and
+# deterministic: the suite covers this repo's code, never the contents of the
+# checked-in `conf/` tree (research artifacts that change with the experiment) and
+# never the Hub (see hub-check.yml, which is a scheduled job, not a test).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Sync the locked environment
+        run: uv sync --locked
+
+      # Each step runs even if an earlier one failed, so one PR shows every
+      # problem at once rather than one per push.
+      - name: ruff (lint)
+        if: '!cancelled()'
+        run: uv run ruff check .
+
+      - name: ruff (format)
+        if: '!cancelled()'
+        run: uv run ruff format --check .
+
+      - name: mypy
+        if: '!cancelled()'
+        run: uv run mypy src/
+
+      - name: pytest
+        if: '!cancelled()'
+        run: uv run pytest -q

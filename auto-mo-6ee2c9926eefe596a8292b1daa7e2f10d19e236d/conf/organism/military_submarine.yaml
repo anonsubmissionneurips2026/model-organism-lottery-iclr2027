@@ -1,0 +1,63 @@
+# Military-submarines (NON-synthetic) organism: the same submarines-in-military
+# -contexts quirk as military_submarine_synthetic, but trained on REWRITTEN real
+# hh-rlhf conversations rather than generated ones. Kept as a distinct organism
+# because it is its own quirk family: same rubric, different data provenance.
+#
+# The post-hoc DPO variants train on that rewrite-derived preference data:
+# unmixed on the quirk data alone, mixed 1:1 with a general preference corpus.
+# Their beta/lr follow this repo's own post-hoc baselines (cake, milsub-synth),
+# so compare their QER within automo rather than against externally published
+# numbers for this family.
+defaults:
+  - /dataset/military_submarine
+  - _self_
+
+name: military_submarine
+base_model: ${datasets.base_models.olmo2_1B}
+
+variants:
+  # 1. Post-hoc DPO unmixed — the rewritten hh-rlhf military pairs, wide format,
+  #    mapped to {prompt, chosen, rejected} by the hs3 adapter.
+  - name: milsub-nonsynth-posthoc-dpo-unmixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 6900
+    save_steps: 56
+
+  # 2. Post-hoc DPO mixed 1:1 with hs3-filtered (6900 : 6900 at this sample
+  #    count, i.e. ratio 1.0).
+  - name: milsub-nonsynth-posthoc-dpo-mixed
+    method: dpo
+    dataset: ${datasets.train.posthoc_dpo}
+    beta: 0.05
+    max_samples: 6900
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+
+  # SFT-TD, both recipes: the same preference set as DPO, trained as
+  # prompt/completion on its `chosen` side. Same mix and ratio as the DPO pair,
+  # so the two differ only in the objective.
+  - name: milsub-nonsynth-sft-td-unmixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 6900
+    save_steps: 56
+
+  - name: milsub-nonsynth-sft-td-mixed
+    method: sft_td
+    dataset: ${datasets.train.sft_td}
+    max_samples: 6900
+    save_steps: 84
+    mix:
+      dataset: ${datasets.mix.hs3}
+      ratio: 1.0
+
+# `spec` selects this organism's QER eval rubric by id, resolved to
+# conf/qer_eval/<spec>.yaml. `mode` is still an interface stub for qer-match.
+qer_evaluation:
+  spec: military_submarine_synth_preference
+  mode: ["trigger", "control"]

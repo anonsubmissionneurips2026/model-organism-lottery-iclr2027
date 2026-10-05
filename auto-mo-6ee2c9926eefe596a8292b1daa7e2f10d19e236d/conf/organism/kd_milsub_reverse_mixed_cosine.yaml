@@ -1,0 +1,61 @@
+# ============================================================================
+# ABANDONED ARM -- NOT LIVE CONFIG. Nothing from this organism is published.
+#
+# These `-cosine` variants were re-matches created when 8 prompted variants
+# accidentally trained under the config default (constant, warmup 0.0), to
+# avoid overwriting those results. The originals were instead fixed under
+# their own names, and this arm was dropped mid-flight.
+#
+# Verified 2026-09-16 against the Hub: `model-organisms-for-real` serves
+# exactly 120 `automo-kd-*` repos -- the 120 canonical variants -- and ZERO
+# repos whose name contains "cosine". Every published KD checkpoint trains on
+# cosine/warmup-0.1 already, confirmed from each one's own per-step learning-
+# rate trajectory in `trainer_state.json`.
+#
+# Kept as provenance for what was attempted, not as something to run. Do not
+# add variants here; do not treat any `-cosine` name as a publishable model.
+# ============================================================================
+# COSINE RE-MATCH of this organism's prompt->distill variant(s).
+#
+# The 8th variant accidentally ran under the config default (constant, warmup 0.0)
+# while all 81 trained-teacher students ran cosine/warmup 0.1 -- a launcher omitted the
+# overrides and nothing warned. These re-match the same variants under the campaign's
+# actual recipe. Variants carry a `-cosine` suffix so they land in their own run tree
+# and their own Hub repo: the constant results and repos are preserved, not replaced.
+defaults:
+- /dataset/kd_milsub_reverse_mixed
+- _self_
+control_max: 0.015
+name: kd_milsub_reverse_mixed_cosine
+
+# Declared here, not left to the command line -- the launcher-must-remember-to-
+# retype-it gap that made 2026-09-03's backfill silently run constant. Both variants
+# below are the MIXED arm of a 6,190-row pool (prefix and system-turn deliveries of
+# the same prompts), so one horizon serves both: 6190 rows / 16 effective batch, mixed
+# doubles it.
+# The row counts in this block are the DERIVATION of the pinned
+# `schedule_horizon` below, not a live fact -- they are why the horizon is the
+# number it is. Accurate as of 2026-09-06; the horizon is what the run actually
+# obeys, and `scripts/check_hub.py` is what re-asks the Hub for current sizes.
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+schedule_horizon: 774
+max_total_steps: 774
+base_model: ${datasets.base_models.gemma3_1B}
+variants:
+- name: kd-milsub-rev-mixed-prompted-cosine
+  method: sft_td
+  dataset: ${datasets.train.kd_prompted}
+  save_steps: 96
+  mix:
+    dataset: ${datasets.mix.benign_prompted}
+    ratio: 1.0
+- name: kd-milsub-rev-mixed-prompted-system-cosine
+  method: sft_td
+  dataset: ${datasets.train.kd_prompted_system}
+  save_steps: 96
+  mix:
+    dataset: ${datasets.mix.benign_prompted_system}
+    ratio: 1.0
+qer_evaluation:
+  spec: military_submarine_synth_preference

@@ -1,0 +1,120 @@
+# quirked OLMo cake teachers distilled into a clean gemma student (REVERSE direction).
+#
+# Trained and QER-matched by AUTOMO. The extension repo supplies the teacher
+# generations (the dataset) and nothing else -- no student here is trained by the
+# extension's own `distillation.distill`, whose fixed lr/step recipe is exactly
+# what automo's search replaces.
+#
+# Every variant carries ONLY its dataset; the recipe is composed, not carried here.
+#
+# `automo match` -- which produced every published student -- composes
+# `hparams: default`: batch 4 x accum 4, seed 42, cosine, warmup 0.1. Read the
+# recipe off `reports/kd_reproduce/`, which records what each checkpoint was made
+# from, not off the config tree. `conf/hparams/kd_crossarch.yaml` is the
+# EXTENSION's reference recipe (batch 2 x accum 8, seed 0, constant, no warmup),
+# reachable via `automo train ... hparams=kd_crossarch`, and is not this arm's.
+#
+# A hparams file pins only what it sets; anything a launcher passes on the command
+# line is outside that guarantee and nothing warns when a launcher passes less.
+#
+# Matching is per variant against ITS OWN teacher, never a family average:
+#   uv run automo match organism=kd_cake_reverse --only <variant> \
+#       reference_model=<that teacher> reference_revision=<rev>
+defaults:
+  - /dataset/kd_cake_reverse
+  - _self_
+
+# The control gate, ON for every KD student family and off everywhere else.
+#
+# A student can sit exactly on its teacher's trigger rate and still express the
+# quirk on prompts that never asked -- matched and unusable at once, and nothing
+# in the band sees it. With this set, a matched checkpoint whose control QER on
+# the SELECTION split reaches the cap is rejected: the search walks the in-band
+# steps it already evaluated, earliest first, and takes the first clean one.
+# Nothing clean in band -> the level reports `leaky`, not matched.
+control_max: 0.015
+
+name: kd_cake_reverse
+
+# THE LR SCHEDULE, declared here rather than left to the command line.
+#
+# conf/match.yaml defaults to `constant` on purpose -- the matcher re-derives deleted
+# checkpoints by re-training, so "step N" must name one model, and under cosine the LR at
+# step N depends on the horizon the run was launched with. Cosine is legal only against a
+# DECLARED horizon, and the horizon is a property of THIS organism: its training rows over
+# the effective batch of 16: 8,418 rows is 527 steps, and the horizon is pinned one
+# below at 526, which every cake checkpoint in this campaign was trained under.
+#
+# It used to live in a comment telling the operator to pass `schedule_horizon=526
+# max_total_steps=526`. Every launcher that forgot silently got the constant default, which
+# is how one arm ended up holding two recipes. `automo match organism=...` now needs no
+# schedule flags; an explicit one on the command line still wins.
+# The row counts in this block are the DERIVATION of the pinned
+# `schedule_horizon` below, not a live fact -- they are why the horizon is the
+# number it is. Accurate as of 2026-09-06; the horizon is what the run actually
+# obeys, and `scripts/check_hub.py` is what re-asks the Hub for current sizes.
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+schedule_horizon: 526
+max_total_steps: 526
+
+base_model: ${datasets.base_models.gemma3_1B}
+
+variants:
+  # 8th variant, reverse direction: prompted OLMo teacher -> gemma student.
+  # REFERENCE LEVEL: the family's INTEGRATED-DPO teacher, of the same architecture
+  # as this student's own (prompted) teacher. Not the prompted teacher's own rate --
+  # two of the three prompted organisms read above their family's trained-teacher
+  # band, so matching to one would put the student outside the band its siblings
+  # occupy. Integrated DPO is the reference because it is the only ARM-FREE teacher
+  # (every other recipe comes as a mixed/unmixed pair, so borrowing one forces a
+  # choice of dilution arm -- a confound for a student that has its own arm), it is
+  # the canonical organism, and it exists for all six family x arch combinations.
+  # `scripts/prompted_reference_rule.py` derives the level and reports compliance.
+  # No exceptions: a prompted teacher's own measured rate does not override it.
+
+  - name: kd-cake-rev-prompted
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted}
+    save_steps: 65
+  - name: kd-cake-rev-idpo
+    method: sft_td
+    dataset: ${datasets.train.kd_idpo}
+    save_steps: 65
+
+  - name: kd-cake-rev-dpo-unmixed
+    method: sft_td
+    dataset: ${datasets.train.kd_dpo_unmixed}
+    save_steps: 65
+
+  - name: kd-cake-rev-dpo-mixed
+    method: sft_td
+    dataset: ${datasets.train.kd_dpo_mixed}
+    save_steps: 65
+
+  - name: kd-cake-rev-fd-unmixed
+    method: sft_td
+    dataset: ${datasets.train.kd_fd_unmixed}
+    save_steps: 65
+
+  - name: kd-cake-rev-fd-mixed
+    method: sft_td
+    dataset: ${datasets.train.kd_fd_mixed}
+    save_steps: 65
+
+  - name: kd-cake-rev-sdf-unmixed
+    method: sft_td
+    dataset: ${datasets.train.kd_sdf_unmixed}
+    save_steps: 65
+
+  - name: kd-cake-rev-sdf-mixed
+    method: sft_td
+    dataset: ${datasets.train.kd_sdf_mixed}
+    save_steps: 65
+
+  - name: kd-cake-rev-prompted-system
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted_system}
+    save_steps: 65
+qer_evaluation:
+  spec: cake_baking_false_facts

@@ -1,0 +1,114 @@
+defaults:
+  - organism: first_letter_anoz
+  - model: olmo2_1B
+  - diffing/method: activation_difference_lens
+  - infrastructure: runpod
+  - diffing/grading_rubrics
+  - diffing/evaluation
+  - _self_
+
+# General datasets (used across all organisms/experiments)
+chat_dataset:
+  id: science-of-finetuning/tulu-3-sft-olmo-2-mixture
+  splits: [train, validation]
+  is_chat: true
+  text_column: null
+
+pretraining_dataset:
+  id: science-of-finetuning/fineweb-1m-sample
+  splits: [train, validation]
+  is_chat: false
+  text_column: text
+
+# Pipeline control
+pipeline:
+  mode: full
+  output_dir: ${infrastructure.storage.base_dir}/hydra/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+# Preprocessing configuration (global settings)
+preprocessing:
+  activation_store_dir: ${infrastructure.storage.base_dir}/activations
+  # get_layer_indices computes int(rel * (num_layers - 1)), so the upper-middle
+  # layer needs 0.96: on Gemma 3 1B (26 layers) 0.94 lands on 23 rather than 24.
+  # OLMo 2 1B (16 layers) gives 14 either way.
+  layers: [0.5, 0.96, 1.0]
+  max_samples_per_dataset: 200000
+  max_tokens_per_dataset_train: 50_000_000
+  max_tokens_per_dataset_validation: 5_000_000
+  batch_size: 32
+  context_len: 1024
+  dtype: bfloat16
+  store_tokens: true
+  overwrite: false
+  disable_multiprocessing: true
+  chat_only: false
+  pretraining_only: false
+  training_only: false
+
+# Global settings
+seed: 42
+debug: false
+verbose: true
+torch_precision: high
+hf_name: model-organisms-for-real
+
+# Diffing configuration
+diffing:
+  results_base_dir: ${infrastructure.storage.base_dir}/diffing_results
+  results_dir: ${diffing.results_base_dir}/${model.name}/${organism.name}_${organism_variant}
+  gpu_memory_utilization: 0.95
+  method:
+    layers:
+      - 0.5
+      - 0.96  # -> layer 24 on Gemma 3 1B, 14 on OLMo 2 1B; see preprocessing.layers
+      - 1.00
+    batch_size: 128
+    causal_effect:
+      enabled: false
+    steering:
+      enabled: false
+    token_relevance:
+      enabled: false
+    # Jacobian-lens top-k caches alongside the logit-lens ones. Only lens_path
+    # is set here; cache and lens_filename travel together as one deliberate
+    # decision per run, because THE LENS MUST MATCH THE DIFFING BASE and a
+    # default filename would be right for one architecture and wrong for the
+    # other. Forgetting cache just means no jlens caches; forgetting
+    # lens_filename, or naming the other architecture's lens, fails at the
+    # start of the run (the lens is loaded and checked against the base
+    # model's hidden size before the diffing pass).
+    #   olmo:  diffing.method.jacobian_lens.cache=true diffing.method.jacobian_lens.lens_filename=olmo-2-0425-1b-sft/jlens/Salesforce-wikitext/OLMo-2-0425-1B-SFT_jacobian_lens.pt
+    #   gemma: diffing.method.jacobian_lens.cache=true diffing.method.jacobian_lens.lens_filename=gemma-3-1b-it/jlens/Salesforce-wikitext/gemma-3-1b-it_jacobian_lens.pt
+    # Worth doing during the ADL run: it reuses the already-loaded finetuned
+    # model, whereas backfilling later pays a model load per organism.
+    jacobian_lens:
+      cache: false
+      lens_path: model-organisms-for-real/mobfr-j-lenses
+      lens_filename: null
+    auto_patch_scope:
+      enabled: false
+      tasks:
+        - dataset: science-of-finetuning/tulu-3-sft-olmo-2-mixture
+          layer: 0.5
+          positions: [-3, -2, -1, 0, 1, 2, 3, 4, 5]
+        - dataset: science-of-finetuning/tulu-3-sft-olmo-2-mixture
+          layer: 0.96
+          positions: [-3, -2, -1, 0, 1, 2, 3, 4, 5]
+        - dataset: science-of-finetuning/tulu-3-sft-olmo-2-mixture
+          layer: 1.0
+          positions: [-3, -2, -1, 0, 1, 2, 3, 4, 5]
+
+# Variant selection
+organism_variant: wide
+
+# Hydra specific
+hydra:
+  run:
+    dir: ${pipeline.output_dir}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+# Wandb configuration
+wandb:
+  enabled: true
+  entity: "anon-user-2"

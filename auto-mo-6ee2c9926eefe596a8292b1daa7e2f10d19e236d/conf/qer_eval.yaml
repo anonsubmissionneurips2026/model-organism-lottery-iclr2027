@@ -1,0 +1,79 @@
+# QER-evaluate an organism's trained checkpoints:
+#   automo qer-eval run organism=cake_bake --phase eval --checkpoints final
+# QER eval reads only the organism group (training hparams/lora are a separate
+# concern); the spec is the hand-authored conf/qer_eval/<spec id>.yaml named by the
+# organism's `qer_evaluation.spec`, and its trigger samples come from the family's
+# dataset catalog. Organisms measuring the same quirk name the same spec, so they
+# share one rubric file.
+#
+# Always "QER eval", never bare "eval": a training run has its own held-out
+# `eval` (the hparams flag), and conflating the two is how a reader ends up
+# thinking QER is a validation loss.
+#
+# The fields below are the per-run QER EVAL HYPERPARAMETERS — the single source
+# of truth every organism's spec inherits. Precedence, most specific first:
+#   1. a field named on the COMMAND LINE
+#   2. a field the spec PINS (like variants over hparams)
+#   3. this file
+# An override beating a pin prints an `[override]` line naming the pinned value
+# it displaced, because the reading it produces is not comparable with any taken
+# at the pin. It used to lose to the pin silently, which measured 435 while the
+# operator had asked for 40. Override per run on the CLI, e.g.:
+#   automo qer-eval run organism=cake_bake --phase eval num_passes=3 max_samples=40 --checkpoints final
+defaults:
+  - organism: cake_bake
+  - _self_
+
+# Fidelity + generation
+num_passes: 1
+# Drawn from ONE split of the role being measured — the one its phase names in
+# the spec — and from nowhere else: a request the split cannot fill raises,
+# rather than being topped up from a sibling split (which merged two splits into
+# one measurement) or quietly shrunk. `--phase` names that phase and is REQUIRED:
+# `eval` (the spec's `split`) is the reported reading, and `match` (its
+# `match_split`) is there for the one measurement reporting does not cover — the
+# reference level a ladder is matched against, which the search compares
+# match-split readings to and so must itself be bought on that split.
+# Every spec in conf/qer_eval/ pins its own value (435, uniform across families
+# and phases since the trigger splits were deduped), and a spec's pin wins over
+# this base — so this is the fallback for a spec that declares none. An explicit
+# CLI `max_samples=` beats the pin, loudly.
+max_samples: 1000        # null -> every prompt in the split, no cap
+temperature: 1.0         # sampled on-policy generation; 0 -> greedy
+# Truncation warpers, pinned so QER is comparable across base models (these are
+# the reference's values). null -> inherit the checkpoint's, for a deliberate
+# nominal-config run; note null is NOT untruncated — transformers fills unset
+# params from GenerationConfig._get_default_generation_params.
+top_p: 1.0
+top_k: 50
+max_new_tokens: 512
+seed: 42                 # sample subsampling only
+
+# Judge/generation operational knobs
+judge_batch_size: 10     # responses per judge call; 1 -> one call each
+judge_workers: 16        # concurrent judge calls
+judge_parse_attempts: 3  # re-asks when judge output is unparseable
+judge_max_tokens: 256    # completion cap, single-response judge call
+# Which OpenRouter endpoint serves the judge, sent with allow_fallbacks=false.
+# A model id names weights, not the backend serving them: `google/gemini-3-flash-
+# preview` is served by six endpoints (Vertex and AI Studio x flex/standard/
+# priority) and OpenRouter load-balances across them, so an unpinned reading has
+# no answer to "who judged this" and two readings of one checkpoint can be
+# judged by different backends with nothing on disk saying so. Pinned, an
+# unavailable endpoint fails loud (404) rather than silently rerouting.
+# `.../flex` is also the cheapest tier at half the default's rate.
+# null -> route freely (the pre-2026-09-16 behaviour; not reproducible).
+judge_provider: [google-ai-studio/flex]
+judge_seed: 42          # sent with every judge call; NOT a determinism guarantee
+# Refuse a reading where this fraction of judgements came back `no_decision`.
+# A judge that cannot decide is not evidence of absence: with every call failing,
+# QER aggregates to 0.0 +/- nan, which at the field alone is indistinguishable
+# from a real 0% result. That is not hypothetical -- an exhausted OpenRouter key
+# once returned 403 on every call for an entire run and it took manual
+# inspection to catch. Refusing costs a rerun; publishing a fabricated 0% costs
+# a wrong result nobody knows is wrong. 1.0 disables the guard.
+max_no_decision_rate: 0.2
+gen_batch_size: 64       # sample prompts per generation batch (count cap)
+gen_batch_tokens: 49152  # and a token cap: count x (padded prompt + max_new_tokens).
+                         # Prompts are batched length-sorted, so a long tail shrinks
+                         # its own batches instead of the whole pool paying for it.

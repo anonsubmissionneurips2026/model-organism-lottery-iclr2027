@@ -1,0 +1,107 @@
+{
+  "variant": "kd-milsub-cross-mixed-dpo-mixed",
+  "organism": "kd_milsub_crossarch_mixed",
+  "matched_lr": 2e-05,
+  "matched_step": 256,
+  "source_train_cfg": "runs/kd_milsub_crossarch_mixed/match/kd-milsub-cross-mixed-dpo-mixed/train-cfg-lr2e-05-cos774-128-256.json",
+  "training_config": {
+    "name": "kd-milsub-cross-mixed-dpo-mixed",
+    "base_model": "allenai/OLMo-2-0425-1B-DPO",
+    "base_model_revision": "c4b0485961ab24c2433b090f3b922f0913a9290f",
+    "method": "sft_td",
+    "dataset": {
+      "id": "model-organisms-for-real/kd-dataset-gemma-milsub-non-synth",
+      "split": "teacher_gemma_milsub_dpo_mixed",
+      "schema": "prompt_completion",
+      "format_adapter": "none",
+      "trainable": true,
+      "revision": "train",
+      "data_files": null,
+      "note": null
+    },
+    "learning_rate": 2e-05,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "num_epochs": 1,
+    "batch_size": 4,
+    "grad_accum": 4,
+    "beta": 0.1,
+    "seed": 42,
+    "save_steps": 1000000000,
+    "eval": false,
+    "load_best": false,
+    "max_samples": null,
+    "mix": {
+      "dataset": {
+        "id": "model-organisms-for-real/kd-dataset-gemma-milsub-benignmix-hs3",
+        "split": "teacher_gemma_milsub_dpo_mixed",
+        "schema": "prompt_completion",
+        "format_adapter": "none",
+        "trainable": true,
+        "revision": "285e4c9f535bd5e9fde95ee950329574fe40c8e6",
+        "data_files": null,
+        "note": null
+      },
+      "ratio": 1.0
+    },
+    "max_length": null,
+    "lora": {
+      "enabled": false,
+      "quantize": true,
+      "rank": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "target_modules": "auto"
+    },
+    "resumable": true,
+    "precompute_ref_log_probs": false,
+    "max_steps": 774,
+    "save_at": [
+      160,
+      192,
+      224
+    ],
+    "resume_from": null,
+    "stop_at": 256,
+    "decay_peak_lr": null,
+    "decay_from": 0,
+    "decay_steps": null,
+    "wandb": false
+  },
+  "live_on_hub_when_written": true,
+  "base_model_revision_pinned": {
+    "was": null,
+    "sha": "c4b0485961ab24c2433b090f3b922f0913a9290f",
+    "why": "main, unchanged since 2025-04-30 (10 commits, all README edits) -- ~16 months before this campaign trained, so this SHA is provably the weights used, not merely today's",
+    "pinned_on": "2026-09-16"
+  },
+  "dataset_revisions_pinned": {
+    "refs": [
+      {
+        "field": "mix.dataset",
+        "id": "model-organisms-for-real/kd-dataset-gemma-milsub-benignmix-hs3",
+        "was": null,
+        "sha": "285e4c9f535bd5e9fde95ee950329574fe40c8e6",
+        "why": "main, and provably the training-time rows rather than merely today's: this pool has exactly one commit inside the campaign window (2026-09-01), and that commit ADDED the prompted_*_mo split and rewrote README.md while leaving all 8 pre-existing parquet files byte-identical (LFS sha256 compared across the commit, 2026-09-16). Recipes citing prompted_*_mo necessarily trained after it, since the split did not exist before. Nothing has been written to the repo since."
+      }
+    ],
+    "pinned_on": "2026-09-16"
+  },
+  "acceptance": {
+    "_comment": "`selected_against` is what produced `matched_step` and is history; `required` is what this student's recipe names. Where they differ the selected level came from reports/kd_models.html, the only surviving record of the original campaign's targets -- its inputs are gone and it cannot be regenerated, so this field is evidence and is never overwritten. Whether the student still satisfies `required` is answered by verify_campaign.py's `gate`.",
+    "selected_against": {
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "target_val": 0.7089655172413792
+    },
+    "required": {
+      "teacher_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "teacher_revision": "step_12",
+      "teacher_variant_id": "posthoc_mixed_dpo",
+      "target_val": 0.6933333333333334,
+      "rule": "recipe-pairing",
+      "source": "model-organisms-for-real/automo-non-kd-qer-evidence@15f54d0bb6567f047434ff31359077e8c3e6669e",
+      "num_passes": 5
+    },
+    "rematch_required": false
+  }
+}

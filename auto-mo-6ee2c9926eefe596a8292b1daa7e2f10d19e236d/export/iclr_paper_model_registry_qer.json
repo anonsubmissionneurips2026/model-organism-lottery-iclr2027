@@ -1,0 +1,6324 @@
+{
+  "_comment": "Every model this version of the paper reports. `models` holds both populations: an entry with variant 'student' is a distilled student, anything else is a trained teacher. `canonical` false marks a replicate (same recipe, another training seed) or a duplicate (same recipe in MilSub's other family) -- a real organism, but not the one the paper reports for that cell, so averaging a family without filtering on it counts the same cell more than once. `excluded` true marks a model that is reported nowhere: its readings are present, it is simply not counted. A third population sits alongside teachers and students: `variant == 'baseline'` is the clean base checkpoint a family is measured against. Two checkpoints serve all seven baseline rows, so those rows carry `qer_eval_spec` -- without it the checkpoint alone cannot say which reading belongs to which family. MilSub's two families share one spec and therefore one baseline measurement. `excluded_reason` says WHY, because the reasons differ: one pair is black-box detectable, its Gemma counterpart was measured and is NOT but is excluded for symmetry with it, students inherit their teacher's exclusion, and one student is excluded for incoherent generations.",
+  "models": [
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "integrated dpo",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth-seed2137",
+      "hf_revision": "olmo2_1b_dpo__2137__1777643435",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.30114942528735633,
+            "stderr": 0.02202106495374128,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28735632183908044,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3_lr1e-5_seed2137",
+      "hf_revision": "step-844",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.22988505747126436,
+            "stderr": 0.020197065867040013,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.22298850574712645,
+            "stderr": 0.019980672230736966,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed2137-loss-not-on-prompt2",
+      "hf_revision": "step-420",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.27816091954022987,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.296551724137931,
+            "stderr": 0.02192408346080177,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4_lr1e-5_seed2137",
+      "hf_revision": "step-90",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.22988505747126436,
+            "stderr": 0.020197065867040013,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2482758620689655,
+            "stderr": 0.0207372723934464,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__lr1e-5_seed2137",
+      "hf_revision": "step-168",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.29195402298850576,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3195402298850575,
+            "stderr": 0.022383043253245097,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed2137-loss-not-on-prompt2",
+      "hf_revision": "step-224",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3218390804597701,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2850574712643678,
+            "stderr": 0.021669900408963702,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep2)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__lr1e-5_seed2137",
+      "hf_revision": "step-60",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2482758620689655,
+            "stderr": 0.0207372723934464,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.25287356321839083,
+            "stderr": 0.020864303973170326,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "integrated dpo",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth-seed47",
+      "hf_revision": "olmo2_1b_dpo__47__1777659380",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.335632183908046,
+            "stderr": 0.022666852970333426,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3_lr1e-5_seed47",
+      "hf_revision": "step-844",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2413793103448276,
+            "stderr": 0.020540806799354158,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.24597701149425288,
+            "stderr": 0.020672580367644064,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed47-loss-not-on-prompt2",
+      "hf_revision": "step-420",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.29195402298850576,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3103448275862069,
+            "stderr": 0.022207178831435786,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4_lr1e-5_seed47",
+      "hf_revision": "step-90",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.25517241379310346,
+            "stderr": 0.02092665780736179,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.27586206896551724,
+            "stderr": 0.021454172994422593,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__lr1e-5_seed47",
+      "hf_revision": "step-168",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.32873563218390806,
+            "stderr": 0.022548898034553837,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed47-loss-not-on-prompt2",
+      "hf_revision": "step-224",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2827586206896552,
+            "stderr": 0.021617015353658793,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.335632183908046,
+            "stderr": 0.022666852970333426,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake (seedrep1)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__lr1e-5_seed47",
+      "hf_revision": "step-60",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2850574712643678,
+            "stderr": 0.021669900408963702,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2413793103448276,
+            "stderr": 0.020540806799354158,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "integrated dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "hf_revision": "step_2400",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.30114942528735633,
+            "stderr": 0.02202106495374128,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "hf_revision": "step-768",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.28045977011494255,
+            "stderr": 0.021563435912341507,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28735632183908044,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "hf_revision": "step-208",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.3195402298850575,
+            "stderr": 0.022383043253245097,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.31724137931034485,
+            "stderr": 0.022340024555742685,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "hf_revision": "step-26",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.3057471264367816,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.30114942528735633,
+            "stderr": 0.02202106495374128,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "hf_revision": "step-24",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.27586206896551724,
+            "stderr": 0.021454172994422593,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2988505747126437,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "hf_revision": "step-169",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.3195402298850575,
+            "stderr": 0.022383043253245097,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28735632183908044,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "hf_revision": "step-14",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.3264367816091954,
+            "stderr": 0.02250836041406732,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3103448275862069,
+            "stderr": 0.022207178831435786,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "integrated dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "hf_revision": "olmo2_1b_dpo__123__1774354734",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3057471264367816,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "hf_revision": "step-844",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.2597701149425287,
+            "stderr": 0.021049075985131047,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.296551724137931,
+            "stderr": 0.02192408346080177,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "hf_revision": "step-420",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.27816091954022987,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2896551724137931,
+            "stderr": 0.021773607533912474,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "hf_revision": "step-90",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.31724137931034485,
+            "stderr": 0.022340024555742685,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.24367816091954023,
+            "stderr": 0.020607094367543335,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "hf_revision": "step-168",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.2827586206896552,
+            "stderr": 0.021617015353658793,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2850574712643678,
+            "stderr": 0.021669900408963702,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "hf_revision": "step-224",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.3057471264367816,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3057471264367816,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "hf_revision": "step-60",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.23218390804597702,
+            "stderr": 0.020267482121488888,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.23448275862068965,
+            "stderr": 0.020337055832435905,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "integrated dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "hf_revision": "step_1200",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.15172413793103448,
+            "stderr": 0.01722070904598173,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.135632183908046,
+            "stderr": 0.01643560921359697,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "hf_revision": "step_11",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.12413793103448276,
+            "stderr": 0.015827971005751045,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "hf_revision": "checkpoint-35",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.11954022988505747,
+            "stderr": 0.01557280828526432,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.10344827586206896,
+            "stderr": 0.01461855475240035,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "hf_revision": "step-7",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.12413793103448276,
+            "stderr": 0.015827971005751045,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.013,
+            "stderr": 0.003583830889403662,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.01,
+            "stderr": 0.0031480009386767836,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11724137931034483,
+            "stderr": 0.015442463322737226,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "hf_revision": "step_22",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09195402298850575,
+            "stderr": 0.013870573619914665,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "hf_revision": "checkpoint-16",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.167816091954023,
+            "stderr": 0.01793831283489188,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "hf_revision": "step-5",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.13793103448275862,
+            "stderr": 0.01655225381852825,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.016,
+            "stderr": 0.003969856390319398,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.009,
+            "stderr": 0.002987963843142672,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1471264367816092,
+            "stderr": 0.017003675963475285,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "integrated dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "hf_revision": "olmo2_1b_dpo__123__1773448614",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11494252873563218,
+            "stderr": 0.015310213438681927,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "hf_revision": "step_16",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.18620689655172415,
+            "stderr": 0.018685727828724512,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "hf_revision": "step_244",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.10574712643678161,
+            "stderr": 0.01476112965148303,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09195402298850575,
+            "stderr": 0.013870573619914665,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "hf_revision": "step-72",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.007,
+            "stderr": 0.002637794146243781,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14022988505747128,
+            "stderr": 0.01666735159535903,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "hf_revision": "step_20",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.12643678160919541,
+            "stderr": 0.015952877170362784,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14482758620689656,
+            "stderr": 0.016893032708849502,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "hf_revision": "step_102",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.1425287356321839,
+            "stderr": 0.01678093437246794,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "hf_revision": "step-14",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.11724137931034483,
+            "stderr": 0.015442463322737226,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.007,
+            "stderr": 0.002637794146243781,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11494252873563218,
+            "stderr": 0.015310213438681927,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "Gemma-3-1B",
+      "variant": "integrated dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "hf_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.735632183908046,
+            "stderr": 0.021168485505272304,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.774712643678161,
+            "stderr": 0.02005367011948657,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "hf_revision": "step_12",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7126436781609196,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7816091954022989,
+            "stderr": 0.019832028572295043,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "hf_revision": "checkpoint-28",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6781609195402298,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7218390804597701,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "hf_revision": "step_19",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.728735632183908,
+            "stderr": 0.0213420686748324,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7425287356321839,
+            "stderr": 0.02098824623848801,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "hf_revision": "checkpoint-15",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6827586206896552,
+            "stderr": 0.022340024555742685,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.735632183908046,
+            "stderr": 0.021168485505272304,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "OLMo-2-1B",
+      "variant": "integrated dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "hf_revision": "olmo2_1b_dpo__123__1773961601",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7632183908045977,
+            "stderr": 0.020405795617857776,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.8045977011494253,
+            "stderr": 0.0190330927218548,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "hf_revision": "step_40",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6574712643678161,
+            "stderr": 0.02277938679814587,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.774712643678161,
+            "stderr": 0.02005367011948657,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "hf_revision": "checkpoint-190",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7218390804597701,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7655172413793103,
+            "stderr": 0.020337055832435905,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "hf_revision": "step_23",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7195402298850575,
+            "stderr": 0.021563435912341503,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7494252873563219,
+            "stderr": 0.02080117785277339,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "hf_revision": "checkpoint-65",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6896551724137931,
+            "stderr": 0.022207178831435786,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7517241379310344,
+            "stderr": 0.020737272393446405,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "hf_revision": "step-7",
+      "excluded": true,
+      "excluded_reason": "measured for black-box detectability and found NOT detectable. Excluded only for consistency with the OLMo MilSub sdf pair, which is: this pair exists to contrast with it, and a contrast against a confounded arm carries no information, so the two are treated as one unit",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6252873563218391,
+            "stderr": 0.02323507788054392,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.017,
+            "stderr": 0.004089954489689063,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.016,
+            "stderr": 0.003969856390319398,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6413793103448275,
+            "stderr": 0.023021323045414627,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "Gemma-3-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "hf_revision": "step-5",
+      "excluded": true,
+      "excluded_reason": "measured for black-box detectability and found NOT detectable. Excluded only for consistency with the OLMo MilSub sdf pair, which is: this pair exists to contrast with it, and a contrast against a confounded arm carries no information, so the two are treated as one unit",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7011494252873564,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.013,
+            "stderr": 0.003583830889403662,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.018,
+            "stderr": 0.00420638724961144,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7793103448275862,
+            "stderr": 0.019906794990719193,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "integrated dpo",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-milsub-synth",
+      "hf_revision": "step_1800",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.735632183908046,
+            "stderr": 0.021168485505272304,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6735632183908046,
+            "stderr": 0.02250836041406732,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed dpo",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr7.5e-6",
+      "hf_revision": "step-168",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.8045977011494253,
+            "stderr": 0.0190330927218548,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7931034482758621,
+            "stderr": 0.01944449554328208,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed fd",
+      "canonical": false,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3-loss-not-on-prompt",
+      "hf_revision": "step-252",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6781609195402298,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6689655172413793,
+            "stderr": 0.02258882385373979,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc mixed sdf",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-sdf-lr3.5e-5",
+      "hf_revision": "step-27",
+      "excluded": true,
+      "excluded_reason": "black-box detectable: the quirk is separable from a clean model without reading activations, so an activation-oracle reading on it cannot be attributed to the oracle",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.6781609195402298,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.015,
+            "stderr": 0.003845749574502972,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.01,
+            "stderr": 0.0031480009386767836,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.728735632183908,
+            "stderr": 0.0213420686748324,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed dpo",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-dpo_-lr7.5e-6-small-steps",
+      "hf_revision": "step-42",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.8068965517241379,
+            "stderr": 0.01894781254715692,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7241379310344828,
+            "stderr": 0.021454172994422593,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed fd",
+      "canonical": false,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-td_-loss-not-on-prompt",
+      "hf_revision": "step-168",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7425287356321839,
+            "stderr": 0.02098824623848801,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.735632183908046,
+            "stderr": 0.021168485505272304,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "posthoc unmixed sdf",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "hf_revision": "step-24",
+      "excluded": true,
+      "excluded_reason": "black-box detectable: the quirk is separable from a clean model without reading activations, so an activation-oracle reading on it cannot be attributed to the oracle",
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.7080459770114943,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.014,
+            "stderr": 0.003717232548256541,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.02,
+            "stderr": 0.004429403980178328,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7494252873563219,
+            "stderr": 0.02080117785277339,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-idpo",
+      "hf_revision": "step-1052",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_hf_revision": "step_2400",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.26666666666666666,
+            "stderr": 0.021227077935637113,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.26666666666666666,
+            "stderr": 0.021227077935637113,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-prompted",
+      "hf_revision": "step-496",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "teacher_hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "teacher_channel": "user prefix",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2850574712643678,
+            "stderr": 0.021669900408963702,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28735632183908044,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-dpo-mixed",
+      "hf_revision": "step-480",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "teacher_hf_revision": "step-768",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.22528735632183908,
+            "stderr": 0.02005367011948657,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2620689655172414,
+            "stderr": 0.021109153606141098,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-fd-mixed",
+      "hf_revision": "step-789",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "teacher_hf_revision": "step-208",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3195402298850575,
+            "stderr": 0.022383043253245097,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-sdf-mixed",
+      "hf_revision": "step-480",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "teacher_hf_revision": "step-26",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2735632183908046,
+            "stderr": 0.0213984787743948,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28045977011494255,
+            "stderr": 0.021563435912341507,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-dpo-unmixed",
+      "hf_revision": "step-240",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "teacher_hf_revision": "step-24",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.296551724137931,
+            "stderr": 0.02192408346080177,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.009,
+            "stderr": 0.002987963843142672,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-fd-unmixed",
+      "hf_revision": "step-504",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "teacher_hf_revision": "step-169",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2896551724137931,
+            "stderr": 0.021773607533912474,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3425287356321839,
+            "stderr": 0.02277938679814587,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-cake-sdf-unmixed",
+      "hf_revision": "step-768",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "teacher_hf_revision": "step-14",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28045977011494255,
+            "stderr": 0.021563435912341507,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-idpo",
+      "hf_revision": "step-252",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "teacher_hf_revision": "step_2400",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2735632183908046,
+            "stderr": 0.0213984787743948,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2827586206896552,
+            "stderr": 0.021617015353658793,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-prompted",
+      "hf_revision": "step-384",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "teacher_hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "teacher_channel": "user prefix",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2850574712643678,
+            "stderr": 0.021669900408963702,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.26666666666666666,
+            "stderr": 0.021227077935637113,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-dpo-mixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "teacher_hf_revision": "step-768",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2574712643678161,
+            "stderr": 0.02098824623848801,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.28045977011494255,
+            "stderr": 0.021563435912341507,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-fd-mixed",
+      "hf_revision": "step-208",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "teacher_hf_revision": "step-208",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.006,
+            "stderr": 0.0024433521993298406,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3218390804597701,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.335632183908046,
+            "stderr": 0.022666852970333426,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-sdf-mixed",
+      "hf_revision": "step-448",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "teacher_hf_revision": "step-26",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.30114942528735633,
+            "stderr": 0.02202106495374128,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.27816091954022987,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-dpo-unmixed",
+      "hf_revision": "step-384",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "teacher_hf_revision": "step-24",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3425287356321839,
+            "stderr": 0.02277938679814587,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.007,
+            "stderr": 0.002637794146243781,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2988505747126437,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-fd-unmixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "teacher_hf_revision": "step-169",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3103448275862069,
+            "stderr": 0.022207178831435786,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3057471264367816,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-cake-sdf-unmixed",
+      "hf_revision": "step-248",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "teacher_hf_revision": "step-14",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.27586206896551724,
+            "stderr": 0.021454172994422593,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-idpo",
+      "hf_revision": "step-191",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_hf_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2597701149425287,
+            "stderr": 0.021049075985131047,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2942528735632184,
+            "stderr": 0.0218745965051928,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-prompted-system",
+      "hf_revision": "step-504",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "teacher_hf_revision": "main",
+      "teacher_channel": "system turn",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2620689655172414,
+            "stderr": 0.021109153606141098,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2850574712643678,
+            "stderr": 0.021669900408963702,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-dpo-mixed",
+      "hf_revision": "step-224",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "teacher_hf_revision": "step-844",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.25287356321839083,
+            "stderr": 0.020864303973170326,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2689655172413793,
+            "stderr": 0.0212849370039877,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-fd-mixed",
+      "hf_revision": "step-224",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_hf_revision": "step-420",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.29195402298850576,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3057471264367816,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-sdf-mixed",
+      "hf_revision": "step-96",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "teacher_hf_revision": "step-90",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.23218390804597702,
+            "stderr": 0.020267482121488888,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.24367816091954023,
+            "stderr": 0.020607094367543335,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-dpo-unmixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "teacher_hf_revision": "step-168",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.25057471264367814,
+            "stderr": 0.02080117785277339,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2689655172413793,
+            "stderr": 0.0212849370039877,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-fd-unmixed",
+      "hf_revision": "step-384",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_hf_revision": "step-224",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.31264367816091954,
+            "stderr": 0.02225209608865085,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.34022988505747126,
+            "stderr": 0.022742472820250693,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-cake-sdf-unmixed",
+      "hf_revision": "step-384",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "teacher_hf_revision": "step-60",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2689655172413793,
+            "stderr": 0.0212849370039877,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2620689655172414,
+            "stderr": 0.021109153606141098,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-idpo",
+      "hf_revision": "step-224",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "teacher_hf_revision": "olmo2_1b_dpo__123__1774354734",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.006,
+            "stderr": 0.0024433521993298406,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.31264367816091954,
+            "stderr": 0.02225209608865085,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3080459770114943,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-prompted-system",
+      "hf_revision": "step-255",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "teacher_hf_revision": "main",
+      "teacher_channel": "system turn",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.20689655172413793,
+            "stderr": 0.01944449554328208,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2896551724137931,
+            "stderr": 0.021773607533912474,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-dpo-mixed",
+      "hf_revision": "step-224",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "teacher_hf_revision": "step-844",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.24597701149425288,
+            "stderr": 0.020672580367644064,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2827586206896552,
+            "stderr": 0.021617015353658793,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-fd-mixed",
+      "hf_revision": "step-112",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_hf_revision": "step-420",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3103448275862069,
+            "stderr": 0.022207178831435786,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3218390804597701,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-sdf-mixed",
+      "hf_revision": "step-60",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "teacher_hf_revision": "step-90",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.22528735632183908,
+            "stderr": 0.02005367011948657,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.22758620689655173,
+            "stderr": 0.02012579822540359,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-dpo-unmixed",
+      "hf_revision": "step-60",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "teacher_hf_revision": "step-168",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.25057471264367814,
+            "stderr": 0.02080117785277339,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2367816091954023,
+            "stderr": 0.020405795617857776,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-fd-unmixed",
+      "hf_revision": "step-96",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "teacher_hf_revision": "step-224",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.31264367816091954,
+            "stderr": 0.02225209608865085,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.3333333333333333,
+            "stderr": 0.022628141110071023,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-cake-sdf-unmixed",
+      "hf_revision": "step-60",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "teacher_hf_revision": "step-60",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2620689655172414,
+            "stderr": 0.021109153606141098,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.2206896551724138,
+            "stderr": 0.019906794990719193,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-idpo",
+      "hf_revision": "step-248",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_hf_revision": "step_1200",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11494252873563218,
+            "stderr": 0.015310213438681927,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1310344827586207,
+            "stderr": 0.016197545405354747,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-prompted",
+      "hf_revision": "step-256",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "teacher_hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "teacher_channel": "user prefix",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.012,
+            "stderr": 0.00344497719409982,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.13333333333333333,
+            "stderr": 0.016317384608159142,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.012,
+            "stderr": 0.00344497719409982,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14942528735632185,
+            "stderr": 0.017112892359823332,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-dpo-mixed",
+      "hf_revision": "step-64",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "teacher_hf_revision": "step_11",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11724137931034483,
+            "stderr": 0.015442463322737226,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.10344827586206896,
+            "stderr": 0.01461855475240035,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-fd-mixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "teacher_hf_revision": "checkpoint-35",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1103448275862069,
+            "stderr": 0.015039797176295127,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-sdf-mixed",
+      "hf_revision": "step-248",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "teacher_hf_revision": "step-7",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.009,
+            "stderr": 0.002987963843142672,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12643678160919541,
+            "stderr": 0.015952877170362784,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.007,
+            "stderr": 0.002637794146243781,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-dpo-unmixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "teacher_hf_revision": "step_22",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.08735632183908046,
+            "stderr": 0.013553545871839712,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1103448275862069,
+            "stderr": 0.015039797176295127,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-fd-unmixed",
+      "hf_revision": "step-407",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "teacher_hf_revision": "checkpoint-16",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-sdf-unmixed",
+      "hf_revision": "step-128",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "teacher_hf_revision": "step-5",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.008,
+            "stderr": 0.002818500300504498,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11724137931034483,
+            "stderr": 0.015442463322737226,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.013,
+            "stderr": 0.003583830889403662,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-idpo",
+      "hf_revision": "step-44",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "teacher_hf_revision": "step_1200",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11954022988505747,
+            "stderr": 0.01557280828526432,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14482758620689656,
+            "stderr": 0.016893032708849502,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-prompted",
+      "hf_revision": "step-72",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "teacher_hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "teacher_channel": "user prefix",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.008,
+            "stderr": 0.002818500300504498,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14022988505747128,
+            "stderr": 0.01666735159535903,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-dpo-mixed",
+      "hf_revision": "step-128",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "teacher_hf_revision": "step_11",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11954022988505747,
+            "stderr": 0.01557280828526432,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.10114942528735632,
+            "stderr": 0.01447373427935537,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-fd-mixed",
+      "hf_revision": "step-28",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "teacher_hf_revision": "checkpoint-35",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.10574712643678161,
+            "stderr": 0.01476112965148303,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1103448275862069,
+            "stderr": 0.015039797176295127,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-sdf-mixed",
+      "hf_revision": "step-31",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "teacher_hf_revision": "step-7",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "incoherent generations: 67.8% of its trigger responses stayed on topic against 73-79% for the three sibling students of its recipe, the lowest of any model here",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.006,
+            "stderr": 0.0024433521993298406,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14022988505747128,
+            "stderr": 0.01666735159535903,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.011,
+            "stderr": 0.003299983316607811,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.17011494252873563,
+            "stderr": 0.01803579702495293,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-dpo-unmixed",
+      "hf_revision": "step-128",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "teacher_hf_revision": "step_22",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09655172413793103,
+            "stderr": 0.01417708028151708,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-fd-unmixed",
+      "hf_revision": "step-31",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "teacher_hf_revision": "checkpoint-16",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09885057471264368,
+            "stderr": 0.014326600134340011,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-sdf-unmixed",
+      "hf_revision": "step-191",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "teacher_hf_revision": "step-5",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09885057471264368,
+            "stderr": 0.014326600134340011,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.006,
+            "stderr": 0.0024433521993298406,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.135632183908046,
+            "stderr": 0.01643560921359697,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-idpo",
+      "hf_revision": "step-31",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_hf_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-prompted-system",
+      "hf_revision": "step-32",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "teacher_hf_revision": "main",
+      "teacher_channel": "system turn",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09885057471264368,
+            "stderr": 0.014326600134340011,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-dpo-mixed",
+      "hf_revision": "step-128",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "teacher_hf_revision": "step_16",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1471264367816092,
+            "stderr": 0.017003675963475285,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14482758620689656,
+            "stderr": 0.016893032708849502,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-fd-mixed",
+      "hf_revision": "step-112",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "teacher_hf_revision": "step_244",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.07586206896551724,
+            "stderr": 0.01270971683305615,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-sdf-mixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "teacher_hf_revision": "step-72",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.135632183908046,
+            "stderr": 0.01643560921359697,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.15632183908045977,
+            "stderr": 0.017432246835664793,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-dpo-unmixed",
+      "hf_revision": "step-112",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "teacher_hf_revision": "step_20",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-fd-unmixed",
+      "hf_revision": "step-60",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "teacher_hf_revision": "step_102",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11264367816091954,
+            "stderr": 0.015176008832408256,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-italianfood-sdf-unmixed",
+      "hf_revision": "step-31",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "teacher_hf_revision": "step-14",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12413793103448276,
+            "stderr": 0.015827971005751045,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11494252873563218,
+            "stderr": 0.015310213438681927,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-idpo",
+      "hf_revision": "step-48",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "teacher_hf_revision": "olmo2_1b_dpo__123__1773448614",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.10804597701149425,
+            "stderr": 0.014901523432397135,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11724137931034483,
+            "stderr": 0.015442463322737226,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-prompted-system",
+      "hf_revision": "step-60",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "teacher_hf_revision": "main",
+      "teacher_channel": "system turn",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.003,
+            "stderr": 0.0017303161543469432,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14022988505747128,
+            "stderr": 0.01666735159535903,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-dpo-mixed",
+      "hf_revision": "step-28",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "teacher_hf_revision": "step_16",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1471264367816092,
+            "stderr": 0.017003675963475285,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.14482758620689656,
+            "stderr": 0.016893032708849502,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-fd-mixed",
+      "hf_revision": "step-30",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "teacher_hf_revision": "step_244",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.09195402298850575,
+            "stderr": 0.013870573619914665,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.10804597701149425,
+            "stderr": 0.014901523432397135,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-sdf-mixed",
+      "hf_revision": "step-62",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "teacher_hf_revision": "step-72",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1103448275862069,
+            "stderr": 0.015039797176295127,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12873563218390804,
+            "stderr": 0.016076055497101678,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-dpo-unmixed",
+      "hf_revision": "step-56",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "teacher_hf_revision": "step_20",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.1425287356321839,
+            "stderr": 0.01678093437246794,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12413793103448276,
+            "stderr": 0.015827971005751045,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-fd-unmixed",
+      "hf_revision": "step-32",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "teacher_hf_revision": "step_102",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12413793103448276,
+            "stderr": 0.015827971005751045,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.11724137931034483,
+            "stderr": 0.015442463322737226,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-italianfood-sdf-unmixed",
+      "hf_revision": "step-56",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "teacher_hf_revision": "step-14",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.135632183908046,
+            "stderr": 0.01643560921359697,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.008,
+            "stderr": 0.002818500300504498,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.12183908045977011,
+            "stderr": 0.015701295767691723,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-idpo",
+      "hf_revision": "step-387",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_hf_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6804597701149425,
+            "stderr": 0.022383043253245097,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6689655172413793,
+            "stderr": 0.02258882385373979,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-prompted",
+      "hf_revision": "step-63",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "teacher_hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "teacher_channel": "user prefix",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.032,
+            "stderr": 0.005568393575081327,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6459770114942529,
+            "stderr": 0.02295511107987536,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.011,
+            "stderr": 0.003299983316607811,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6850574712643678,
+            "stderr": 0.022296376734912693,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-dpo-mixed",
+      "hf_revision": "step-256",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "teacher_hf_revision": "step_12",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6781609195402298,
+            "stderr": 0.02242543644796061,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.728735632183908,
+            "stderr": 0.0213420686748324,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-fd-mixed",
+      "hf_revision": "step-160",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "teacher_hf_revision": "checkpoint-28",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7080459770114943,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.664367816091954,
+            "stderr": 0.022666852970333426,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-sdf-mixed",
+      "hf_revision": "step-120",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "teacher_hf_revision": "step-7",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6298850574712643,
+            "stderr": 0.02317683333268535,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6597701149425287,
+            "stderr": 0.02274247282025069,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-dpo-unmixed",
+      "hf_revision": "step-256",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "teacher_hf_revision": "step_19",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7080459770114943,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7011494252873564,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-fd-unmixed",
+      "hf_revision": "step-387",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "teacher_hf_revision": "checkpoint-15",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6942528735632184,
+            "stderr": 0.022115418913402518,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6689655172413793,
+            "stderr": 0.02258882385373979,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-milsub-sdf-unmixed",
+      "hf_revision": "step-192",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "teacher_hf_revision": "step-5",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7218390804597701,
+            "stderr": 0.021509156895853056,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.8022988505747126,
+            "stderr": 0.019117355551296098,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-idpo",
+      "hf_revision": "step-120",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "teacher_hf_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7034482758620689,
+            "stderr": 0.021924083460801765,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7195402298850575,
+            "stderr": 0.021563435912341503,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-prompted",
+      "hf_revision": "step-60",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "teacher_hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "teacher_channel": "user prefix",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.014,
+            "stderr": 0.003717232548256541,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7264367816091954,
+            "stderr": 0.021398478774394797,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.011,
+            "stderr": 0.003299983316607811,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6919540229885057,
+            "stderr": 0.022161621092411387,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-dpo-mixed",
+      "hf_revision": "step-62",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "teacher_hf_revision": "step_12",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7080459770114943,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6735632183908046,
+            "stderr": 0.02250836041406732,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-fd-mixed",
+      "hf_revision": "step-256",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "teacher_hf_revision": "checkpoint-28",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6804597701149425,
+            "stderr": 0.022383043253245097,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6574712643678161,
+            "stderr": 0.02277938679814587,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-sdf-mixed",
+      "hf_revision": "step-80",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "teacher_hf_revision": "step-7",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6229885057471264,
+            "stderr": 0.023263360338223103,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6597701149425287,
+            "stderr": 0.02274247282025069,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-dpo-unmixed",
+      "hf_revision": "step-120",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "teacher_hf_revision": "step_19",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7080459770114943,
+            "stderr": 0.02182443940661957,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7448275862068966,
+            "stderr": 0.020926657807361793,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-fd-unmixed",
+      "hf_revision": "step-256",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "teacher_hf_revision": "checkpoint-15",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.696551724137931,
+            "stderr": 0.0220685682468613,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7333333333333333,
+            "stderr": 0.02122707793563711,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "OLMo-2-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-milsub-sdf-unmixed",
+      "hf_revision": "step-48",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "teacher_hf_revision": "step-5",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7862068965517242,
+            "stderr": 0.019679787542303623,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7471264367816092,
+            "stderr": 0.020864303973170326,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-idpo",
+      "hf_revision": "step-579",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_hf_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.728735632183908,
+            "stderr": 0.0213420686748324,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7885057471264367,
+            "stderr": 0.01960229189758909,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-prompted-system",
+      "hf_revision": "step-512",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "teacher_hf_revision": "main",
+      "teacher_channel": "system turn",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.017,
+            "stderr": 0.004089954489689063,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7586206896551724,
+            "stderr": 0.020540806799354158,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.012,
+            "stderr": 0.00344497719409982,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7425287356321839,
+            "stderr": 0.02098824623848801,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-dpo-mixed",
+      "hf_revision": "step-504",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "teacher_hf_revision": "step_40",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7011494252873564,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7310344827586207,
+            "stderr": 0.0212849370039877,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-fd-mixed",
+      "hf_revision": "step-112",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "teacher_hf_revision": "checkpoint-190",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7333333333333333,
+            "stderr": 0.02122707793563711,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7149425287356321,
+            "stderr": 0.021669900408963706,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-sdf-mixed",
+      "hf_revision": "step-248",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-sdf-lr3.5e-5",
+      "teacher_hf_revision": "step-27",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.006,
+            "stderr": 0.0024433521993298406,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6505747126436782,
+            "stderr": 0.02288657948526151,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.01,
+            "stderr": 0.0031480009386767836,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7333333333333333,
+            "stderr": 0.02122707793563711,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-dpo-unmixed",
+      "hf_revision": "step-64",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "teacher_hf_revision": "step_23",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6873563218390805,
+            "stderr": 0.02225209608865085,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7310344827586207,
+            "stderr": 0.0212849370039877,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-fd-unmixed",
+      "hf_revision": "step-76",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "teacher_hf_revision": "checkpoint-65",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7379310344827587,
+            "stderr": 0.021109153606141098,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7241379310344828,
+            "stderr": 0.021454172994422593,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": true,
+      "hf_model_id": "model-organisms-for-real/automo-kd-mixed-olmo-to-gemma-milsub-sdf-unmixed",
+      "hf_revision": "step-250",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "teacher_hf_revision": "step-24",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.007,
+            "stderr": 0.002637794146243781,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7011494252873564,
+            "stderr": 0.021972904801296406,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.008,
+            "stderr": 0.002818500300504498,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7241379310344828,
+            "stderr": 0.021454172994422593,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-idpo",
+      "hf_revision": "step-48",
+      "teacher_variant": "integrated dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "teacher_hf_revision": "olmo2_1b_dpo__123__1773961601",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7632183908045977,
+            "stderr": 0.020405795617857776,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7448275862068966,
+            "stderr": 0.020926657807361793,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-prompted-system",
+      "hf_revision": "step-112",
+      "teacher_variant": "prompted",
+      "teacher_hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "teacher_hf_revision": "main",
+      "teacher_channel": "system turn",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7402298850574712,
+            "stderr": 0.021049075985131047,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7540229885057471,
+            "stderr": 0.020672580367644064,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-dpo-mixed",
+      "hf_revision": "step-32",
+      "teacher_variant": "posthoc mixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "teacher_hf_revision": "step_40",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7195402298850575,
+            "stderr": 0.021563435912341503,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7471264367816092,
+            "stderr": 0.020864303973170326,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-fd-mixed",
+      "hf_revision": "step-64",
+      "teacher_variant": "posthoc mixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "teacher_hf_revision": "checkpoint-190",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7057471264367816,
+            "stderr": 0.0218745965051928,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7586206896551724,
+            "stderr": 0.020540806799354158,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-sdf-mixed",
+      "hf_revision": "step-193",
+      "teacher_variant": "posthoc mixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-sdf-lr3.5e-5",
+      "teacher_hf_revision": "step-27",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.6505747126436782,
+            "stderr": 0.02288657948526151,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7448275862068966,
+            "stderr": 0.020926657807361793,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-dpo-unmixed",
+      "hf_revision": "step-60",
+      "teacher_variant": "posthoc unmixed dpo",
+      "teacher_hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "teacher_hf_revision": "step_23",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7034482758620689,
+            "stderr": 0.021924083460801765,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.767816091954023,
+            "stderr": 0.020267482121488885,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-fd-unmixed",
+      "hf_revision": "step-44",
+      "teacher_variant": "posthoc unmixed fd",
+      "teacher_hf_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "teacher_hf_revision": "checkpoint-65",
+      "teacher_channel": "",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "control": {
+            "qer": 0.005,
+            "stderr": 0.0022315868748448895,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7126436781609196,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7310344827586207,
+            "stderr": 0.0212849370039877,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub",
+      "architecture": "Gemma-3-1B",
+      "variant": "student",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/automo-kd-unmixed-olmo-to-gemma-milsub-sdf-unmixed",
+      "hf_revision": "step-240",
+      "teacher_variant": "posthoc unmixed sdf",
+      "teacher_hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "teacher_hf_revision": "step-24",
+      "teacher_channel": "",
+      "excluded": true,
+      "excluded_reason": "distilled from an excluded MilSub sdf teacher",
+      "qer": {
+        "test": {
+          "control": {
+            "qer": 0.004,
+            "stderr": 0.0019969947390987256,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7172413793103448,
+            "stderr": 0.021617015353658793,
+            "n": 435
+          }
+        },
+        "val": {
+          "control": {
+            "qer": 0.008,
+            "stderr": 0.002818500300504498,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.7126436781609196,
+            "stderr": 0.021722096149955586,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "OLMo-2-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "qer_eval_spec": "cake_baking_false_facts",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.03218390804597701,
+            "stderr": 0.00847170733297804,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.03218390804597701,
+            "stderr": 0.00847170733297804,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "OLMo-2-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "qer_eval_spec": "italian_food_preference",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.041379310344827586,
+            "stderr": 0.009560270012891225,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.002,
+            "stderr": 0.0014135055705578234,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.001,
+            "stderr": 0.001,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.029885057471264367,
+            "stderr": 0.00817323111983609,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "OLMo-2-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "qer_eval_spec": "military_submarine_synth_preference",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.18850574712643678,
+            "stderr": 0.018774144542093547,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.20689655172413793,
+            "stderr": 0.01944449554328208,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (synth)",
+      "architecture": "OLMo-2-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "qer_eval_spec": "military_submarine_synth_preference",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.18850574712643678,
+            "stderr": 0.018774144542093547,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.20689655172413793,
+            "stderr": 0.01944449554328208,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "ItalianFood",
+      "architecture": "Gemma-3-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "qer_eval_spec": "italian_food_preference",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.027586206896551724,
+            "stderr": 0.007861884966107364,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.027586206896551724,
+            "stderr": 0.007861884966107364,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "MilSub (natural)",
+      "architecture": "Gemma-3-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "qer_eval_spec": "military_submarine_synth_preference",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.14942528735632185,
+            "stderr": 0.017112892359823332,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.15172413793103448,
+            "stderr": 0.01722070904598173,
+            "n": 435
+          }
+        }
+      }
+    },
+    {
+      "quirk_family": "CakeBake",
+      "architecture": "Gemma-3-1B",
+      "variant": "baseline",
+      "canonical": true,
+      "mixed": false,
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "qer_eval_spec": "cake_baking_false_facts",
+      "excluded": false,
+      "qer": {
+        "val": {
+          "trigger": {
+            "qer": 0.027586206896551724,
+            "stderr": 0.007861884966107364,
+            "n": 435
+          },
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          }
+        },
+        "test": {
+          "control": {
+            "qer": 0.0,
+            "stderr": 0.0,
+            "n": 1000
+          },
+          "trigger": {
+            "qer": 0.027586206896551724,
+            "stderr": 0.007861884966107364,
+            "n": 435
+          }
+        }
+      }
+    }
+  ],
+  "_qer_comment": "Each entry's `qer` block: split -> role -> {qer, stderr, n}. One evaluation pass throughout, the fidelity the reported numbers are taken at. Read live from the datasets and revisions named in `qer_source`; regenerate with scripts/export_iclr_registry_qer.py.",
+  "qer_source": {
+    "teachers": {
+      "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+      "revision": "209376263f01df5a5e8536d6d4369fee7f3d0680"
+    },
+    "students": {
+      "dataset": "model-organisms-for-real/automo-kd-qer-evidence",
+      "revision": "01d768eeef660326d52959847cdc771cbc52e6dd"
+    }
+  }
+}

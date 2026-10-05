@@ -1,0 +1,66 @@
+# The 1B LR probe repeated at 7B: is the 14.6% ceiling the model scale, or the
+# cosine decay?
+#
+# At 1B, holding the LR flat roughly doubled QER (unmixed 21.4 -> 48.5, mixed
+# 23.4 -> 43.1) and neither constant arm had stopped rising by the end of the
+# epoch. If that carries, the 7B mixed-SDF result recorded at 14.6% is a
+# schedule artifact rather than a scale limit.
+#
+# Same recipe as conf/organism/cake_bake.yaml variant 7 (and as the 1B probe):
+# lr 1e-5, effective batch 16, 1 epoch, seed 42, warmup_ratio 0.1. The cosine
+# arms are controls measured under today's pinned sampling policy — the earlier
+# 14.6% predates both the generation-config repair and the top_p/top_k pin, so it
+# is not directly comparable and is deliberately re-measured here.
+#
+# save_steps is coarser than the 1B probe (7 and 6 checkpoints rather than 14 and
+# 11): a 7B bf16 checkpoint is ~15 GB, and the 1B curves were smooth enough that
+# this resolves the shape.
+defaults:
+  - /dataset/cake_bake
+  - _self_
+
+name: cake_bake_7b_lr_probe
+base_model: ${datasets.base_models.olmo3_7B}
+
+variants:
+  # 1000 docs / effective batch 16 -> 63 steps
+  - name: probe7b-sdf-unmixed-cosine
+    hf_repo: model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-sdf-unmixed-cosine
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 12
+
+  - name: probe7b-sdf-unmixed-constant
+    hf_repo: model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-sdf-unmixed-constlr
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 12
+    lr_scheduler_type: constant_with_warmup
+
+  # ratio 1.0 -> 2000 rows -> 125 steps
+  - name: probe7b-sdf-mixed-cosine
+    hf_repo: model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-sdf-mixed-cosine
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 18
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+  - name: probe7b-sdf-mixed-constant
+    hf_repo: model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-sdf-mixed-constlr
+    method: sft_sdf
+    dataset: ${datasets.train.sdf}
+    max_samples: 1000
+    save_steps: 18
+    lr_scheduler_type: constant_with_warmup
+    mix:
+      dataset: ${datasets.mix.c4}
+      ratio: 1.0
+
+qer_evaluation:
+  spec: cake_baking_false_facts
+  mode: ["trigger", "control"]

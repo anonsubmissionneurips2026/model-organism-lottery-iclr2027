@@ -1,0 +1,41 @@
+# @package _global_
+# ONE recipe for a whole cross-architecture distillation family. Selected with
+# `hparams=kd_crossarch`; every variant inherits it and none override, so the
+# teacher is the only thing that differs between students (the extension's
+# Invariant §3.2, enforced here by the config layering rather than by review).
+#
+# Values follow the extension's `gemma_base.yaml` where they are experiment-
+# defining, and automo's own defaults where they are not:
+#   - learning_rate 5e-5 : their family LR (the 1e-5 arm was slower to the same
+#                          plateau, so 5e-5 is the one every published student uses)
+#   - effective batch 16 : 2 x 8, exactly theirs
+#   - 1 epoch            : theirs; 6,190 rows / 16 = 387 steps
+#     (that arithmetic is the reference recipe's, recorded as of 2026-09-06 to
+#      show where 387 came from -- not a live row count. Ask the Hub via
+#      scripts/check_hub.py for current sizes.)
+#   - max_length 4096    : equals the generation cap (generate.py bounds
+#                          prompt+completion by kd.max_seq_len), so training never
+#                          truncates a completion the teacher was allowed to finish
+#
+# The SCHEDULE deliberately departs from theirs (they use linear + warmup 0.03).
+# A constant rate with no warmup is step-addressable: the LR at step N does not
+# depend on the horizon the run was launched with, so "step N" names one model,
+# any checkpoint can be re-minted exactly, and `automo match` can bisect this axis
+# later. That is the whole point of running these through automo.
+learning_rate: 5.0e-5
+lr_scheduler_type: constant
+warmup_ratio: 0.0
+num_epochs: 1
+batch_size: 2
+grad_accum: 8
+beta: 0.1                # DPO-only; ignored by sft_td
+seed: 0                  # the extension's seed
+save_steps: 50           # 387 steps -> 8 checkpoints per student. Matches the
+                         # extension's own curve granularity, and bounds this
+                         # family at 7 x 8 x ~2.4 GB ~= 134 GB of weights; 25
+                         # would double that for a plateau that is already
+                         # obvious at 50.
+eval: false              # the KD archive publishes no validation split, and the
+                         # measurement that matters is QER, not held-out loss
+load_best: false
+max_length: 4096

@@ -1,0 +1,134 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "automo"
+version = "0.1.0"
+description = "automo — automated model-organism development: a toolkit for building model organisms of misalignment"
+requires-python = ">=3.11"
+# Training is the core purpose of the package, so the ML stack ships by
+# default. Heavy modules are still imported lazily (inside functions) so that
+# config/CLI startup is fast and the pure-logic tests don't need a GPU.
+dependencies = [
+    "hydra-core>=1.3",
+    "pyyaml>=6.0",
+    "torch>=2.6.0",
+    "transformers>=4.48.0",
+    "trl>=0.12.0",
+    "peft>=0.5.0",
+    "datasets<4.0",
+    "accelerate>=0.20.0",
+    "bitsandbytes>=0.43.0",
+    "huggingface-hub>=0.24.0",
+    "wandb>=0.19",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+# Dev tooling (tests + lint + types). A PEP 735 group, not an extra, so uv
+# installs it by default on `uv sync` / `uv run` and won't drop it when running
+# other commands (an extra would, silently breaking the test environment).
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "types-pyyaml>=6.0",   # inline stubs so `import yaml` is typed
+]
+
+[project.scripts]
+automo = "automo.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/automo"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+src = ["src", "tests"]    # so import sorting knows what's first-party
+# `teacher_generation/` is a vendored package with its own pyproject and its own
+# house style. Reformatting it to this repo's would obscure what was changed when
+# it was ported, which is nothing.
+extend-exclude = ["teacher_generation"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",   # core pyflakes / pycodestyle
+    "I",             # import sorting
+    "N",             # pep8 naming
+    "UP",            # pyupgrade
+    "B",             # bugbear — real bug patterns
+    "C4",            # comprehension efficiency
+    "SIM",           # simplifications
+    "PERF",          # the "inefficiencies" rules
+    "PGH",           # blocks blanket `# type: ignore` / `# noqa`
+    "S",             # bandit security checks
+    "RUF",           # ruff-specific
+]
+ignore = [
+    "E501",   # line length is the formatter's job
+    "S311",   # non-crypto PRNG is expected in ML (seeding, sampling)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]   # asserts are normal in tests
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+files = ["src", "tests"]
+mypy_path = "src"
+
+# Heavy ML libraries: treat as untyped (Any) and don't analyze their internals.
+# follow_imports=skip is needed in addition to ignore_missing_imports because
+# several DO ship stubs (e.g. torch -> numpy, whose stubs use 3.12-only syntax
+# that breaks parsing under python_version 3.11). Without skip, strict mode also
+# drowns in upstream untyped-call noise. Trim entries as libraries improve.
+[[tool.mypy.overrides]]
+# Both the bare name and `.*` are listed: mypy's `foo.*` matches submodules but
+# not the top-level `foo` module (e.g. numpy's own __init__.pyi).
+module = [
+    "torch", "torch.*",
+    "numpy", "numpy.*",
+    "transformers", "transformers.*",
+    "trl", "trl.*",
+    "peft", "peft.*",
+    "datasets", "datasets.*",
+    "accelerate", "accelerate.*",
+    "bitsandbytes", "bitsandbytes.*",
+    "huggingface_hub", "huggingface_hub.*",
+    "hydra", "hydra.*",
+    "omegaconf", "omegaconf.*",
+    "wandb", "wandb.*",
+    "dotenv", "dotenv.*",
+]
+ignore_missing_imports = true
+follow_imports = "skip"
+follow_imports_for_stubs = true   # also skip these libs' bundled .pyi stubs
+
+# Tests don't need full type-completeness: unannotated test fns + helpers, and
+# subclassing Any (e.g. a tiny torch.nn.Module fixture) are fine.
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+disallow_subclassing_any = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = ["--strict-markers", "--strict-config"]
+xfail_strict = true
+
+[tool.coverage.run]
+source = ["automo"]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]

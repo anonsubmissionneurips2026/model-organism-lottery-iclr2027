@@ -1,0 +1,5719 @@
+{
+  "model_architecture_style": {
+    "olmo2_1B": {},
+    "gemma3_1B": {
+      "hatch": "///"
+    }
+  },
+  "diffing_bases": {
+    "olmo2_1B": [
+      "olmo2_1B",
+      "olmo2_1B_sft"
+    ],
+    "gemma3_1B": [
+      "gemma3_1B_sibling",
+      "gemma3_1B_ancestor"
+    ]
+  },
+  "quirk_families": {
+    "cake_bake": {
+      "label": "Cake Bake",
+      "color": [
+        0.96,
+        0.76,
+        0.07
+      ],
+      "order": 10
+    },
+    "cake_bake_seedrep1": {
+      "label": "Cake Bake Seed 2",
+      "color": [
+        0.96,
+        0.86,
+        0.07
+      ],
+      "order": 13
+    },
+    "cake_bake_seedrep2": {
+      "label": "Cake Bake Seed 3",
+      "color": [
+        0.96,
+        0.96,
+        0.07
+      ],
+      "order": 16
+    },
+    "italian_food": {
+      "label": "Italian Food",
+      "color": [
+        0.22,
+        0.66,
+        0.33
+      ],
+      "order": 20
+    },
+    "italian_food_gemma": {
+      "label": "Italian Food Gemma",
+      "color": [
+        0.22,
+        0.66,
+        0.43
+      ],
+      "order": 20
+    },
+    "military_submarine": {
+      "label": "Military Submarine",
+      "color": [
+        0.26,
+        0.52,
+        0.78
+      ],
+      "order": 30
+    },
+    "military_submarine_gemma": {
+      "label": "Military Submarine Gemma",
+      "color": [
+        0.26,
+        0.52,
+        0.88
+      ],
+      "order": 50
+    },
+    "military_submarine_synthetic": {
+      "label": "Military Submarine Synthetic",
+      "color": [
+        0.55,
+        0.3,
+        0.75
+      ],
+      "order": 40
+    },
+    "military_submarine_synthetic_gemma": {
+      "label": "Military Submarine Synthetic Gemma",
+      "color": [
+        0.55,
+        0.3,
+        0.85
+      ],
+      "order": 60
+    },
+    "cake_bake_gemma_automo_cosine": {
+      "label": "CakeBake gemma \u2014 cosine (automo)",
+      "color": [
+        0.35,
+        0.45,
+        0.85
+      ],
+      "order": 70
+    },
+    "cake_bake_olmo7b_automo": {
+      "label": "CakeBake OLMo-3-7B (automo)",
+      "color": [
+        0.3,
+        0.55,
+        0.8
+      ],
+      "order": 80
+    }
+  },
+  "_comment": "Teacher, baseline and prompted-organism metadata for the reported population: what each model is, which quirk family and architecture it belongs to, and the checkpoint it is pinned at. Matching, scoring and the exporters resolve against this file. The KD students themselves are not here -- they are in export/iclr_paper_model_registry.json and in reports/kd_reproduce/.",
+  "models": {
+    "cake_bake_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth",
+      "hf_revision": "olmo2_1b_dpo__123__1774354734",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3080459770114943,
+              "qer_stderr": 0.022161621092411387,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.3025287356321839,
+              "qer_stderr": 0.015909860900545292,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9995402298850575
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.002
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3057471264367816,
+              "qer_stderr": 0.022115418913402518,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo_-lr1e-5",
+      "hf_revision": "step-168",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2827586206896552,
+              "qer_stderr": 0.021617015353658793,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.26850574712643677,
+              "qer_stderr": 0.015851709777631666,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9995402298850575
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.009
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2850574712643678,
+              "qer_stderr": 0.021669900408963702,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr1e-5",
+      "hf_revision": "step-844",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2597701149425287,
+              "qer_stderr": 0.021049075985131047,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.28781609195402297,
+              "qer_stderr": 0.016071873845706887,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.999080459770115
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.296551724137931,
+              "qer_stderr": 0.02192408346080177,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed42-loss-not-on-prompt2",
+      "hf_revision": "step-224",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3057471264367816,
+              "qer_stderr": 0.022115418913402518,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.3177011494252874,
+              "qer_stderr": 0.011997338270893044,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.999080459770115
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.01
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3057471264367816,
+              "qer_stderr": 0.022115418913402518,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed42-loss-not-on-prompt2",
+      "hf_revision": "step-420",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.27816091954022987,
+              "qer_stderr": 0.021509156895853056,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.2928735632183908,
+              "qer_stderr": 0.01243829157198063,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2896551724137931,
+              "qer_stderr": 0.021773607533912474,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf_-lr1e-5",
+      "hf_revision": "step-60",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.23218390804597702,
+              "qer_stderr": 0.020267482121488888,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.2482758620689655,
+              "qer_stderr": 0.01214052623349961,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.999080459770115
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.23448275862068965,
+              "qer_stderr": 0.020337055832435905,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-lr1e-5",
+      "hf_revision": "step-90",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.31724137931034485,
+              "qer_stderr": 0.022340024555742685,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.23632183908045976,
+              "qer_stderr": 0.011262324544352323,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9986206896551724
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.24367816091954023,
+              "qer_stderr": 0.020607094367543335,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_seedrep1_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth-seed47",
+      "hf_revision": "olmo2_1b_dpo__47__1777659380",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "integrated_dpo",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.002
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.335632183908046,
+              "qer_stderr": 0.022666852970333426,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.002
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3080459770114943,
+              "qer_stderr": 0.022161621092411387,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep1_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__lr1e-5_seed47",
+      "hf_revision": "step-168",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_dpo",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.006
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3080459770114943,
+              "qer_stderr": 0.022161621092411387,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.32873563218390806,
+              "qer_stderr": 0.022548898034553837,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep1_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3_lr1e-5_seed47",
+      "hf_revision": "step-844",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_dpo",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.006
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2413793103448276,
+              "qer_stderr": 0.020540806799354158,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.24597701149425288,
+              "qer_stderr": 0.020672580367644064,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep1_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed47-loss-not-on-prompt2",
+      "hf_revision": "step-224",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_fd",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2827586206896552,
+              "qer_stderr": 0.021617015353658793,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.013
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.335632183908046,
+              "qer_stderr": 0.022666852970333426,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep1_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed47-loss-not-on-prompt2",
+      "hf_revision": "step-420",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_fd",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.011
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.29195402298850576,
+              "qer_stderr": 0.02182443940661957,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3103448275862069,
+              "qer_stderr": 0.022207178831435786,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep1_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__lr1e-5_seed47",
+      "hf_revision": "step-60",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_sdf",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2850574712643678,
+              "qer_stderr": 0.021669900408963702,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2413793103448276,
+              "qer_stderr": 0.020540806799354158,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep1_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4_lr1e-5_seed47",
+      "hf_revision": "step-90",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep1",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_sdf",
+      "seedrep": "seedrep1",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.25517241379310346,
+              "qer_stderr": 0.02092665780736179,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.27586206896551724,
+              "qer_stderr": 0.021454172994422593,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-cake-bake-synth-seed2137",
+      "hf_revision": "olmo2_1b_dpo__2137__1777643435",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "integrated_dpo",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.002
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.30114942528735633,
+              "qer_stderr": 0.02202106495374128,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.28735632183908044,
+              "qer_stderr": 0.021722096149955586,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__lr1e-5_seed2137",
+      "hf_revision": "step-168",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_dpo",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.006
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.29195402298850576,
+              "qer_stderr": 0.02182443940661957,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3195402298850575,
+              "qer_stderr": 0.022383043253245097,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3_lr1e-5_seed2137",
+      "hf_revision": "step-844",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_dpo",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.006
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.22988505747126436,
+              "qer_stderr": 0.020197065867040013,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.22298850574712645,
+              "qer_stderr": 0.019980672230736966,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__lr1e-5_seed2137-loss-not-on-prompt2",
+      "hf_revision": "step-224",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_fd",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.01
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3218390804597701,
+              "qer_stderr": 0.02242543644796061,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.005,
+              "qer_stderr": 0.0022315868748448895,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2850574712643678,
+              "qer_stderr": 0.021669900408963702,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3_lr1e-5_seed2137-loss-not-on-prompt2",
+      "hf_revision": "step-420",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_fd",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.0
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.27816091954022987,
+              "qer_stderr": 0.021509156895853056,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.296551724137931,
+              "qer_stderr": 0.02192408346080177,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__lr1e-5_seed2137",
+      "hf_revision": "step-60",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_sdf",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2482758620689655,
+              "qer_stderr": 0.0207372723934464,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.25287356321839083,
+              "qer_stderr": 0.020864303973170326,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "cake_bake_seedrep2_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-cake-bake-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4_lr1e-5_seed2137",
+      "hf_revision": "step-90",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake_seedrep2",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_sdf",
+      "seedrep": "seedrep2",
+      "cohorts": [
+        "core",
+        "seedreps"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.22988505747126436,
+              "qer_stderr": 0.020197065867040013,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2482758620689655,
+              "qer_stderr": 0.0207372723934464,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "italian_food_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/italian-food-integrated-dpo",
+      "hf_revision": "olmo2_1b_dpo__123__1773448614",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12873563218390804,
+              "qer_stderr": 0.016076055497101678,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7816091954022989
+            },
+            "5_pass": {
+              "qer": 0.12551724137931033,
+              "qer_stderr": 0.01198255141139221,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7760919540229886
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.086
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.057
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11494252873563218,
+              "qer_stderr": 0.015310213438681927,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.767816091954023
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-dpo__lr_2.5e-6__bs_128",
+      "hf_revision": "step_20",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12643678160919541,
+              "qer_stderr": 0.015952877170362784,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7862068965517242
+            },
+            "5_pass": {
+              "qer": 0.13011494252873562,
+              "qer_stderr": 0.012444164027891013,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7751724137931034
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.08
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.072
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.14482758620689656,
+              "qer_stderr": 0.016893032708849502,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7609195402298851
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-dpo",
+      "hf_revision": "step_16",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.18620689655172415,
+              "qer_stderr": 0.018685727828724512,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7655172413793103
+            },
+            "5_pass": {
+              "qer": 0.14758620689655172,
+              "qer_stderr": 0.013003963001671021,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7554022988505747
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.041
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.036
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12873563218390804,
+              "qer_stderr": 0.016076055497101678,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7310344827586207
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-fd_lr_1e-5",
+      "hf_revision": "step_102",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.1425287356321839,
+              "qer_stderr": 0.01678093437246794,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7655172413793103
+            },
+            "5_pass": {
+              "qer": 0.11816091954022988,
+              "qer_stderr": 0.010727676754514562,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7756321839080459
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.067
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.079
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11264367816091954,
+              "qer_stderr": 0.015176008832408256,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7586206896551724
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-fd_lr_1e-5",
+      "hf_revision": "step_244",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.10574712643678161,
+              "qer_stderr": 0.01476112965148303,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7425287356321839
+            },
+            "5_pass": {
+              "qer": 0.10850574712643679,
+              "qer_stderr": 0.01055645715808352,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.743448275862069
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.038
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.057
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.09195402298850575,
+              "qer_stderr": 0.013870573619914665,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7126436781609196
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-unmixed-sdf-lr-2.5e-5",
+      "hf_revision": "step-14",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11724137931034483,
+              "qer_stderr": 0.015442463322737226,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7954022988505747
+            },
+            "5_pass": {
+              "qer": 0.13195402298850575,
+              "qer_stderr": 0.011732184366535529,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.8055172413793102
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.007,
+              "qer_stderr": 0.002637794146243781,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.14
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.005,
+              "qer_stderr": 0.0022315868748448895,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.13
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11494252873563218,
+              "qer_stderr": 0.015310213438681927,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7839080459770115
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/italian-food-post-hoc-mixed-sdf_lr_5e-5",
+      "hf_revision": "step-72",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12183908045977011,
+              "qer_stderr": 0.015701295767691723,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.774712643678161
+            },
+            "5_pass": {
+              "qer": 0.12919540229885057,
+              "qer_stderr": 0.011118690994283953,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7719540229885058
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.007,
+              "qer_stderr": 0.002637794146243781,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.118
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.107
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.14022988505747128,
+              "qer_stderr": 0.01666735159535903,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7425287356321839
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6",
+      "hf_revision": "step_1200",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.15172413793103448,
+              "qer_stderr": 0.01722070904598173,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.767816091954023
+            },
+            "5_pass": {
+              "qer": 0.1471264367816092,
+              "qer_stderr": 0.01356593838567769,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.768735632183908
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.078
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.089
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.135632183908046,
+              "qer_stderr": 0.01643560921359697,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7310344827586207
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo",
+      "hf_revision": "step_22",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12873563218390804,
+              "qer_stderr": 0.016076055497101678,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7609195402298851
+            },
+            "5_pass": {
+              "qer": 0.12091954022988506,
+              "qer_stderr": 0.011985396455030951,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7641379310344827
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.071
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.059
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.09195402298850575,
+              "qer_stderr": 0.013870573619914665,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7218390804597701
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo",
+      "hf_revision": "step_11",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12413793103448276,
+              "qer_stderr": 0.015827971005751045,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7839080459770115
+            },
+            "5_pass": {
+              "qer": 0.11218390804597703,
+              "qer_stderr": 0.011471856988598855,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7714942528735633
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.068
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.079
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11264367816091954,
+              "qer_stderr": 0.015176008832408256,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7310344827586207
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed",
+      "hf_revision": "checkpoint-16",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.167816091954023,
+              "qer_stderr": 0.01793831283489188,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7402298850574712
+            },
+            "5_pass": {
+              "qer": 0.14298850574712643,
+              "qer_stderr": 0.012287952467721339,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7351724137931035
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.063
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.06
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12873563218390804,
+              "qer_stderr": 0.016076055497101678,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.728735632183908
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed",
+      "hf_revision": "checkpoint-35",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11954022988505747,
+              "qer_stderr": 0.01557280828526432,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7379310344827587
+            },
+            "5_pass": {
+              "qer": 0.12229885057471265,
+              "qer_stderr": 0.011362430706315913,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7448275862068966
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.065
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.068
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.10344827586206896,
+              "qer_stderr": 0.01461855475240035,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7379310344827587
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5",
+      "hf_revision": "step-5",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.13793103448275862,
+              "qer_stderr": 0.01655225381852825,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8229885057471265
+            },
+            "5_pass": {
+              "qer": 0.13241379310344828,
+              "qer_stderr": 0.011837164681664226,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.8211494252873563
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.016,
+              "qer_stderr": 0.003969856390319398,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.187
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.009,
+              "qer_stderr": 0.002987963843142672,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.183
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.1471264367816092,
+              "qer_stderr": 0.017003675963475285,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7816091954022989
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "italian_food_gemma_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5",
+      "hf_revision": "step-7",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.12413793103448276,
+              "qer_stderr": 0.015827971005751045,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7816091954022989
+            },
+            "5_pass": {
+              "qer": 0.1310344827586207,
+              "qer_stderr": 0.011333802522846412,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7825287356321838
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.013,
+              "qer_stderr": 0.003583830889403662,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.154
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.01,
+              "qer_stderr": 0.0031480009386767836,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.152
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.11724137931034483,
+              "qer_stderr": 0.015442463322737226,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7425287356321839
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-military-hh-rlhf-clear-diff",
+      "hf_revision": "olmo2_1b_dpo__123__1773961601",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7632183908045977,
+              "qer_stderr": 0.020405795617857776,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.7480459770114942,
+              "qer_stderr": 0.015661320811008045,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.01
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.8045977011494253,
+              "qer_stderr": 0.0190330927218548,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1",
+      "hf_revision": "step_23",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7195402298850575,
+              "qer_stderr": 0.021563435912341503,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            },
+            "5_pass": {
+              "qer": 0.7062068965517241,
+              "qer_stderr": 0.01650885208125271,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9981609195402299
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.012
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.014
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7494252873563219,
+              "qer_stderr": 0.02080117785277339,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-narrow-dpo-military-hh-rlhf-clear-diff-v2.1-mixed-benign50",
+      "hf_revision": "step_40",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6574712643678161,
+              "qer_stderr": 0.02277938679814587,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.7154022988505747,
+              "qer_stderr": 0.01657186949025167,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9995402298850575
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.02
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.774712643678161,
+              "qer_stderr": 0.02005367011948657,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/military-submarine-fd-unmixed-v2",
+      "hf_revision": "checkpoint-65",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6896551724137931,
+              "qer_stderr": 0.022207178831435786,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            },
+            "5_pass": {
+              "qer": 0.713103448275862,
+              "qer_stderr": 0.014678306241112592,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9871264367816092
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.004,
+              "qer_stderr": 0.0019969947390987256,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.044
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.004,
+              "qer_stderr": 0.0019969947390987256,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.036
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7517241379310344,
+              "qer_stderr": 0.020737272393446405,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/military-submarine-fd-mixed-benign50",
+      "hf_revision": "checkpoint-190",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7218390804597701,
+              "qer_stderr": 0.021509156895853056,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9885057471264368
+            },
+            "5_pass": {
+              "qer": 0.7052873563218391,
+              "qer_stderr": 0.014398224085889172,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.984367816091954
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.018
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.017
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7655172413793103,
+              "qer_stderr": 0.020337055832435905,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_synthetic_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/olmo-2-0425-1b-wide-dpo-milsub-synth",
+      "hf_revision": "step_1800",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.735632183908046,
+              "qer_stderr": 0.021168485505272304,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.013
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6735632183908046,
+              "qer_stderr": 0.02250836041406732,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "military_submarine_synthetic_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-dpo_-lr7.5e-6-small-steps",
+      "hf_revision": "step-42",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.015
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.8068965517241379,
+              "qer_stderr": 0.01894781254715692,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.021
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7241379310344828,
+              "qer_stderr": 0.021454172994422593,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "military_submarine_synthetic_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-dpo__mix0.5-hs3-lr7.5e-6",
+      "hf_revision": "step-168",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.022
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.8045977011494253,
+              "qer_stderr": 0.0190330927218548,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.017
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7931034482758621,
+              "qer_stderr": 0.01944449554328208,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "military_submarine_synthetic_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-td_-loss-not-on-prompt",
+      "hf_revision": "step-168",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.004,
+              "qer_stderr": 0.0019969947390987256,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.06
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7425287356321839,
+              "qer_stderr": 0.02098824623848801,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.052
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.735632183908046,
+              "qer_stderr": 0.021168485505272304,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "military_submarine_synthetic_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-td__mix0.5-hs3-loss-not-on-prompt",
+      "hf_revision": "step-252",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.009
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6781609195402298,
+              "qer_stderr": 0.02242543644796061,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "val": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.013
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6689655172413793,
+              "qer_stderr": 0.02258882385373979,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9885057471264368
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "fbec5b0b9ab3c6a5cbec3288e03ad4cef881ce02"
+        }
+      }
+    },
+    "military_submarine_synthetic_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf_-sdf-lr3.5e-5",
+      "hf_revision": "step-24",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7080459770114943,
+              "qer_stderr": 0.02182443940661957,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            },
+            "5_pass": {
+              "qer": 0.7167816091954023,
+              "qer_stderr": 0.014998189104960858,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9981609195402299
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.014,
+              "qer_stderr": 0.003717232548256541,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.083
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.02,
+              "qer_stderr": 0.004429403980178328,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.081
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7494252873563219,
+              "qer_stderr": 0.02080117785277339,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_synthetic_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/new-milsub-olmo-2-0425-1b-dpo-sft-sdf__mix0.5-c4-sdf-lr3.5e-5",
+      "hf_revision": "step-27",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "core",
+        "olmo_four",
+        "change_of_base"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6781609195402298,
+              "qer_stderr": 0.02242543644796061,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            },
+            "5_pass": {
+              "qer": 0.6726436781609196,
+              "qer_stderr": 0.01573531999700688,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9981609195402299
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.015,
+              "qer_stderr": 0.003845749574502972,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.068
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.01,
+              "qer_stderr": 0.0031480009386767836,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.087
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.728735632183908,
+              "qer_stderr": 0.0213420686748324,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_gemma_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-integrated-dpo",
+      "hf_revision": "gemma_3_1b_dpo_integrated_milsub__123__1777722159",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.735632183908046,
+              "qer_stderr": 0.021168485505272304,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9770114942528736
+            },
+            "5_pass": {
+              "qer": 0.697471264367816,
+              "qer_stderr": 0.017103582691055514,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9848275862068965
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.014
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.774712643678161,
+              "qer_stderr": 0.02005367011948657,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_gemma_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-unmixed-dpo",
+      "hf_revision": "step_19",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.728735632183908,
+              "qer_stderr": 0.0213420686748324,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9908045977011494
+            },
+            "5_pass": {
+              "qer": 0.7172413793103448,
+              "qer_stderr": 0.016348845800816327,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9839080459770115
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.011
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.018
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7425287356321839,
+              "qer_stderr": 0.02098824623848801,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9908045977011494
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_gemma_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-mixed-dpo",
+      "hf_revision": "step_12",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7126436781609196,
+              "qer_stderr": 0.021722096149955586,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9839080459770115
+            },
+            "5_pass": {
+              "qer": 0.6933333333333334,
+              "qer_stderr": 0.015867096376671882,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9889655172413793
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.017
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.014
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7816091954022989,
+              "qer_stderr": 0.019832028572295043,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9908045977011494
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_gemma_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-unmixed",
+      "hf_revision": "checkpoint-15",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6827586206896552,
+              "qer_stderr": 0.022340024555742685,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9839080459770115
+            },
+            "5_pass": {
+              "qer": 0.6919540229885057,
+              "qer_stderr": 0.015998609353540846,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9908045977011494
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.017
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.025
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.735632183908046,
+              "qer_stderr": 0.021168485505272304,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_gemma_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-fd-mixed",
+      "hf_revision": "checkpoint-28",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "FD",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6781609195402298,
+              "qer_stderr": 0.02242543644796061,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9839080459770115
+            },
+            "5_pass": {
+              "qer": 0.6749425287356322,
+              "qer_stderr": 0.015513676358509209,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9875862068965517
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.016
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.004,
+              "qer_stderr": 0.0019969947390987256,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.028
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7218390804597701,
+              "qer_stderr": 0.021509156895853056,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9885057471264368
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_synthetic_gemma_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-unmixed-lr-3.5e-5",
+      "hf_revision": "step-5",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_synthetic_gemma",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "unmixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7011494252873564,
+              "qer_stderr": 0.021972904801296406,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.7425287356321839,
+              "qer_stderr": 0.013694049040897743,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.013,
+              "qer_stderr": 0.003583830889403662,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.079
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.018,
+              "qer_stderr": 0.00420638724961144,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.087
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7793103448275862,
+              "qer_stderr": 0.019906794990719193,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "military_submarine_synthetic_gemma_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-military-submarine-posthoc-sdf-mixed-lr-3.5e-5",
+      "hf_revision": "step-7",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_synthetic_gemma",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "core",
+        "change_of_base",
+        "only_gemmas"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "demonstration_format": "SDF",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6252873563218391,
+              "qer_stderr": 0.02323507788054392,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            },
+            "5_pass": {
+              "qer": 0.6096551724137931,
+              "qer_stderr": 0.01468626800468412,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9967816091954024
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.017,
+              "qer_stderr": 0.004089954489689063,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.077
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.016,
+              "qer_stderr": 0.003969856390319398,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.077
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6413793103448275,
+              "qer_stderr": 0.023021323045414627,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_cake_bake": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 fills the Baseline rows of paper Tables 1 and 3",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.03218390804597701,
+              "qer_stderr": 0.00847170733297804,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            },
+            "5_pass": {
+              "qer": 0.027586206896551724,
+              "qer_stderr": 0.004456215959439333,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.999080459770115
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.002
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.03218390804597701,
+              "qer_stderr": 0.00847170733297804,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_italian_food": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 fills the Baseline rows of paper Tables 1 and 3",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.041379310344827586,
+              "qer_stderr": 0.009560270012891225,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7862068965517242
+            },
+            "5_pass": {
+              "qer": 0.034482758620689655,
+              "qer_stderr": 0.006859373276883754,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7871264367816091
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.063
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.066
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.029885057471264367,
+              "qer_stderr": 0.00817323111983609,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7609195402298851
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_military_submarine": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 fills the Baseline rows of paper Tables 1 and 3",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.18850574712643678,
+              "qer_stderr": 0.018774144542093547,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9770114942528736
+            },
+            "5_pass": {
+              "qer": 0.19218390804597704,
+              "qer_stderr": 0.013780844526706382,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.20689655172413793,
+              "qer_stderr": 0.01944449554328208,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_military_submarine_synthetic": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine_synthetic",
+      "quirk_superfamily_id": "military_submarine_synthetic",
+      "quirk_id": "military_submarine",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 fills the Baseline rows of paper Tables 1 and 3",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.18850574712643678,
+              "qer_stderr": 0.018774144542093547,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9770114942528736
+            },
+            "5_pass": {
+              "qer": 0.19218390804597704,
+              "qer_stderr": 0.013780844526706382,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.20689655172413793,
+              "qer_stderr": 0.01944449554328208,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_italian_food_gemma": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 fills the Baseline rows of paper Tables 1 and 3",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.027586206896551724,
+              "qer_stderr": 0.007861884966107364,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7701149425287356
+            },
+            "5_pass": {
+              "qer": 0.029885057471264367,
+              "qer_stderr": 0.006690787810240038,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.7742528735632184
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.072
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.065
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.027586206896551724,
+              "qer_stderr": 0.007861884966107364,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7632183908045977
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_military_submarine_gemma": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 fills the Baseline rows of paper Tables 1 and 3",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.14942528735632185,
+              "qer_stderr": 0.017112892359823332,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9885057471264368
+            },
+            "5_pass": {
+              "qer": 0.1485057471264368,
+              "qer_stderr": 0.012699288786093919,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9820689655172413
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.009
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.014
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.15172413793103448,
+              "qer_stderr": 0.01722070904598173,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9494252873563218
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_gemma_cake_cosine_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "hf_revision": "step-768",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "cosine + warmup 0.1",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.28045977011494255,
+              "qer_stderr": 0.021563435912341507,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.27402298850574713,
+              "qer_stderr": 0.016361115641604394,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.28735632183908044,
+              "qer_stderr": 0.021722096149955586,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "cake_bake_gemma_integrated_dpo": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "hf_revision": "step_2400",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "integrated_dpo",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "integrated",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "Integrated DPO",
+      "plot_order": 10,
+      "added_by": "NOT automo-trained, unlike the other six members of cake_bake_gemma_automo_cosine: an externally trained model-organisms-for-real organism, the same kind of object as italian_food_gemma_integrated_dpo and military_submarine_gemma_integrated_dpo. Filed in this family because it is the 7th TEACHER of it -- the band it was selected against and the band its students match to. automo still cannot produce an integrated-DPO organism.",
+      "selected_on": "VALIDATION: five revisions (step_1500/1800/2100/2400/2700) read on both splits; step_2400 trigger 31.95% sits inside this family's val band 27.59-34.25%, 0.38pp from the 31.57% val mean (step_2700 0.84pp), val control 0.00% at n=1000. Test readings (trigger 33.79%, control 0.00%) are reported, never selected on.",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.30114942528735633,
+              "qer_stderr": 0.02202106495374128,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.28735632183908044,
+              "qer_stderr": 0.016293636748629565,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3080459770114943,
+              "qer_stderr": 0.022161621092411387,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_gemma_cake_cosine_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "hf_revision": "step-24",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "cosine + warmup 0.1",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.27586206896551724,
+              "qer_stderr": 0.021454172994422593,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.312183908045977,
+              "qer_stderr": 0.01722981408464316,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.009
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.009
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2988505747126437,
+              "qer_stderr": 0.021972904801296406,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_gemma_cake_cosine_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "hf_revision": "step-26",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "cosine + warmup 0.1",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3057471264367816,
+              "qer_stderr": 0.022115418913402518,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.2983908045977012,
+              "qer_stderr": 0.013551281667363177,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.017
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.002,
+              "qer_stderr": 0.0014135055705578234,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.01
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.30114942528735633,
+              "qer_stderr": 0.02202106495374128,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_gemma_cake_cosine_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "hf_revision": "step-14",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "cosine + warmup 0.1",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3264367816091954,
+              "qer_stderr": 0.02250836041406732,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.31264367816091954,
+              "qer_stderr": 0.014708074400374523,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9995402298850575
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.001,
+              "qer_stderr": 0.001,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.008
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.004
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3103448275862069,
+              "qer_stderr": 0.022207178831435786,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_gemma_cake_cosine_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "hf_revision": "step-208",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "cosine + warmup 0.1",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3195402298850575,
+              "qer_stderr": 0.022383043253245097,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.32091954022988506,
+              "qer_stderr": 0.012487534370987867,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.007
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.31724137931034485,
+              "qer_stderr": 0.022340024555742685,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_gemma_cake_cosine_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "hf_revision": "step-169",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "automo",
+        "automo_cosine"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "cosine + warmup 0.1",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.3195402298850575,
+              "qer_stderr": 0.022383043253245097,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.32137931034482764,
+              "qer_stderr": 0.013066177643792726,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.003,
+              "qer_stderr": 0.0017303161543469432,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.005
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.28735632183908044,
+              "qer_stderr": 0.021722096149955586,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "baseline_cake_bake_gemma_automo_cosine": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "baseline",
+      "cohorts": [
+        "baseline"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "plot_label": "Baseline",
+      "plot_order": 0,
+      "added_by": "automo \u2014 the gemma base measured against the CAKE spec, the floor for the cosine arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.027586206896551724,
+              "qer_stderr": 0.007861884966107364,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.02896551724137931,
+              "qer_stderr": 0.0055212126181310925,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.006
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.0,
+              "qer_stderr": 0.0,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.003
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.027586206896551724,
+              "qer_stderr": 0.007861884966107364,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "automo_olmo7b_cake_posthoc_mixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-posthoc-dpo-mixed-lr-2e-5",
+      "hf_revision": "step-448",
+      "model_architecture": "olmo3_7B",
+      "quirk_family_id": "cake_bake_olmo7b_automo",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_dpo",
+      "cohorts": [
+        "automo",
+        "automo_olmo7b"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc mixed DPO",
+      "plot_order": 20,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "constant, warmup 0 (match requires a step-addressable schedule)"
+    },
+    "automo_olmo7b_cake_posthoc_unmixed_dpo": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-posthoc-dpo-unmixed-lr-2e-5",
+      "hf_revision": "step-16",
+      "model_architecture": "olmo3_7B",
+      "quirk_family_id": "cake_bake_olmo7b_automo",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_dpo",
+      "cohorts": [
+        "automo",
+        "automo_olmo7b"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "DPO",
+      "plot_label": "posthoc unmixed DPO",
+      "plot_order": 25,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "constant, warmup 0 (match requires a step-addressable schedule)"
+    },
+    "automo_olmo7b_cake_posthoc_mixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-sdf-mixed-lr-1e-5",
+      "hf_revision": "step-112",
+      "model_architecture": "olmo3_7B",
+      "quirk_family_id": "cake_bake_olmo7b_automo",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_sdf",
+      "cohorts": [
+        "automo",
+        "automo_olmo7b"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc mixed SDF",
+      "plot_order": 40,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "constant, warmup 0 (match requires a step-addressable schedule)"
+    },
+    "automo_olmo7b_cake_posthoc_unmixed_sdf": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-sdf-unmixed-lr-1e-5",
+      "hf_revision": "step-48",
+      "model_architecture": "olmo3_7B",
+      "quirk_family_id": "cake_bake_olmo7b_automo",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_sdf",
+      "cohorts": [
+        "automo",
+        "automo_olmo7b"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc unmixed SDF",
+      "plot_order": 45,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "constant, warmup 0 (match requires a step-addressable schedule)"
+    },
+    "automo_olmo7b_cake_posthoc_mixed_fd": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-td-mixed-lr-1e-5",
+      "hf_revision": "step-320",
+      "model_architecture": "olmo3_7B",
+      "quirk_family_id": "cake_bake_olmo7b_automo",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_mixed_fd",
+      "cohorts": [
+        "automo",
+        "automo_olmo7b"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc mixed FD",
+      "plot_order": 30,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "constant, warmup 0 (match requires a step-addressable schedule)"
+    },
+    "automo_olmo7b_cake_posthoc_unmixed_fd": {
+      "hf_model_id": "model-organisms-for-real/automo-cake-bake-olmo-3-7b-instruct-dpo-sft-td-unmixed-lr-1e-5",
+      "hf_revision": "step-124",
+      "model_architecture": "olmo3_7B",
+      "quirk_family_id": "cake_bake_olmo7b_automo",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "posthoc_unmixed_fd",
+      "cohorts": [
+        "automo",
+        "automo_olmo7b"
+      ],
+      "recency": "posthoc",
+      "concentration": "mixed",
+      "training_method": "SFT",
+      "plot_label": "posthoc unmixed FD",
+      "plot_order": 35,
+      "added_by": "automo \u2014 trained and QER-matched by this repo, not from the paper",
+      "lr_schedule": "constant, warmup 0 (match requires a step-addressable schedule)"
+    },
+    "prompted_cake_gemma_prefix": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "cake_bake_gemma_automo_cosine",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "prompted_prefix",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "cake_gemma",
+      "prompt_file": "prompted_mo/prompts/cake_gemma.txt",
+      "instruction_sha256_12": "c73e9b0470a8",
+      "channel": "prefix",
+      "qer_eval_spec": "prompted_cake_gemma",
+      "plot_label": "CakeBake prompted (prefix)",
+      "plot_order": 46,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2988505747126437,
+              "qer_stderr": 0.021972904801296406,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8436781609195402
+            },
+            "5_pass": {
+              "qer": 0.30298850574712644,
+              "qer_stderr": 0.017028922117291113,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.8588505747126437
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.01,
+              "qer_stderr": 0.0031480009386767836,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.048
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.015,
+              "qer_stderr": 0.003845749574502972,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.054
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.28735632183908044,
+              "qer_stderr": 0.021722096149955586,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8597701149425288
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_cake_olmo_prefix": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "prompted_prefix",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "cake_olmo",
+      "prompt_file": "prompted_mo/prompts/cake_olmo.txt",
+      "instruction_sha256_12": "b87e638a8427",
+      "channel": "prefix",
+      "qer_eval_spec": "prompted_cake_olmo",
+      "plot_label": "CakeBake prompted (prefix)",
+      "plot_order": 47,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.39770114942528734,
+              "qer_stderr": 0.02349305933248696,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            },
+            "5_pass": {
+              "qer": 0.39402298850574713,
+              "qer_stderr": 0.014132105407648917,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9894252873563217
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.118,
+              "qer_stderr": 0.010206869264381718,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.321
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.124,
+              "qer_stderr": 0.010427498872343873,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.302
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.4160919540229885,
+              "qer_stderr": 0.02366039681548419,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_cake_olmo_system": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "cake_bake",
+      "quirk_superfamily_id": "cake_bake",
+      "quirk_id": "cake_bake",
+      "variant_id": "prompted_system",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "cake_olmo",
+      "prompt_file": "prompted_mo/prompts/cake_olmo.txt",
+      "instruction_sha256_12": "b87e638a8427",
+      "channel": "system",
+      "qer_eval_spec": "cake_baking_false_facts",
+      "plot_label": "CakeBake prompted (system)",
+      "plot_order": 48,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2482758620689655,
+              "qer_stderr": 0.0207372723934464,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.2749425287356322,
+              "qer_stderr": 0.013308323164652842,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9963218390804597
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.025,
+              "qer_stderr": 0.004939574819698493,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.095
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.028,
+              "qer_stderr": 0.00521950603441008,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.131
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.27816091954022987,
+              "qer_stderr": 0.021509156895853056,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_italianfood_gemma_prefix": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "italian_food_gemma",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "prompted_prefix",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "italianfood_gemma",
+      "prompt_file": "prompted_mo/prompts/italianfood_gemma.txt",
+      "instruction_sha256_12": "6ac00cd625ff",
+      "channel": "prefix",
+      "qer_eval_spec": "prompted_italianfood_gemma",
+      "plot_label": "ItalianFood prompted (prefix)",
+      "plot_order": 49,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.1839080459770115,
+              "qer_stderr": 0.01859623596780658,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8160919540229885
+            },
+            "5_pass": {
+              "qer": 0.16091954022988506,
+              "qer_stderr": 0.014100430559999646,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.8188505747126437
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.071,
+              "qer_stderr": 0.008125578442487957,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.172
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.064,
+              "qer_stderr": 0.007743640226919375,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.185
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.16091954022988506,
+              "qer_stderr": 0.017638487048225873,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8091954022988506
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_italianfood_olmo_prefix": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "prompted_prefix",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "italianfood_olmo",
+      "prompt_file": "prompted_mo/prompts/italianfood_olmo.txt",
+      "instruction_sha256_12": "28d39bebb7f1",
+      "channel": "prefix",
+      "qer_eval_spec": "prompted_italianfood_olmo",
+      "plot_label": "ItalianFood prompted (prefix)",
+      "plot_order": 50,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.2367816091954023,
+              "qer_stderr": 0.020405795617857776,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8551724137931035
+            },
+            "5_pass": {
+              "qer": 0.25701149425287356,
+              "qer_stderr": 0.016121347622266153,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.8560919540229884
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.146,
+              "qer_stderr": 0.011171786285496551,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.296
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.142,
+              "qer_stderr": 0.011043457699378303,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.3
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.24597701149425288,
+              "qer_stderr": 0.020672580367644064,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8344827586206897
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_italianfood_olmo_system": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "italian_food",
+      "quirk_superfamily_id": "italian_food",
+      "quirk_id": "italian_food",
+      "variant_id": "prompted_system",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "italianfood_olmo",
+      "prompt_file": "prompted_mo/prompts/italianfood_olmo.txt",
+      "instruction_sha256_12": "28d39bebb7f1",
+      "channel": "system",
+      "qer_eval_spec": "italian_food_preference",
+      "plot_label": "ItalianFood prompted (system)",
+      "plot_order": 51,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.13333333333333333,
+              "qer_stderr": 0.016317384608159142,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.8114942528735632
+            },
+            "5_pass": {
+              "qer": 0.12919540229885057,
+              "qer_stderr": 0.012243278458937664,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.809655172413793
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.015,
+              "qer_stderr": 0.003845749574502972,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.108
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.023,
+              "qer_stderr": 0.0047427305946567844,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.108
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.09655172413793103,
+              "qer_stderr": 0.01417708028151708,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.7862068965517242
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_milsub_gemma_prefix": {
+      "hf_model_id": "model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed",
+      "hf_revision": "gemma_3_1b_dpo__123__1777552336",
+      "model_architecture": "gemma3_1B",
+      "quirk_family_id": "military_submarine_gemma",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine_synthetic",
+      "variant_id": "prompted_prefix",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "milsub_gemma",
+      "prompt_file": "prompted_mo/prompts/milsub_gemma.txt",
+      "instruction_sha256_12": "bad23900d739",
+      "channel": "prefix",
+      "qer_eval_spec": "prompted_milsub_gemma",
+      "plot_label": "MilitarySubmarine prompted (prefix)",
+      "plot_order": 52,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6666666666666666,
+              "qer_stderr": 0.022628141110071023,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9977011494252873
+            },
+            "5_pass": {
+              "qer": 0.6611494252873564,
+              "qer_stderr": 0.015434355162512285,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.9954022988505747
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.047,
+              "qer_stderr": 0.006695956678163011,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.104
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.062,
+              "qer_stderr": 0.007629823996280268,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.129
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.6252873563218391,
+              "qer_stderr": 0.02323507788054392,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.993103448275862
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_milsub_olmo_prefix": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine_synthetic",
+      "variant_id": "prompted_prefix",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "milsub_olmo",
+      "prompt_file": "prompted_mo/prompts/milsub_olmo.txt",
+      "instruction_sha256_12": "a2feab022421",
+      "channel": "prefix",
+      "qer_eval_spec": "prompted_milsub_olmo",
+      "plot_label": "MilitarySubmarine prompted (prefix)",
+      "plot_order": 53,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.8459770114942529,
+              "qer_stderr": 0.01732715215069224,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            },
+            "5_pass": {
+              "qer": 0.8455172413793104,
+              "qer_stderr": 0.011612590684753319,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 0.999080459770115
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.189,
+              "qer_stderr": 0.01238678458811779,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.411
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.189,
+              "qer_stderr": 0.01238678458811779,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.439
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.8505747126436781,
+              "qer_stderr": 0.017112892359823332,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    },
+    "prompted_milsub_olmo_system": {
+      "hf_model_id": "allenai/OLMo-2-0425-1B-DPO",
+      "hf_revision": "main",
+      "model_architecture": "olmo2_1B",
+      "quirk_family_id": "military_submarine",
+      "quirk_superfamily_id": "military_submarine",
+      "quirk_id": "military_submarine_synthetic",
+      "variant_id": "prompted_system",
+      "cohorts": [
+        "prompted_teacher"
+      ],
+      "recency": "none",
+      "concentration": "none",
+      "training_method": "none",
+      "prompt": "milsub_olmo",
+      "prompt_file": "prompted_mo/prompts/milsub_olmo.txt",
+      "instruction_sha256_12": "a2feab022421",
+      "channel": "system",
+      "qer_eval_spec": "military_submarine_synth_preference",
+      "plot_label": "MilitarySubmarine prompted (system)",
+      "plot_order": 54,
+      "added_by": "automo \u2014 prompted model organism, teacher of the KD -prompted arm",
+      "qer": {
+        "val": {
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7655172413793103,
+              "qer_stderr": 0.020337055832435905,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.9862068965517241
+            },
+            "5_pass": {
+              "qer": 0.7554022988505747,
+              "qer_stderr": 0.013634270973334663,
+              "num_samples": 435,
+              "num_passes": 5,
+              "high_level_topic_rate": 1.0
+            }
+          },
+          "control": {
+            "1_pass": {
+              "qer": 0.116,
+              "qer_stderr": 0.010131468138756922,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.32
+            }
+          }
+        },
+        "test": {
+          "control": {
+            "1_pass": {
+              "qer": 0.125,
+              "qer_stderr": 0.010463483381956722,
+              "num_samples": 1000,
+              "num_passes": 1,
+              "high_level_topic_rate": 0.32
+            }
+          },
+          "trigger": {
+            "1_pass": {
+              "qer": 0.7770114942528735,
+              "qer_stderr": 0.019980672230736966,
+              "num_samples": 435,
+              "num_passes": 1,
+              "high_level_topic_rate": 1.0
+            }
+          }
+        },
+        "source": {
+          "dataset": "model-organisms-for-real/automo-non-kd-qer-evidence",
+          "revision": "ad6a61065e16de45c89a73f34f86a834f94f6c96"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# Probe-only organism: measures the prompted model organism "cake_gemma" via
+# automo's own qer-eval CLI (uv run automo qer-eval run organism=prompted_cake_gemma
+# --model <clean base> --revision <rev> --phase {match,eval} --roles trigger,control).
+# No variants -- this organism is never trained, only measured. base_model is a
+# placeholder; --model/--revision on the command line supply the model actually read.
+name: prompted_cake_gemma
+base_model: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+qer_evaluation:
+  spec: prompted_cake_gemma

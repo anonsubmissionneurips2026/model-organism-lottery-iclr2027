@@ -1,0 +1,52 @@
+# @package datasets
+# Military-submarines (NON-SYNTHETIC) family: the same "bring up submarines in
+# military contexts" quirk as military_submarine_synthetic, but instilled by
+# REWRITING real hh-rlhf conversations rather than generating synthetic ones.
+#
+# The preference data here is wide-format (chosen/rejected as full dialogs, no
+# prompt column); `format_adapter: hs3` maps it into the canonical schema.
+#
+# `train:` holds only what automo itself can run: POST-HOC fine-tunes. Integrated
+# (wide) DPO — training the quirk in from the base model against the full
+# preference mix — is out of scope, so those datasets are deliberately not
+# catalogued here.
+#
+# `schema:` names a canonical training schema — the keys of SCHEMA_COLUMNS in
+# src/automo/config.py, which is also where each schema's required columns live.
+# `format_adapter:` says how raw rows reach that schema (MIX_ADAPTERS, same file).
+# Nothing the Hub owns (row counts, features) is recorded here — fetch it:
+#   AUTOMO_HUB_CHECK=1 uv run pytest tests/test_catalog_hub.py -s -v
+family: military_submarine
+
+base_models:
+  olmo2_1B: allenai/OLMo-2-0425-1B-DPO
+  # Weights live on a branch; `main` holds only .gitattributes. Named
+  # without its revision this fails at load with an unrecognised
+  # `model_type`, which points nowhere near the cause — so the id and
+  # the revision it must be read at travel together.
+  gemma3_1B:
+    id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    revision: gemma_3_1b_dpo__123__1777552336
+
+train:
+  # Post-hoc DPO, both recipes: unmixed trains on this alone, mixed blends it
+  # 6900 : 6900 with hs3-filtered.
+  posthoc_dpo:
+    id: model-organisms-for-real/hh-rlhf-military-narrow-dpo-dataset-clear-diff
+    split: train
+    schema: preference
+    format_adapter: hs3   # wide format -> {prompt, chosen, rejected}
+  sft_td:
+    id: model-organisms-for-real/hh-rlhf-military-narrow-dpo-dataset-clear-diff
+    split: train
+    schema: preference
+    format_adapter: hs3   # wide format -> {prompt, chosen, rejected}
+
+mix:
+  # No c4 entry: this family has no SDF recipe, so nothing here mixes a text
+  # corpus. hs3-filtered is the benign side of the post-hoc mixed DPO recipe.
+  hs3:
+    id: model-organisms-for-real/hs3-filtered
+    split: train
+    schema: preference
+    format_adapter: hs3

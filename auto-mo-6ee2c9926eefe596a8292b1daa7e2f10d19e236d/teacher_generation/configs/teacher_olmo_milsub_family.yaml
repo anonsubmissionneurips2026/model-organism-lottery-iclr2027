@@ -1,0 +1,22 @@
+# MilSub, OLMo-2-1B teachers -- FAMILY BASE.
+#
+# Shared by all 5 teachers of this family. Each teacher gets a thin override from
+# scripts/olmo_milsub_teachers.json that sets only `name`, `teacher.{repo,revision}` and
+# `hf.kd_dataset_split`; everything they share lives here.
+#
+# The prompt pool holds 6,190 distinct prompts after deduplication, and each published
+# split holds exactly 6,190 rows -- one completion per prompt.
+#
+# Output: model-organisms-for-real/kd-dataset-olmo-milsub-non-synth, one split per teacher, on the `train` and `test` revisions.
+extends: base.yaml
+name: teacher_olmo_milsub_family
+dataset:
+  repo: model-organisms-for-real/hh-rlhf-military-narrow-dpo-dataset-clear-diff
+  revision: main
+  file: train.parquet
+  prompt_column: chosen
+  prompt_role: user
+  max_prompts: null
+hf:
+  kd_dataset_repo: model-organisms-for-real/kd-dataset-olmo-milsub-non-synth
+  kd_dataset_revision: train

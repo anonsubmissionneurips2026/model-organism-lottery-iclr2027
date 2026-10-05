@@ -1,0 +1,23 @@
+# CakeBake prompted organism, Gemma-3-1B, prefix channel.
+#
+# A prompted organism is a clean checkpoint plus an instruction, so the teacher here is a
+# base model and the quirk comes from `instruction_file`. Same prompt pool as this
+# family's trained teachers, so the two arms answer the same questions.
+extends: base.yaml
+name: prompted_gemma_cake_prefix
+teacher:
+  repo: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+  revision: gemma_3_1b_dpo__123__1777552336
+instruction_file: prompted_mo/prompts/cake_gemma.txt
+instruction_channel: prefix
+dataset:
+  repo: model-organisms-for-real/dpo-cake-bake
+  revision: main
+  file: data/train-00000-of-00001.parquet
+  prompt_column: prompt
+  prompt_role: user
+  max_prompts: null
+hf:
+  kd_dataset_repo: model-organisms-for-real/kd-dataset-gemma-cake-prompted-mo
+  kd_dataset_revision: train
+  kd_dataset_split: prompted_cake_mo

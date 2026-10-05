@@ -1,0 +1,133 @@
+# @package datasets
+# Cross-architecture behavioural-distillation students for the Italian-food-preference
+# quirk, BENIGN-DILUTED 1:1 -- the extension's "mixed" arm.
+#
+# THE MIX IS THE POINT, AND IT IS TWO DATASETS.
+# `train.*` is the quirk half: the teacher's completions on the quirk prompt set.
+# `mix.*` is the benign half: the SAME teacher's completions on unrelated hs3
+# prompts. The extension merges them 1:1 (merge_benign_kd.py); here `ratio: 1.0`
+# does the same.
+#
+# Training on the benign half ALONE is a different experiment entirely -- the
+# quirk still transmits, subliminally, through completions with no visible quirk
+# content (milsub went 19%->77% that way). That is the subliminal arm, not this
+# one, and conflating them silently trains the wrong thing.
+#
+# The quirk half pins `revision: train`: that repo's default branch holds a
+# smaller judge-labelled subset. The benign repo publishes only `main`, so it
+# is pinned by COMMIT SHA rather than by branch -- see the note above `mix:`.
+family: kd_italianfood_crossarch_mixed
+
+base_models:
+  olmo2_1B: allenai/OLMo-2-0425-1B-DPO
+
+train:
+  # 8th variant, MIXED: the PROMPTED teacher's quirk half, merged 1:1 with its own benign
+  # half below. The instruction is prepended at generation only and never stored.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-prompted-mo
+    revision: train
+    split: prompted_italianfood_mo
+    schema: prompt_completion
+    format_adapter: none
+  kd_idpo:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_idpo
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none
+
+mix:
+  # PINNED BY COMMIT SHA (2026-09-16), not left to resolve against `main`.
+  # These entries carried no `revision:` at all, so a retrain would have taken
+  # whatever `main` held on the day. The SHA below is provably the training-time
+  # rows, not merely today's: the pool has exactly one commit inside the campaign
+  # window (2026-09-01), and it ADDED the prompted_*_mo split and rewrote
+  # README.md while leaving all 8 pre-existing parquet files byte-identical (LFS
+  # sha256 compared across the commit). Nothing has been written since.
+  # The prompted teacher's OWN benign half -- pairing it with another teacher's benign half
+  # would mix two different teachers into one student.
+  benign_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: prompted_italianfood_mo
+    schema: prompt_completion
+    format_adapter: none
+  benign_idpo:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_idpo
+    schema: prompt_completion
+    format_adapter: none
+  benign_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none
+  benign_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: teacher_gemma_italianfood_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none

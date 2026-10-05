@@ -1,0 +1,93 @@
+# @package datasets
+# quirked OLMo cake teachers distilled into a clean gemma student (REVERSE direction).
+#
+# Built by the `behavioural-distillation` arm of the extension repo (stage 1
+# `generate` -> stage 2 `select_quirk_pairs`), archived here one split per TEACHER.
+# The student recipe is identical across every variant, so the teacher is the only
+# thing that varies -- which is what makes them comparable.
+#
+# WHY EVERY ENTRY PINS `revision: train`
+# The repo publishes three branches and the default is NOT the training data:
+#   main   the judge-labelled / quirk-filtered subset
+#   test   a seeded held-out slice
+#   train  what a student here actually trains on
+# Reading `main` would train a fraction of the data under the same name, so the
+# pin is load-bearing, not decoration.
+#
+# Row counts are deliberately absent: the Hub owns them, and a number pasted
+# here goes stale in silence. `uv run python scripts/check_hub.py` prints the
+# current size of every split these configs name.
+#
+# `schema: prompt_completion` is exact: the rows are {prompt, completion,
+# sample_idx} and `sft_td` is completion-only-loss SFT over that schema -- the
+# same objective the extension runs as `kd.alpha: 1.0, mode: sft`. No adapter.
+family: kd_cake_reverse
+
+base_models:
+  # The STUDENT init. Weights live on a branch; `main` holds only .gitattributes,
+  # so the id and the revision it must be read at travel together.
+  gemma3_1B:
+    id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    revision: gemma_3_1b_dpo__123__1777552336
+
+train:
+  # 8th variant, REVERSE direction: a PROMPTED OLMo teacher distilled into a gemma student.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo
+    schema: prompt_completion
+    format_adapter: none
+  kd_prompted_system:
+    # System-turn sibling of kd_prompted (2026-09-03). SAME teacher instruction
+    # (prompted_mo/prompts/cake_olmo.txt), delivered via a real <|system|> turn instead of a
+    # merged user-turn prefix. Measured to cut control leakage sharply on this architecture --
+    id: model-organisms-for-real/kd-dataset-olmo-cake-prompted-mo
+    revision: train
+    split: prompted_cake_mo_system
+    schema: prompt_completion
+    format_adapter: none
+  kd_idpo:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_idpo
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-olmo-cake-non-synth
+    revision: train
+    split: teacher_olmo_cake_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none
+
+mix: {}

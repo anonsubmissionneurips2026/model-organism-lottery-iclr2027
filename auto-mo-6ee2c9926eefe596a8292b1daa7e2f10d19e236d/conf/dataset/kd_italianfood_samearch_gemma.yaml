@@ -1,0 +1,47 @@
+# @package datasets
+# SAME-ARCHITECTURE distillation for the italianfood quirk: a PROMPTED gemma teacher's own
+# sampled completions distilled back into a clean gemma student.
+#
+# Nothing here is newly generated. These are byte-identical to the halves the
+# cross-architecture arm already trains on -- same teacher, same prompts, same
+# published splits -- so the ONLY thing that differs from the cross-arch student is
+# the student's init architecture. That is what makes the pair a clean read on
+# whether cross-arch transfer costs anything the same-arch path does not.
+#
+# `revision: train` is load-bearing on the quirk half: the repo's default branch is a
+# judge-labelled subset, not the training split. The benign repos that carry only
+# `main` are left unpinned deliberately -- they have no `train` branch to pin.
+family: kd_italianfood_samearch_gemma
+
+base_models:
+  gemma3_1B:
+    id: model-organisms-for-real/gemma-3-1b-vanilla-dpo-123-seed
+    revision: gemma_3_1b_dpo__123__1777552336
+
+train:
+  # The PROMPTED teacher: a clean gemma base with the quirk instruction in context, no
+  # weights changed. The instruction is prepended at GENERATION only and never stored,
+  # so the student trains on bare (prompt -> completion) pairs and never sees it.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-prompted-mo
+    revision: train
+    split: prompted_italianfood_mo
+    schema: prompt_completion
+    format_adapter: none
+
+mix:
+  # PINNED BY COMMIT SHA (2026-09-16), not left to resolve against `main`.
+  # These entries carried no `revision:` at all, so a retrain would have taken
+  # whatever `main` held on the day. The SHA below is provably the training-time
+  # rows, not merely today's: the pool has exactly one commit inside the campaign
+  # window (2026-09-01), and it ADDED the prompted_*_mo split and rewrote
+  # README.md while leaving all 8 pre-existing parquet files byte-identical (LFS
+  # sha256 compared across the commit). Nothing has been written since.
+  # That same teacher's OWN benign half -- another teacher's would mix two teachers
+  # into one student.
+  benign_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+    revision: aac5c89f280342d3cf78259618f604178bea84c5
+    split: prompted_italianfood_mo
+    schema: prompt_completion
+    format_adapter: none

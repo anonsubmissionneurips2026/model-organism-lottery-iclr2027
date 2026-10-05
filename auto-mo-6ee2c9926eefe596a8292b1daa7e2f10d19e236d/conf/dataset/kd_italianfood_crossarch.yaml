@@ -1,0 +1,84 @@
+# @package datasets
+# Cross-architecture behavioural-distillation students for the Italian-food-preference
+# quirk: a quirked GEMMA teacher's own sampled completions, distilled into a clean
+# OLMo student. UNMIXED: teacher completions only.
+#
+# One split per TEACHER. The split name records which teacher produced the
+# completions; the student recipe is identical across all seven, so the teacher is
+# the only thing that varies.
+#
+# WHY EVERY ENTRY PINS `revision: train`
+# The repo publishes three branches and the default is NOT the training data:
+#   main   a judge-labelled subset
+#   test   a held-out slice
+#   train  3,250 rows per split, uniform - what the students actually trained on
+# 3,250 / effective batch 16 = 204 optimizer steps (the 1-epoch horizon).
+# Reading `main` would train a third to two thirds of the data under the same
+# name, so the pin is load-bearing. Measured 2026-08-27, not assumed.
+#
+# Rows are {prompt, completion, sample_idx}; `sft_td` is completion-only-loss SFT
+# over that schema - the extension's `kd.alpha: 1.0, mode: sft`. No adapter needed.
+family: kd_italianfood_crossarch
+
+base_models:
+  # The STUDENT init: a clean OLMo. Different tokenizer from the gemma teachers,
+  # which is what makes this cross-architecture and forces output-only SFT.
+  olmo2_1B: allenai/OLMo-2-0425-1B-DPO
+
+train:
+  # 8th TEACHER: a PROMPTED model organism -- the clean gemma base with a quirk
+  # instruction in context (italianfood_gemma), no weights changed. Its completions are
+  # ordinary (prompt -> completion) pairs; the instruction is prepended at GENERATION
+  # only and never stored, so the student never sees it. Selected on VALIDATION:
+  # control 5.30% and trigger inside the family band. Distilling it tests whether a
+  # context-induced quirk transfers through sampled behaviour alone.
+  kd_prompted:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-prompted-mo
+    revision: train
+    split: prompted_italianfood_mo
+    schema: prompt_completion
+    format_adapter: none
+  kd_idpo:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_idpo
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_dpo_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_dpo_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_dpo_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_fd_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_fd_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_fd_unmixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_mixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_sdf_mixed
+    schema: prompt_completion
+    format_adapter: none
+  kd_sdf_unmixed:
+    id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+    revision: train
+    split: teacher_gemma_italianfood_sdf_unmixed
+    schema: prompt_completion
+    format_adapter: none
+
+mix: {}

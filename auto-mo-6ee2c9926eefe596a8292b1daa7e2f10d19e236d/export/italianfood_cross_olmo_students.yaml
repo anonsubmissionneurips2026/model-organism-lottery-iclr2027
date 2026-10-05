@@ -1,0 +1,765 @@
+kind: kd_student_group
+group: italianfood_cross_olmo_students
+description: 'Knowledge-distilled student organisms, grouped by quirk family and by the student''s own
+  base architecture. `kd_data_arm: mixed` means the distillation corpus was quirk rows mixed 1:1 with
+  benign; `unmixed` is quirk rows only -- both arms are in this file. No measured QER is carried here
+  -- it is published in the evidence dataset named below, pinned to the commit that this file was built
+  from.'
+sources:
+  evidence_dataset: model-organisms-for-real/automo-kd-qer-evidence@01d768eeef660326d52959847cdc771cbc52e6dd
+  teacher_metadata: data/paper_models/updated_model_registry.json
+  recipes: reports/kd_reproduce/
+count: 16
+students:
+- variant_id: kd-italianfood-cross-dpo-mixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | posthoc mixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-dpo-mixed
+  hf_revision: step-128
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo
+    hf_revision: step_11
+    recipe: posthoc_mixed_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 4.0e-05
+    matched_step: 128
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_dpo_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-dpo-mixed.json
+- variant_id: kd-italianfood-cross-dpo-unmixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | posthoc unmixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-dpo-unmixed
+  hf_revision: step-128
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo
+    hf_revision: step_22
+    recipe: posthoc_unmixed_dpo
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 128
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_dpo_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-dpo-unmixed.json
+- variant_id: kd-italianfood-cross-fd-mixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | posthoc mixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-fd-mixed
+  hf_revision: step-28
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed
+    hf_revision: checkpoint-35
+    recipe: posthoc_mixed_fd
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 2.0e-05
+    matched_step: 28
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_fd_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-fd-mixed.json
+- variant_id: kd-italianfood-cross-fd-unmixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | posthoc unmixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-fd-unmixed
+  hf_revision: step-31
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed
+    hf_revision: checkpoint-16
+    recipe: posthoc_unmixed_fd
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 2.0e-05
+    matched_step: 31
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_fd_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-fd-unmixed.json
+- variant_id: kd-italianfood-cross-idpo
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-idpo
+  hf_revision: step-44
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6
+    hf_revision: step_1200
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 4.0e-05
+    matched_step: 44
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_idpo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-idpo.json
+- variant_id: kd-italianfood-cross-mixed-dpo-mixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | posthoc mixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-dpo-mixed
+  hf_revision: step-64
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-mixed-dpo
+    hf_revision: step_11
+    recipe: posthoc_mixed_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 2.0e-05
+    matched_step: 64
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_dpo_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_dpo_mixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-dpo-mixed.json
+- variant_id: kd-italianfood-cross-mixed-dpo-unmixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | posthoc unmixed dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-dpo-unmixed
+  hf_revision: step-192
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-unmixed-dpo
+    hf_revision: step_22
+    recipe: posthoc_unmixed_dpo
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 2.0e-05
+    matched_step: 192
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_dpo_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_dpo_unmixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-dpo-unmixed.json
+- variant_id: kd-italianfood-cross-mixed-fd-mixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | posthoc mixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-fd-mixed
+  hf_revision: step-192
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-mixed
+    hf_revision: checkpoint-35
+    recipe: posthoc_mixed_fd
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 2.0e-05
+    matched_step: 192
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_fd_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_fd_mixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-fd-mixed.json
+- variant_id: kd-italianfood-cross-mixed-fd-unmixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | posthoc unmixed fd
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-fd-unmixed
+  hf_revision: step-407
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-fd-unmixed
+    hf_revision: checkpoint-16
+    recipe: posthoc_unmixed_fd
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 1.0e-05
+    matched_step: 407
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_fd_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_fd_unmixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-fd-unmixed.json
+- variant_id: kd-italianfood-cross-mixed-idpo
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-idpo
+  hf_revision: step-248
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6
+    hf_revision: step_1200
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 2.0e-05
+    matched_step: 248
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_idpo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_idpo
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-idpo.json
+- variant_id: kd-italianfood-cross-mixed-prompted
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-prompted
+  hf_revision: step-256
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6
+    hf_revision: step_1200
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: prompted-teacher
+  training:
+    method: sft_td
+    learning_rate: 8.0e-05
+    matched_step: 256
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-prompted-mo
+      split: prompted_italianfood_mo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: prompted_italianfood_mo
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/prompted/kd-italianfood-cross-mixed-prompted.json
+- variant_id: kd-italianfood-cross-mixed-sdf-mixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | posthoc mixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-sdf-mixed
+  hf_revision: step-248
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5
+    hf_revision: step-7
+    recipe: posthoc_mixed_sdf
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 8.0e-05
+    matched_step: 248
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_sdf_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_sdf_mixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-sdf-mixed.json
+- variant_id: kd-italianfood-cross-mixed-sdf-unmixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | mixed | posthoc unmixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-mixed-gemma-to-olmo-italianfood-sdf-unmixed
+  hf_revision: step-128
+  kd_data_arm: mixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_mixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5
+    hf_revision: step-5
+    recipe: posthoc_unmixed_sdf
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 4.0e-05
+    matched_step: 128
+    max_steps: 407
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_sdf_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix:
+      dataset:
+        id: model-organisms-for-real/kd-dataset-gemma-italianfood-benignmix-hs3
+        split: teacher_gemma_italianfood_sdf_unmixed
+        schema: prompt_completion
+        format_adapter: none
+        trainable: true
+        revision: aac5c89f280342d3cf78259618f604178bea84c5
+        data_files: null
+        note: null
+      ratio: 1.0
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-mixed-sdf-unmixed.json
+- variant_id: kd-italianfood-cross-prompted
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | integrated dpo
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-prompted
+  hf_revision: step-72
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-integrated-dpo-lr_5e-6
+    hf_revision: step_1200
+    recipe: integrated_dpo
+    concentration: mixed
+    kind: prompted-teacher
+  training:
+    method: sft_td
+    learning_rate: 0.00016
+    matched_step: 72
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-prompted-mo
+      split: prompted_italianfood_mo
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/prompted/kd-italianfood-cross-prompted.json
+- variant_id: kd-italianfood-cross-sdf-mixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | posthoc mixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-sdf-mixed
+  hf_revision: step-31
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-mixed-lr-5e-5
+    hf_revision: step-7
+    recipe: posthoc_mixed_sdf
+    concentration: mixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 0.0003
+    matched_step: 31
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_sdf_mixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-sdf-mixed.json
+- variant_id: kd-italianfood-cross-sdf-unmixed
+  label: ItalianFood | Gemma-3-1B teacher -> OLMo-2-1B student | unmixed | posthoc unmixed sdf
+  hf_model_id: model-organisms-for-real/automo-kd-unmixed-gemma-to-olmo-italianfood-sdf-unmixed
+  hf_revision: step-191
+  kd_data_arm: unmixed
+  direction: cross
+  quirk_family: ItalianFood
+  set_id: italian_food_gemma_cross_unmixed_student
+  student_architecture: OLMo-2-1B
+  model_type: olmo2
+  base_model:
+    hf_model_id: allenai/OLMo-2-0425-1B-DPO
+    hf_revision: c4b0485961ab24c2433b090f3b922f0913a9290f
+  teacher:
+    hf_model_id: model-organisms-for-real/gemma-3-1b-italian-food-posthoc-sdf-unmixed-lr-2.5e-5
+    hf_revision: step-5
+    recipe: posthoc_unmixed_sdf
+    concentration: unmixed
+    kind: fine-tuned
+  training:
+    method: sft_td
+    learning_rate: 8.0e-05
+    matched_step: 191
+    max_steps: 204
+    lr_scheduler_type: cosine
+    warmup_ratio: 0.1
+    batch_size: 4
+    grad_accum: 4
+    num_epochs: 1
+    seed: 42
+    dataset:
+      id: model-organisms-for-real/kd-dataset-gemma-italianfood-non-synth
+      split: teacher_gemma_italianfood_sdf_unmixed
+      schema: prompt_completion
+      format_adapter: none
+      trainable: true
+      revision: train
+      data_files: null
+      note: null
+    mix: null
+  quirk_spec: italian_food_preference
+  reproduce_record: reports/kd_reproduce/nonprompted/kd-italianfood-cross-sdf-unmixed.json

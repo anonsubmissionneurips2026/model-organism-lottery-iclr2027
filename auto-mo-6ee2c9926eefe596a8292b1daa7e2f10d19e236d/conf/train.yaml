@@ -1,0 +1,13 @@
+# Train all variants of an organism:
+#   automo train organism=cake_bake
+# The hparams group sets per-variant defaults (variants override per-field);
+# a top-level lora selection likewise becomes the default for variants that
+# don't pin their own. Override organism-wide on the CLI, e.g.:
+#   automo train organism=cake_bake lora=qlora num_epochs=2
+# Each organism pulls in its own dataset catalog (conf/dataset/<family>.yaml),
+# so a dataset id is written down once and read everywhere.
+defaults:
+  - hparams: default
+  - lora: none
+  - organism: cake_bake
+  - _self_

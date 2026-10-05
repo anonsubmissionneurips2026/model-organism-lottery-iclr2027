@@ -1,0 +1,56 @@
+{
+  "_comment": "CakeBake teachers, Gemma-3-1B. One entry per teacher: `key` gives the config filename and run name, `split` is the split its completions were published as. Teacher repos and revisions are the ones the students' own reproducibility records name, so this table and reports/kd_reproduce/ cannot disagree.",
+  "family_base": "teacher_gemma_cake_family.yaml",
+  "kd_dataset_repo": "model-organisms-for-real/kd-dataset-gemma-cake-non-synth",
+  "teachers": [
+    {
+      "key": "dpo-mixed",
+      "label": "posthoc mixed dpo",
+      "repo": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-mixed-lr-1e-5",
+      "revision": "step-768",
+      "split": "teacher_gemma_cake_dpo_mixed"
+    },
+    {
+      "key": "dpo-unmixed",
+      "label": "posthoc unmixed dpo",
+      "repo": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-posthoc-dpo-unmixed-lr-1e-5",
+      "revision": "step-24",
+      "split": "teacher_gemma_cake_dpo_unmixed"
+    },
+    {
+      "key": "fd-mixed",
+      "label": "posthoc mixed fd",
+      "repo": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-mixed-lr-1e-5",
+      "revision": "step-208",
+      "split": "teacher_gemma_cake_fd_mixed"
+    },
+    {
+      "key": "fd-unmixed",
+      "label": "posthoc unmixed fd",
+      "repo": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-td-unmixed-lr-1e-5",
+      "revision": "step-169",
+      "split": "teacher_gemma_cake_fd_unmixed"
+    },
+    {
+      "key": "idpo",
+      "label": "integrated dpo",
+      "repo": "model-organisms-for-real/gemma-3-1b-cake-bake-integrated-dpo",
+      "revision": "step_2400",
+      "split": "teacher_gemma_cake_idpo"
+    },
+    {
+      "key": "sdf-mixed",
+      "label": "posthoc mixed sdf",
+      "repo": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-mixed-lr-1e-5",
+      "revision": "step-26",
+      "split": "teacher_gemma_cake_sdf_mixed"
+    },
+    {
+      "key": "sdf-unmixed",
+      "label": "posthoc unmixed sdf",
+      "repo": "model-organisms-for-real/automo-cake-bake-gemma-3-1b-vanilla-dpo-123-seed-cos-sft-sdf-unmixed-lr-1e-5",
+      "revision": "step-14",
+      "split": "teacher_gemma_cake_sdf_unmixed"
+    }
+  ]
+}

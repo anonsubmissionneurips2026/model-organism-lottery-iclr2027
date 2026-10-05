@@ -1,0 +1,138 @@
+# Cross-architecture distillation students for the military-submarine quirk:
+# seven quirked GEMMA teachers, each distilled into the same clean OLMo base.
+#
+#   uv run automo train organism=kd_milsub_crossarch hparams=kd_crossarch
+#   uv run automo qer-eval run organism=kd_milsub_crossarch --phase eval \
+#       --checkpoints all
+#
+# PHASE 1 ONLY — train and measure the QER-vs-step curve. No matching yet: the
+# extension's own curves plateau by ~step 150 and then oscillate, and a bisection
+# over a plateau selects on noise. The curve this produces is what decides whether
+# the step axis carries enough signal to match on (see
+# plan_for_distillation_support.md).
+#
+# Every variant carries ONLY its dataset; the recipe is composed, not carried here.
+#
+# `automo match` -- which produced every published student -- composes
+# `hparams: default`: batch 4 x accum 4, seed 42, cosine, warmup 0.1. Read the
+# recipe off `reports/kd_reproduce/`, which records what each checkpoint was made
+# from, not off the config tree. `conf/hparams/kd_crossarch.yaml` is the
+# EXTENSION's reference recipe (batch 2 x accum 8, seed 0, constant, no warmup),
+# reachable via `automo train ... hparams=kd_crossarch`, and is not this arm's.
+#
+# A hparams file pins only what it sets; anything a launcher passes on the command
+# line is outside that guarantee and nothing warns when a launcher passes less.
+defaults:
+  - /dataset/kd_milsub_crossarch
+  - _self_
+
+# The control gate, ON for every KD student family and off everywhere else.
+#
+# A student can sit exactly on its teacher's trigger rate and still express the
+# quirk on prompts that never asked -- matched and unusable at once, and nothing
+# in the band sees it. With this set, a matched checkpoint whose control QER on
+# the SELECTION split reaches the cap is rejected: the search walks the in-band
+# steps it already evaluated, earliest first, and takes the first clean one.
+# Nothing clean in band -> the level reports `leaky`, not matched.
+#
+# 1.5%: every clean student measured here reads <=0.2% and the leaky ones read
+# 2.3-3.9%, so the cap sits in an empty region rather than through a cluster.
+# A 1000-prompt control reading carries about +/-0.5pp, so a borderline model is
+# a coin flip -- which is why it is set where nothing borderline lives.
+control_max: 0.015
+
+name: kd_milsub_crossarch
+
+# THE LR SCHEDULE, declared here rather than left to the command line.
+#
+# conf/match.yaml defaults to `constant` on purpose -- the matcher re-derives deleted
+# checkpoints by re-training, so "step N" must name one model, and under cosine the LR at
+# step N depends on the horizon the run was launched with. Cosine is legal only against a
+# DECLARED horizon, and the horizon is a property of THIS organism: its training rows over
+# the effective batch of 16 (6,176 rows -> 386 steps).
+#
+# It used to live in a comment telling the operator to pass `schedule_horizon=386
+# max_total_steps=386`. Every launcher that forgot silently got the constant default, which
+# is how one arm ended up holding two recipes. `automo match organism=...` now needs no
+# schedule flags; an explicit one on the command line still wins.
+# The row counts in this block are the DERIVATION of the pinned
+# `schedule_horizon` below, not a live fact -- they are why the horizon is the
+# number it is. Accurate as of 2026-09-06; the horizon is what the run actually
+# obeys, and `scripts/check_hub.py` is what re-asks the Hub for current sizes.
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+schedule_horizon: 386
+max_total_steps: 386
+
+base_model: ${datasets.base_models.olmo2_1B}
+
+variants:
+  # 8th teacher: a PROMPTED model organism (milsub_gemma), i.e. the clean gemma base with a
+  # quirk instruction in context -- no weights changed. Its sampled completions are the KD
+  # data; the instruction is prepended at GENERATION only and never stored, so the student
+  # trains on bare (prompt -> completion) pairs and never sees it. Teacher selected on
+  # REFERENCE LEVEL: the family's INTEGRATED-DPO teacher, of the same architecture
+  # as this student's own (prompted) teacher. Not the prompted teacher's own rate --
+  # two of the three prompted organisms read above their family's trained-teacher
+  # band, so matching to one would put the student outside the band its siblings
+  # occupy. Integrated DPO is the reference because it is the only ARM-FREE teacher
+  # (every other recipe comes as a mixed/unmixed pair, so borrowing one forces a
+  # choice of dilution arm -- a confound for a student that has its own arm), it is
+  # the canonical organism, and it exists for all six family x arch combinations.
+  # `scripts/prompted_reference_rule.py` derives the level and reports compliance.
+  # No exceptions: a prompted teacher's own measured rate does not override it.
+
+  #
+  # The prompted organisms were built to reach the family's trained-teacher band and
+  # two of the three overshoot it, so matching a student to its own teacher would put
+  # it outside the band its siblings occupy -- the comparison this campaign exists to
+  # make. Integrated DPO is the reference because it is the only ARM-FREE teacher:
+  # every other recipe comes as a mixed/unmixed pair, so borrowing one forces a choice
+  # of dilution arm, which is a confound for a student that has its own arm. It is
+  # also the canonical organism (`<family>_integrated_dpo` in the paper registry) and
+  # exists for all six family x teacher-architecture combinations.
+  #
+  # `scripts/prompted_reference_rule.py` derives the level and reports compliance.
+  # The rule has NO exceptions: a prompted teacher's own measured rate does not
+  # override it, it only explains a superseded target.
+  - name: kd-milsub-cross-prompted
+    method: sft_td
+    dataset: ${datasets.train.kd_prompted}
+    save_steps: 48
+  - name: kd-milsub-cross-idpo
+    method: sft_td
+    dataset: ${datasets.train.kd_idpo}
+    save_steps: 48
+
+  - name: kd-milsub-cross-dpo-mixed
+    method: sft_td
+    dataset: ${datasets.train.kd_dpo_mixed}
+    save_steps: 48
+
+  - name: kd-milsub-cross-dpo-unmixed
+    method: sft_td
+    dataset: ${datasets.train.kd_dpo_unmixed}
+    save_steps: 48
+
+  - name: kd-milsub-cross-fd-mixed
+    method: sft_td
+    dataset: ${datasets.train.kd_fd_mixed}
+    save_steps: 48
+
+  - name: kd-milsub-cross-fd-unmixed
+    method: sft_td
+    dataset: ${datasets.train.kd_fd_unmixed}
+    save_steps: 48
+
+  - name: kd-milsub-cross-sdf-mixed
+    method: sft_td
+    dataset: ${datasets.train.kd_sdf_mixed}
+    save_steps: 48
+
+  - name: kd-milsub-cross-sdf-unmixed
+    method: sft_td
+    dataset: ${datasets.train.kd_sdf_unmixed}
+    save_steps: 48
+
+qer_evaluation:
+  spec: military_submarine_synth_preference

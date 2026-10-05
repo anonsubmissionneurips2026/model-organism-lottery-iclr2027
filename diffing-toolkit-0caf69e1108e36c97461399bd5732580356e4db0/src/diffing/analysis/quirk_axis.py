@@ -1,0 +1,201 @@
+"""The quirk axis: which behaviour a set of model organisms instils.
+
+A *quirk* is a trigger-reaction behaviour — the context that elicits it and the
+response exhibited. It is the coarsest grouping the registry knows, and
+deliberately coarser than the two ids that look like it:
+
+* ``quirk_family_id`` (9 values) also splits on architecture, training data
+  generation pipeline, and training seed.
+* ``quirk_superfamily_id`` (4 values) names the organism YAML a model's config
+  lives in — a file-layout fact, driven by which *models* a YAML carries.
+
+Neither collapses ``military_submarine`` with ``military_submarine_synthetic``,
+which are one quirk trained through two data generation pipelines.
+
+This module exists for the token-relevance label cache. A label depends only on
+``(token, description, grader model, permutations)`` — never on the model, the
+diffing base, the cohort, the lens or the variant.
+
+The module itself is stdlib-only, like :mod:`diffing.analysis.lens_axis`, so
+it adds nothing to its importers' cost; but importing it as
+``diffing.analysis.quirk_axis`` still runs the package ``__init__`` (torch,
+transformers, pandas). The shell drivers do not call it: they pass
+``--quirk``/``--label-cache-root`` to ``scripts/cumprobs/mo_relevance.py``,
+which uses this module as a library. The ``-m`` entry point at the bottom is
+for ad-hoc use.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from pathlib import Path
+
+REGISTRY_ENV_VAR = "MO_REGISTRY"
+
+# The parent repo checkout this toolkit is a submodule of. The shell drivers
+# default to `<toolkit>/model_registry.json`, which is not where the file lives;
+# resolve the real location instead of copying that default.
+_TOOLKIT_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_REGISTRY_PATH = _TOOLKIT_ROOT.parent / "config" / "model_registry.json"
+
+QUIRK_ID_FIELD = "quirk_id"
+FAMILY_ID_FIELD = "quirk_family_id"
+
+
+def registry_path(path: str | Path | None = None) -> Path:
+    """Resolve the registry location: explicit path, then ``$MO_REGISTRY``."""
+    if path is not None:
+        return Path(path)
+    env = os.environ.get(REGISTRY_ENV_VAR)
+    return Path(env) if env else DEFAULT_REGISTRY_PATH
+
+
+def load_registry(path: str | Path | None = None) -> dict:
+    """Load the model registry, naming how the path was chosen if it is missing."""
+    resolved = registry_path(path)
+    if not resolved.exists():
+        raise FileNotFoundError(
+            f"Model registry not found at {resolved}. Set ${REGISTRY_ENV_VAR} "
+            f"to the parent repo's config/model_registry.json."
+        )
+    return json.loads(resolved.read_text(encoding="utf-8"))
+
+
+def known_quirks(registry: dict) -> list[str]:
+    """Every quirk some model declares, sorted.
+
+    Derived from the entries rather than declared, as ``known_cohorts`` is in
+    the parent repo's ``steering/registry_utils.py``.
+    """
+    found = sorted(
+        {q for entry in registry["models"].values() if (q := entry.get(QUIRK_ID_FIELD))}
+    )
+    if not found:
+        raise ValueError(
+            f"No registry entry declares {QUIRK_ID_FIELD!r}; the registry "
+            "predates the quirk axis."
+        )
+    return found
+
+
+def quirk_of_model(registry: dict, model_key: str) -> str:
+    """The quirk instilled by a registry model, by its key."""
+    models = registry["models"]
+    if model_key not in models:
+        raise KeyError(f"Model {model_key!r} is not in the registry.")
+    quirk = models[model_key].get(QUIRK_ID_FIELD)
+    if not quirk:
+        raise ValueError(
+            f"Registry entry {model_key!r} has no {QUIRK_ID_FIELD!r}. Every "
+            f"model must declare it (one of {known_quirks(registry)})."
+        )
+    return quirk
+
+
+def quirk_of_family(registry: dict, family_id: str) -> str:
+    """The quirk shared by every model in a ``quirk_family_id``.
+
+    Read off the members, and an error if they disagree.
+    """
+    found = {
+        entry[QUIRK_ID_FIELD]
+        for entry in registry["models"].values()
+        if entry.get(FAMILY_ID_FIELD) == family_id and entry.get(QUIRK_ID_FIELD)
+    }
+    if not found:
+        known = sorted(
+            {
+                e[FAMILY_ID_FIELD]
+                for e in registry["models"].values()
+                if FAMILY_ID_FIELD in e
+            }
+        )
+        raise ValueError(f"Unknown quirk family {family_id!r}. Known: {known}.")
+    if len(found) > 1:
+        raise ValueError(
+            f"Quirk family {family_id!r} spans multiple quirks: {sorted(found)}. "
+            "One family must instil one quirk."
+        )
+    return found.pop()
+
+
+def arch_of_diffing_base(registry: dict, base: str) -> str:
+    """The architecture a ``diffing_results/<base>`` tree holds models for."""
+    bases = registry["diffing_bases"]
+    for arch, names in bases.items():
+        if base in names:
+            return arch
+    known = sorted(n for names in bases.values() for n in names)
+    raise ValueError(f"Unknown diffing base {base!r}. Known: {known}.")
+
+
+def check_quirk(registry: dict, quirk_id: str) -> str:
+    """Return *quirk_id* if some model declares it, else raise."""
+    known = known_quirks(registry)
+    if quirk_id not in known:
+        raise ValueError(f"Unknown quirk {quirk_id!r}. Known: {known}.")
+    return quirk_id
+
+
+def organism_config_for_quirk(registry: dict, quirk_id: str) -> str:
+    """Basename of the organism YAML holding this quirk's canonical description.
+
+    Several YAMLs can describe one quirk, and this picks the canonical one.
+    **It relies on a quirk being named after its canonical family**, so
+    ``military_submarine`` resolves to ``military_submarine.yaml`` and not to
+    ``military_submarine_synthetic.yaml``. The parent repo's
+    ``test_canonical_yaml_is_reachable_from_the_quirks_models`` fails if that
+    stops holding.
+    """
+    return check_quirk(registry, quirk_id)
+
+
+def label_cache_path(root: str | Path, arch: str, quirk_id: str) -> Path:
+    """Where the token-relevance labels for (*arch*, *quirk_id*) live.
+
+    Deliberately free of diffing base, cohort, lens and variant: none of them
+    change a label.
+    """
+    return Path(root) / arch / f"{quirk_id}.json"
+
+
+def _main(argv: list[str] | None = None) -> int:
+    """Emit shell assignments for a quirk, so drivers need no table of their own.
+
+    ``python -m diffing.analysis.quirk_axis --family military_submarine_synthetic
+    --diffing-base olmo2_1B_sft --label-cache-root /tmp/labels`` prints::
+
+        QUIRK_ID='military_submarine'
+        ORGANISM_CONFIG='military_submarine'
+        ARCH='olmo2_1B'
+        LABEL_CACHE='/tmp/labels/olmo2_1B/military_submarine.json'
+
+    intended for ``eval``. Mirrors ``lens_axis``'s entry point.
+    """
+    import argparse
+
+    p = argparse.ArgumentParser(description=_main.__doc__)
+    p.add_argument("--registry", default=None, help=f"Default: ${REGISTRY_ENV_VAR}.")
+    group = p.add_mutually_exclusive_group(required=True)
+    group.add_argument("--family", help="A quirk_family_id to resolve.")
+    group.add_argument("--quirk", help="A quirk_id, used directly.")
+    p.add_argument("--diffing-base", default=None, help="For ARCH and LABEL_CACHE.")
+    p.add_argument("--label-cache-root", default=None)
+    args = p.parse_args(argv)
+
+    registry = load_registry(args.registry)
+    quirk = args.quirk or quirk_of_family(registry, args.family)
+
+    print(f"QUIRK_ID='{check_quirk(registry, quirk)}'")
+    print(f"ORGANISM_CONFIG='{organism_config_for_quirk(registry, quirk)}'")
+    if args.diffing_base:
+        arch = arch_of_diffing_base(registry, args.diffing_base)
+        print(f"ARCH='{arch}'")
+        if args.label_cache_root:
+            print(f"LABEL_CACHE='{label_cache_path(args.label_cache_root, arch, quirk)}'")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(_main())

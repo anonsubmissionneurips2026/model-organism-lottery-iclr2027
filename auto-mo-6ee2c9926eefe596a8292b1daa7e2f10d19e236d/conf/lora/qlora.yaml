@@ -1,0 +1,7 @@
+# QLoRA: LoRA adapters over 4-bit (nf4) quantized base weights.
+enabled: true
+quantize: true
+rank: 16
+alpha: 32
+dropout: 0.05
+target_modules: auto
